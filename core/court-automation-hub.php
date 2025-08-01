@@ -95,11 +95,9 @@ class CourtAutomationHub {
         // Enhanced CRM Contacts Manager
         require_once CAH_PLUGIN_PATH . 'includes/class-enhanced-crm-contacts.php';
         
-        // Admin classes (load only if admin plugin is NOT active)
-        if (!$this->is_admin_plugin_active()) {
-            require_once CAH_PLUGIN_PATH . 'admin/class-admin-dashboard.php';
-            require_once CAH_PLUGIN_PATH . 'admin/class-universal-import-admin.php';
-        }
+        // Admin classes (always load for unified menu system)
+        require_once CAH_PLUGIN_PATH . 'admin/class-admin-dashboard.php';
+        require_once CAH_PLUGIN_PATH . 'admin/class-universal-import-admin.php';
         
         require_once CAH_PLUGIN_PATH . 'api/class-rest-api.php';
     }
