@@ -249,7 +249,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Architectural fixes for case management verified successfully"
+    - "Case editing improvements for v240 successfully verified"
   stuck_tasks: []
   test_all: false
   test_priority: "critical_first"
