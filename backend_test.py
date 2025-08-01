@@ -408,7 +408,7 @@ class LegalAutomationTester:
         return self.results
 
     def test_complete_case_edit_workflow(self):
-        """Test 5: Complete Case Edit Workflow - End-to-end case editing functionality"""
+        """Test 6: Complete Case Edit Workflow - End-to-end case editing functionality"""
         print("\n🔍 Testing Complete Case Edit Workflow...")
         
         try:
