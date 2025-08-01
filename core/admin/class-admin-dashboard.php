@@ -1367,7 +1367,8 @@ class CAH_Admin_Dashboard {
                                            class="button button-small" title="Fall ansehen">👁️</a>
                                         <a href="<?php echo admin_url('admin.php?page=la-cases&action=edit&id=' . $case->id); ?>" 
                                            class="button button-small" title="Fall bearbeiten">✏️</a>
-                                        <a href="#" onclick="confirmDelete(<?php echo $case->id; ?>, '<?php echo esc_js($case->case_id); ?>')" 
+                                        <a href="<?php echo wp_nonce_url(admin_url('admin.php?page=la-cases&action=delete&id=' . $case->id), 'delete_case_' . $case->id); ?>" 
+                                           onclick="return confirm('⚠️ WARNUNG: Fall &quot;<?php echo esc_js($case->case_id); ?>&quot; unwiderruflich löschen?\n\nDieser Vorgang kann nicht rückgängig gemacht werden.\nAlle zugehörigen Daten werden entfernt.')"
                                            class="button button-small button-link-delete" title="Fall löschen">🗑️</a>
                                     </td>
                                 </tr>
