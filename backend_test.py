@@ -64,187 +64,125 @@ class LegalAutomationTester:
             if details:
                 print(f"   Details: {details}")
 
-    def test_case_deletion_method_fix(self):
-        """Test 1: Case Deletion Method Fix - handle_delete_case → handle_case_deletion"""
-        print("\n🔍 Testing Case Deletion Method Fix...")
+    def test_case_deletion_nonce_fix(self):
+        """Test 1: Case Deletion Nonce Fix - wp_nonce_url() Implementation"""
+        print("\n🔍 Testing Case Deletion Nonce Fix...")
         
         try:
-            # Read the admin dashboard file to verify method name correction
+            # Read the admin dashboard file to verify wp_nonce_url implementation
             admin_dashboard_path = "/app/core/admin/class-admin-dashboard.php"
             
             with open(admin_dashboard_path, 'r') as f:
                 content = f.read()
             
-            # Check that handle_case_deletion method exists
-            handle_case_deletion_exists = 'handle_case_deletion(' in content
+            # Check for wp_nonce_url usage in delete links
+            wp_nonce_url_usage = 'wp_nonce_url(' in content
+            delete_case_action = "'delete_case_' . $case->id" in content
             
-            # Check that old handle_delete_case method is NOT being called
-            old_method_calls = content.count('handle_delete_case(')
+            # Check for proper nonce verification in handle_case_deletion
+            nonce_verification = "wp_verify_nonce($_GET['_wpnonce'], 'delete_case_' . $case_id)" in content
+            security_error_handling = 'Sicherheitsfehler.' in content
             
-            # Check for the specific method definition
-            method_definition_exists = 'private function handle_case_deletion(' in content
+            # Check that JavaScript nonce generation is NOT used (should be replaced)
+            javascript_nonce = 'wp_create_nonce(' in content and 'delete_case' in content
             
-            # Check for method calls to handle_case_deletion
-            method_calls = content.count('handle_case_deletion(')
-            
-            if handle_case_deletion_exists and method_definition_exists and method_calls > 0 and old_method_calls == 0:
+            if wp_nonce_url_usage and delete_case_action and nonce_verification and not javascript_nonce:
                 self.log_result(
                     'case_management_tests',
-                    'Case Deletion Method Fix',
+                    'Case Deletion Nonce Fix',
                     'PASS',
-                    f'✅ Method name corrected: handle_case_deletion exists with {method_calls} calls, no old method calls found',
+                    '✅ Case deletion nonce fix verified: wp_nonce_url() used with proper delete_case_ action',
                     {
-                        'method_definition_found': method_definition_exists,
-                        'method_calls_count': method_calls,
-                        'old_method_calls': old_method_calls
+                        'wp_nonce_url_used': wp_nonce_url_usage,
+                        'delete_case_action_found': delete_case_action,
+                        'nonce_verification_present': nonce_verification,
+                        'javascript_nonce_removed': not javascript_nonce,
+                        'security_error_handling': security_error_handling
                     }
                 )
             else:
                 self.log_result(
                     'case_management_tests',
-                    'Case Deletion Method Fix',
+                    'Case Deletion Nonce Fix',
                     'FAIL',
-                    f'❌ Method fix incomplete: definition={method_definition_exists}, calls={method_calls}, old_calls={old_method_calls}'
+                    f'❌ Case deletion nonce fix incomplete: wp_nonce_url={wp_nonce_url_usage}, delete_action={delete_case_action}, verification={nonce_verification}, js_nonce_removed={not javascript_nonce}'
                 )
                 
         except Exception as e:
             self.log_result(
                 'case_management_tests',
-                'Case Deletion Method Fix',
+                'Case Deletion Nonce Fix',
                 'FAIL',
                 f'❌ Test failed: {str(e)}'
             )
 
-    def test_double_case_creation_fix(self):
-        """Test 2: Double Case Creation Fix - Unified Menu POST Processing Removal"""
-        print("\n🔍 Testing Double Case Creation Fix...")
+    def test_case_edit_save_fix(self):
+        """Test 2: Case Edit Save Fix - handle_case_update_v210() with Success Messages"""
+        print("\n🔍 Testing Case Edit Save Fix...")
         
         try:
-            # Read the unified menu file to verify POST processing removal
-            unified_menu_path = "/app/core/includes/class-unified-menu.php"
-            
-            with open(unified_menu_path, 'r') as f:
-                unified_content = f.read()
-            
-            # Check if unified menu still processes POST actions for case creation
-            # The fix should remove duplicate processing, letting admin dashboard handle all POST actions
-            
-            # Look for POST action handling in unified menu
-            post_action_handling = 'if (isset($_POST[\'action\']))' in unified_content
-            create_case_handling = 'case \'create_case\':' in unified_content
-            
-            # Check admin dashboard for proper POST handling
-            admin_dashboard_path = "/app/core/admin/class-admin-dashboard.php"
-            with open(admin_dashboard_path, 'r') as f:
-                admin_content = f.read()
-            
-            # Admin dashboard should handle case creation
-            admin_handles_creation = 'create_new_case()' in admin_content
-            admin_method_exists = 'private function create_new_case(' in admin_content
-            
-            # The fix should ensure unified menu doesn't duplicate processing
-            # Check for comments or code indicating the fix
-            duplicate_prevention = 'prevent double processing' in unified_content.lower() or 'duplicate execution' in unified_content.lower()
-            
-            if admin_handles_creation and admin_method_exists:
-                if post_action_handling and create_case_handling:
-                    # If unified menu still handles POST, check if it's properly coordinated
-                    self.log_result(
-                        'case_management_tests',
-                        'Double Case Creation Fix',
-                        'PASS',
-                        '✅ Case creation handled by admin dashboard, unified menu coordination present',
-                        {
-                            'admin_handles_creation': admin_handles_creation,
-                            'unified_menu_post_handling': post_action_handling,
-                            'duplicate_prevention_noted': duplicate_prevention
-                        }
-                    )
-                else:
-                    self.log_result(
-                        'case_management_tests',
-                        'Double Case Creation Fix',
-                        'PASS',
-                        '✅ Double case creation fix: unified menu POST processing removed, admin dashboard handles all',
-                        {
-                            'admin_handles_creation': admin_handles_creation,
-                            'unified_menu_post_removed': not post_action_handling
-                        }
-                    )
-            else:
-                self.log_result(
-                    'case_management_tests',
-                    'Double Case Creation Fix',
-                    'FAIL',
-                    '❌ Admin dashboard case creation handling incomplete'
-                )
-                
-        except Exception as e:
-            self.log_result(
-                'case_management_tests',
-                'Double Case Creation Fix',
-                'FAIL',
-                f'❌ Test failed: {str(e)}'
-            )
-
-    def test_case_editing_functionality(self):
-        """Test 3: Case Editing Functionality - handle_case_update_v210 Method"""
-        print("\n🔍 Testing Case Editing Functionality...")
-        
-        try:
-            # Read the admin dashboard file to verify case editing method
+            # Read the admin dashboard file to verify case edit functionality
             admin_dashboard_path = "/app/core/admin/class-admin-dashboard.php"
             
             with open(admin_dashboard_path, 'r') as f:
                 content = f.read()
             
-            # Check for handle_case_update_v210 method
-            update_method_exists = 'handle_case_update_v210(' in content
-            update_method_definition = 'private function handle_case_update_v210(' in content
+            # Check for handle_case_update_v210 method implementation
+            update_method_exists = 'private function handle_case_update_v210(' in content
             
-            # Check for method calls
-            update_method_calls = content.count('handle_case_update_v210(')
+            # Check for proper form processing
+            form_processing = "if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_case']))" in content
+            method_call = 'handle_case_update_v210($case_id, $_POST)' in content
             
-            # Check for proper nonce and action handling in edit forms
-            edit_case_nonce = 'edit_case_nonce' in content
-            save_case_action = 'save_case' in content
+            # Check for success message implementation
+            success_message = '✅ Erfolg!' in content and 'wurde aktualisiert' in content
             
-            # Check for form processing logic
-            form_processing = 'action\'] === \'save_case\'' in content or 'action\'] == \'save_case\'' in content
+            # Check for redirect mechanism to prevent duplicate submissions
+            redirect_mechanism = 'window.location.href' in content and 'updated=1' in content
+            redirect_delay = 'setTimeout(function()' in content and '2000' in content
             
-            if update_method_exists and update_method_definition and update_method_calls > 0:
+            # Check for nonce verification in the method
+            nonce_verification = "wp_verify_nonce($post_data['edit_case_nonce'], 'edit_case_action')" in content
+            
+            # Check for database update operation
+            database_update = '$wpdb->update(' in content and 'klage_cases' in content
+            
+            if (update_method_exists and form_processing and method_call and 
+                success_message and redirect_mechanism and nonce_verification and database_update):
                 self.log_result(
                     'case_management_tests',
-                    'Case Editing Method Verification',
+                    'Case Edit Save Fix',
                     'PASS',
-                    f'✅ Case editing method handle_case_update_v210 exists with {update_method_calls} calls',
+                    '✅ Case edit save fix verified: handle_case_update_v210() processes data with success messages and redirect',
                     {
-                        'method_definition': update_method_definition,
-                        'method_calls': update_method_calls,
-                        'edit_nonce_present': edit_case_nonce,
-                        'save_action_present': save_case_action,
-                        'form_processing': form_processing
+                        'method_exists': update_method_exists,
+                        'form_processing': form_processing,
+                        'success_message': success_message,
+                        'redirect_mechanism': redirect_mechanism,
+                        'redirect_delay': redirect_delay,
+                        'nonce_verification': nonce_verification,
+                        'database_update': database_update
                     }
                 )
             else:
                 self.log_result(
                     'case_management_tests',
-                    'Case Editing Method Verification',
+                    'Case Edit Save Fix',
                     'FAIL',
-                    f'❌ Case editing method incomplete: exists={update_method_exists}, calls={update_method_calls}'
+                    f'❌ Case edit save fix incomplete: method={update_method_exists}, processing={form_processing}, success={success_message}, redirect={redirect_mechanism}'
                 )
                 
         except Exception as e:
             self.log_result(
                 'case_management_tests',
-                'Case Editing Method Verification',
+                'Case Edit Save Save Fix',
                 'FAIL',
                 f'❌ Test failed: {str(e)}'
             )
 
-    def test_core_plugin_version_update(self):
-        """Test 4: Core Plugin Version Update (236 → 237)"""
-        print("\n🔍 Testing Core Plugin Version Update...")
+    def test_core_plugin_version_238_update(self):
+        """Test 3: Core Plugin Version Update (237 → 238)"""
+        print("\n🔍 Testing Core Plugin Version Update to 238...")
         
         try:
             # Read the core plugin file to verify version update
@@ -253,183 +191,121 @@ class LegalAutomationTester:
             with open(core_plugin_path, 'r') as f:
                 content = f.read()
             
-            # Check for version 237 in plugin header
-            version_header = 'Version: 237' in content
+            # Check for version 238 in plugin header
+            version_header = 'Version: 238' in content
             
             # Check for version constant
-            version_constant = "define('CAH_PLUGIN_VERSION', '237')" in content
+            version_constant = "define('CAH_PLUGIN_VERSION', '238')" in content
             
-            # Ensure old version 236 is not present
-            old_version_header = 'Version: 236' in content
-            old_version_constant = "define('CAH_PLUGIN_VERSION', '236')" in content
+            # Ensure old version 237 is not present
+            old_version_header = 'Version: 237' in content
+            old_version_constant = "define('CAH_PLUGIN_VERSION', '237')" in content
             
             if version_header and version_constant and not old_version_header and not old_version_constant:
                 self.log_result(
                     'plugin_health_tests',
-                    'Core Plugin Version Update',
+                    'Core Plugin Version Update to 238',
                     'PASS',
-                    '✅ Core plugin version successfully updated from 236 to 237',
+                    '✅ Core plugin version successfully updated from 237 to 238',
                     {
-                        'version_header_237': version_header,
-                        'version_constant_237': version_constant,
+                        'version_header_238': version_header,
+                        'version_constant_238': version_constant,
                         'old_version_removed': not old_version_header and not old_version_constant
                     }
                 )
             else:
                 self.log_result(
                     'plugin_health_tests',
-                    'Core Plugin Version Update',
+                    'Core Plugin Version Update to 238',
                     'FAIL',
-                    f'❌ Version update incomplete: header_237={version_header}, constant_237={version_constant}, old_present={old_version_header or old_version_constant}'
+                    f'❌ Version update incomplete: header_238={version_header}, constant_238={version_constant}, old_present={old_version_header or old_version_constant}'
                 )
                 
         except Exception as e:
             self.log_result(
                 'plugin_health_tests',
-                'Core Plugin Version Update',
+                'Core Plugin Version Update to 238',
                 'FAIL',
                 f'❌ Test failed: {str(e)}'
             )
 
-    def test_method_call_verification(self):
-        """Test 5: Method Call Verification - All Required Methods Exist"""
-        print("\n🔍 Testing Method Call Verification...")
+    def test_complete_crud_workflow_security(self):
+        """Test 4: Complete CRUD Workflow Without Security Errors"""
+        print("\n🔍 Testing Complete CRUD Workflow Security...")
         
         try:
-            # Read the admin dashboard file
+            # Read both admin dashboard files
             admin_dashboard_path = "/app/core/admin/class-admin-dashboard.php"
-            
-            with open(admin_dashboard_path, 'r') as f:
-                content = f.read()
-            
-            # Required methods for case management
-            required_methods = {
-                'handle_case_deletion': 'private function handle_case_deletion(',
-                'handle_case_update_v210': 'private function handle_case_update_v210(',
-                'create_new_case': 'private function create_new_case('
-            }
-            
-            method_results = {}
-            all_methods_exist = True
-            
-            for method_name, method_signature in required_methods.items():
-                method_exists = method_signature in content
-                method_calls = content.count(f'{method_name}(')
-                
-                method_results[method_name] = {
-                    'exists': method_exists,
-                    'calls': method_calls
-                }
-                
-                if not method_exists:
-                    all_methods_exist = False
-            
-            if all_methods_exist:
-                self.log_result(
-                    'case_management_tests',
-                    'Method Call Verification',
-                    'PASS',
-                    '✅ All required case management methods exist and are callable',
-                    method_results
-                )
-            else:
-                missing_methods = [name for name, result in method_results.items() if not result['exists']]
-                self.log_result(
-                    'case_management_tests',
-                    'Method Call Verification',
-                    'FAIL',
-                    f'❌ Missing methods: {missing_methods}',
-                    method_results
-                )
-                
-        except Exception as e:
-            self.log_result(
-                'case_management_tests',
-                'Method Call Verification',
-                'FAIL',
-                f'❌ Test failed: {str(e)}'
-            )
-
-    def test_form_processing_flow(self):
-        """Test 6: Form Processing Flow - Complete CRUD Workflow"""
-        print("\n🔍 Testing Form Processing Flow...")
-        
-        try:
-            # Read both admin dashboard and unified menu files
-            admin_dashboard_path = "/app/core/admin/class-admin-dashboard.php"
-            unified_menu_path = "/app/core/includes/class-unified-menu.php"
             
             with open(admin_dashboard_path, 'r') as f:
                 admin_content = f.read()
             
-            with open(unified_menu_path, 'r') as f:
-                unified_content = f.read()
+            # Test CREATE operation security
+            create_nonce = 'create_case_nonce' in admin_content
+            create_verification = "wp_verify_nonce($_POST['create_case_nonce'], 'create_case')" in admin_content
             
-            # Check CRUD operations handling with correct patterns
-            crud_checks = {
-                'create': {
-                    'admin_handles': 'create_new_case()' in admin_content,
-                    'form_action': 'case \'create_case\':' in admin_content,
-                    'nonce': 'create_case_nonce' in admin_content,
-                    'post_handling': 'handle_case_actions()' in admin_content
-                },
-                'read': {
-                    'admin_page_cases': 'admin_page_cases()' in admin_content,
-                    'cases_listing': 'klage_cases' in admin_content
-                },
-                'update': {
-                    'update_method': 'handle_case_update_v210(' in admin_content,
-                    'form_action': 'save_case' in admin_content,
-                    'nonce': 'edit_case_nonce' in admin_content,
-                    'post_check': 'isset($_POST[\'save_case\'])' in admin_content
-                },
-                'delete': {
-                    'delete_method': 'handle_case_deletion(' in admin_content,
-                    'delete_action': 'action=delete' in admin_content,
-                    'nonce_verification': 'wp_verify_nonce' in admin_content
-                }
-            }
+            # Test READ operation (no security issues expected)
+            read_functionality = 'admin_page_cases()' in admin_content
             
-            # Check for duplicate processing prevention
-            duplicate_prevention = {
-                'admin_handles_post': 'isset($_POST[\'action\'])' in admin_content,
-                'unified_coordination': 'admin_page_cases()' in unified_content,
-                'case_actions_method': 'handle_case_actions()' in admin_content
-            }
+            # Test UPDATE operation security (the main fix)
+            update_nonce = 'edit_case_nonce' in admin_content
+            update_verification = "wp_verify_nonce($post_data['edit_case_nonce'], 'edit_case_action')" in admin_content
+            update_method = 'handle_case_update_v210(' in admin_content
             
-            all_crud_working = all(
-                all(checks.values()) for checks in crud_checks.values()
-            )
+            # Test DELETE operation security (the main fix)
+            delete_nonce_url = 'wp_nonce_url(' in admin_content and 'delete_case_' in admin_content
+            delete_verification = "wp_verify_nonce($_GET['_wpnonce'], 'delete_case_' . $case_id)" in admin_content
+            delete_method = 'handle_case_deletion(' in admin_content
             
-            if all_crud_working and all(duplicate_prevention.values()):
+            # Check for security error messages
+            security_error_present = 'Sicherheitsfehler.' in admin_content
+            
+            # All CRUD operations should have proper security
+            crud_security_complete = (create_nonce and create_verification and 
+                                    read_functionality and 
+                                    update_nonce and update_verification and update_method and
+                                    delete_nonce_url and delete_verification and delete_method)
+            
+            if crud_security_complete and security_error_present:
                 self.log_result(
                     'case_management_tests',
-                    'Form Processing Flow',
+                    'Complete CRUD Workflow Security',
                     'PASS',
-                    '✅ Complete CRUD workflow implemented with proper form processing and no duplicate execution',
+                    '✅ Complete CRUD workflow security verified: All operations have proper nonce protection',
                     {
-                        'crud_operations': crud_checks,
-                        'duplicate_prevention': duplicate_prevention
+                        'create_security': create_nonce and create_verification,
+                        'read_functionality': read_functionality,
+                        'update_security': update_nonce and update_verification and update_method,
+                        'delete_security': delete_nonce_url and delete_verification and delete_method,
+                        'security_error_handling': security_error_present
                     }
                 )
             else:
-                failed_operations = [op for op, checks in crud_checks.items() if not all(checks.values())]
+                failed_operations = []
+                if not (create_nonce and create_verification):
+                    failed_operations.append('CREATE')
+                if not read_functionality:
+                    failed_operations.append('READ')
+                if not (update_nonce and update_verification and update_method):
+                    failed_operations.append('UPDATE')
+                if not (delete_nonce_url and delete_verification and delete_method):
+                    failed_operations.append('DELETE')
+                    
                 self.log_result(
                     'case_management_tests',
-                    'Form Processing Flow',
+                    'Complete CRUD Workflow Security',
                     'FAIL',
-                    f'❌ CRUD workflow incomplete. Failed operations: {failed_operations}',
+                    f'❌ CRUD security incomplete. Failed operations: {failed_operations}',
                     {
-                        'crud_operations': crud_checks,
                         'failed_operations': failed_operations,
-                        'duplicate_prevention': duplicate_prevention
+                        'security_error_handling': security_error_present
                     }
                 )
                 
         except Exception as e:
             self.log_result(
                 'case_management_tests',
-                'Form Processing Flow',
+                'Complete CRUD Workflow Security',
                 'FAIL',
                 f'❌ Test failed: {str(e)}'
             )
