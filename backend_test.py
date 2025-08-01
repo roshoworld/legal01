@@ -311,17 +311,15 @@ class LegalAutomationTester:
             )
 
     def run_all_tests(self):
-        """Run all critical case management fix tests"""
-        print("🚀 Starting Legal Automation Critical Case Management Fix Testing...")
+        """Run all final verification tests for case edit and delete fixes"""
+        print("🚀 Starting Final Verification: Case Edit and Delete Fixes (v238)...")
         print("=" * 80)
         
-        # Critical Case Management Fix Tests
-        self.test_case_deletion_method_fix()
-        self.test_double_case_creation_fix()
-        self.test_case_editing_functionality()
-        self.test_core_plugin_version_update()
-        self.test_method_call_verification()
-        self.test_form_processing_flow()
+        # Final Verification Tests for Review Request
+        self.test_case_deletion_nonce_fix()
+        self.test_case_edit_save_fix()
+        self.test_core_plugin_version_238_update()
+        self.test_complete_crud_workflow_security()
         
         # Print summary
         self.print_summary()
