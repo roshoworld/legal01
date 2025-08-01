@@ -151,7 +151,7 @@ class CAH_Admin_Dashboard {
         
         // Generate export URL
         $export_url = wp_nonce_url(
-            admin_url('admin.php?page=klage-click-cases&action=export'),
+            admin_url('admin.php?page=la-cases&action=export'),
             'export_csv'
         );
         
