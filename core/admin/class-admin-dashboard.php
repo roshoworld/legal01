@@ -1330,7 +1330,7 @@ class CAH_Admin_Dashboard {
                                     <?php else: ?>
                                         <p>Keine Fälle gefunden. Erstellen Sie Ihren ersten Fall!</p>
                                         <div style="margin-top: 15px;">
-                                            <a href="<?php echo admin_url('admin.php?page=klage-click-cases&action=add'); ?>" class="button button-primary" style="margin-right: 10px;">
+                                            <a href="<?php echo admin_url('admin.php?page=la-cases&action=add'); ?>" class="button button-primary" style="margin-right: 10px;">
                                                 📝 Neuen Fall erstellen
                                             </a>
                                             <a href="<?php echo admin_url('admin.php?page=klage-click-import'); ?>" class="button button-secondary">
