@@ -1231,7 +1231,7 @@ class CAH_Admin_Dashboard {
             <!-- Filters -->
             <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
                 <form method="get" style="display: flex; gap: 15px; align-items: end; flex-wrap: wrap;">
-                    <input type="hidden" name="page" value="klage-click-cases">
+                    <input type="hidden" name="page" value="la-cases">
                     
                     <div>
                         <label for="status" style="display: block; margin-bottom: 5px; font-weight: bold;">Status:</label>
