@@ -251,11 +251,20 @@ class Legal_Automation_Unified_Menu {
      * Dashboard page - unified view
      */
     public function dashboard_page() {
-        // Delegate to core plugin dashboard with modifications
-        if (class_exists('CAH_Admin_Dashboard')) {
-            global $wpdb;
-            
-            // Get comprehensive statistics
+        global $wpdb;
+        
+        // Get comprehensive statistics
+        $total_cases = 0;
+        $pending_cases = 0;
+        $processing_cases = 0;
+        $completed_cases = 0;
+        $total_value = 0;
+        
+        // Check if database tables exist
+        $cases_table = $wpdb->prefix . 'klage_cases';
+        $table_exists = $wpdb->get_var("SHOW TABLES LIKE '$cases_table'") == $cases_table;
+        
+        if ($table_exists) {
             $total_cases = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}klage_cases WHERE active_status = 'active'") ?? 0;
             $pending_cases = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}klage_cases WHERE case_status = 'pending' AND active_status = 'active'") ?? 0;
             $processing_cases = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}klage_cases WHERE case_status = 'processing' AND active_status = 'active'") ?? 0;
@@ -269,16 +278,17 @@ class Legal_Automation_Unified_Menu {
                 ) FROM {$wpdb->prefix}klage_cases 
                 WHERE active_status = 'active'
             ") ?? 0;
-            
-            // Get document analysis stats if available
-            $doc_stats = array();
-            if (class_exists('CourtAutomationHub_DocumentAnalysis')) {
-                $doc_stats['total_communications'] = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}klage_communications WHERE created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)") ?? 0;
-                $doc_stats['unassigned_communications'] = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}klage_communications WHERE case_id IS NULL OR case_id = 0") ?? 0;
-            }
-            
-            $this->render_unified_dashboard($total_cases, $pending_cases, $processing_cases, $completed_cases, $total_value, $doc_stats);
         }
+        
+        // Get document analysis stats if available
+        $doc_stats = array();
+        $communications_table = $wpdb->prefix . 'klage_communications';
+        if ($wpdb->get_var("SHOW TABLES LIKE '$communications_table'") == $communications_table) {
+            $doc_stats['total_communications'] = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}klage_communications WHERE created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)") ?? 0;
+            $doc_stats['unassigned_communications'] = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}klage_communications WHERE case_id IS NULL OR case_id = 0") ?? 0;
+        }
+        
+        $this->render_unified_dashboard($total_cases, $pending_cases, $processing_cases, $completed_cases, $total_value, $doc_stats);
     }
     
     /**
