@@ -23,7 +23,7 @@ class Legal_Automation_Unified_Menu {
     private function __construct() {
         // Priority 5 ensures this runs before individual plugin menus
         add_action('admin_menu', array($this, 'create_unified_menu'), 5);
-        add_action('admin_menu', array($this, 'remove_individual_menus'), 999);
+        add_action('admin_menu', array($this, 'remove_individual_menus'), 9999);
         add_action('admin_init', array($this, 'handle_purge_data'));
     }
     
