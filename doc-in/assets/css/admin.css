@@ -1,0 +1,297 @@
+/**
+ * Admin CSS for Document Analysis Plugin
+ */
+
+/* Dashboard Statistics */
+.cah-doc-in-dashboard .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.cah-doc-in-dashboard .stat-box {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    padding: 20px;
+    text-align: center;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.cah-doc-in-dashboard .stat-box h3 {
+    font-size: 2em;
+    margin: 0 0 10px 0;
+    font-weight: 600;
+}
+
+.cah-doc-in-dashboard .stat-box p {
+    margin: 0;
+    color: #646970;
+    font-size: 0.9em;
+}
+
+/* Status indicators */
+.status-success {
+    background: #00a32a;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+
+.status-warning {
+    background: #dba617;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+
+.status-info {
+    background: #3858e9;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+
+/* Category tags */
+.category-tag {
+    background: #f0f0f1;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.9em;
+    display: inline-block;
+}
+
+/* Count badges */
+.count {
+    background: #d63638;
+    color: white;
+    border-radius: 10px;
+    padding: 2px 8px;
+    font-size: 0.8em;
+    margin-left: 5px;
+}
+
+/* Assignment modal */
+#assignment-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.assignment-modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.assignment-modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.3em;
+    color: #1d2327;
+}
+
+.assignment-modal-content .form-table th {
+    width: 150px;
+}
+
+.assignment-modal-content select {
+    min-width: 300px;
+}
+
+/* Communications table improvements */
+.wp-list-table .column-case_number,
+.wp-list-table .column-debtor_name {
+    width: 15%;
+}
+
+.wp-list-table .column-category {
+    width: 12%;
+}
+
+.wp-list-table .column-assignment_status {
+    width: 10%;
+}
+
+/* Attachment indicators */
+.dashicons-paperclip {
+    color: #646970;
+    font-size: 16px;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+/* Quick action buttons */
+.quick-actions {
+    margin: 20px 0;
+}
+
+.quick-actions .button {
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+/* Category management */
+.category-api-info {
+    background: #f6f7f7;
+    border: 1px solid #c3c4c7;
+    padding: 20px;
+    border-radius: 4px;
+    margin-top: 30px;
+}
+
+.category-api-info code {
+    background: #fff;
+    padding: 8px 12px;
+    border: 1px solid #c3c4c7;
+    border-radius: 3px;
+    display: inline-block;
+    margin: 10px 0;
+    font-family: Consolas, Monaco, monospace;
+}
+
+/* Responsive design */
+@media (max-width: 782px) {
+    .cah-doc-in-dashboard .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .assignment-modal-content {
+        margin: 20px;
+        width: calc(100% - 40px);
+        padding: 20px;
+    }
+    
+    .assignment-modal-content select {
+        min-width: 100%;
+        width: 100%;
+    }
+    
+    .wp-list-table .column-case_number,
+    .wp-list-table .column-debtor_name {
+        display: none;
+    }
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+    position: relative;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #0073aa;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Success/Error messages */
+.cah-success {
+    background: #00a32a;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.cah-error {
+    background: #d63638;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+/* Confidence score indicators */
+.confidence-high {
+    color: #00a32a;
+    font-weight: bold;
+}
+
+.confidence-medium {
+    color: #dba617;
+    font-weight: bold;
+}
+
+.confidence-low {
+    color: #d63638;
+    font-weight: bold;
+}
+
+/* Bulk actions improvements */
+.tablenav .alignleft.actions {
+    margin-bottom: 10px;
+}
+
+/* Meta box styling */
+.postbox .inside {
+    margin: 0;
+    padding: 0;
+}
+
+.postbox .main {
+    padding: 12px;
+}
+
+/* Form improvements */
+.form-table th {
+    vertical-align: top;
+    padding-top: 15px;
+}
+
+.form-table .description {
+    font-style: italic;
+    color: #646970;
+}
+
+/* Button improvements */
+.button.assign-btn {
+    background: #0073aa;
+    color: white;
+    border-color: #0073aa;
+}
+
+.button.assign-btn:hover {
+    background: #005a87;
+    border-color: #005a87;
+}
+
+/* Attachment preview */
+.attachment-preview {
+    max-width: 100px;
+    max-height: 100px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 5px 0;
+}

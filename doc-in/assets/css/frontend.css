@@ -1,0 +1,47 @@
+/**
+ * Frontend CSS for Document Analysis Plugin
+ * (Currently minimal as this is primarily an admin plugin)
+ */
+
+/* Communication display styles for any frontend components */
+.cah-communication {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.cah-communication-header {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.cah-communication-meta {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.cah-communication-content {
+    line-height: 1.6;
+}
+
+.cah-communication-category {
+    background: #0073aa;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.85em;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .cah-communication {
+        padding: 10px;
+        margin: 5px 0;
+    }
+}

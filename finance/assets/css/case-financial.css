@@ -1,0 +1,416 @@
+/* Case Financial Integration CSS v1.5.0 - Enhanced CRUD Interface */
+
+#case-financial-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Center totals and action buttons */
+.calculation-summary,
+.financial-actions {
+    text-align: center;
+    margin: 25px auto;
+}
+
+.financial-actions {
+    max-width: 600px;
+}
+
+/* Header Section */
+.financial-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.financial-header h3 {
+    margin: 0;
+    color: white !important;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.quick-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.quick-actions .button {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.quick-actions .button:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-1px);
+}
+
+/* Template Management */
+.template-management {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    border: 1px solid #e9ecef;
+}
+
+.template-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.template-actions .button {
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+/* Template Editor */
+#template-editor {
+    background: #fff;
+    border: 2px solid #0073aa;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 15px 0;
+    box-shadow: 0 4px 12px rgba(0,115,170,0.1);
+}
+
+#template-editor h4 {
+    color: #0073aa;
+    margin-top: 0;
+    font-size: 16px;
+    border-bottom: 2px solid #0073aa;
+    padding-bottom: 10px;
+}
+
+.template-editor-actions {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+    display: flex;
+    gap: 10px;
+}
+
+/* Cost Items Management */
+.cost-items-management {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.cost-item-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Enhanced Cost Items Table */
+#cost-items-table {
+    border-collapse: collapse;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#cost-items-table th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: 600;
+    padding: 15px 12px;
+    text-align: left;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#cost-items-table td {
+    padding: 15px 12px;
+    vertical-align: middle;
+    border-bottom: 1px solid #eee;
+    transition: all 0.2s ease;
+}
+
+#cost-items-table tbody tr:hover {
+    background: #f8f9fa;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.amount-cell {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: #0073aa;
+}
+
+/* Category Badges */
+.category-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.category-basic_costs {
+    background: #d4edda;
+    color: #155724;
+}
+
+.category-court_costs {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.category-legal_costs {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.category-other_costs {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Bulk Actions */
+.bulk-actions {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border: 1px solid #e9ecef;
+}
+
+/* Modal Styling */
+#cost-item-editor-modal {
+    z-index: 999999;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 999998;
+    backdrop-filter: blur(2px);
+}
+
+.modal-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    z-index: 999999;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-content h4 {
+    margin-top: 0;
+    color: #0073aa;
+    font-size: 18px;
+    border-bottom: 2px solid #0073aa;
+    padding-bottom: 10px;
+}
+
+.modal-actions {
+    text-align: right;
+    margin-top: 25px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* Enhanced Calculation Summary */
+.calculation-summary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    margin: 25px 0;
+}
+
+.calculation-summary h4 {
+    margin-top: 0;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.calc-item {
+    text-align: center;
+    padding: 10px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.calc-item:hover {
+    background: rgba(255,255,255,0.2);
+    transform: translateY(-2px);
+}
+
+/* Action Buttons */
+.financial-actions {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.financial-actions .button-large {
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.financial-actions .button-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.financial-actions .button-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+/* Status Messages */
+#financial-messages {
+    margin: 15px 0;
+}
+
+#financial-messages .notice {
+    padding: 12px 15px;
+    border-radius: 6px;
+    margin: 10px 0;
+}
+
+/* Loading Indicator */
+#financial-loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.9);
+    color: white;
+    padding: 20px 30px;
+    border-radius: 8px;
+    z-index: 999999;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .financial-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .quick-actions,
+    .template-actions,
+    .cost-item-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .quick-actions .button,
+    .template-actions .button,
+    .cost-item-actions .button {
+        width: 100%;
+        text-align: center;
+        margin: 2px 0;
+    }
+    
+    .calculation-summary div {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .financial-actions {
+        flex-direction: column;
+    }
+    
+    .financial-actions .button {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .modal-content {
+        width: 95%;
+        padding: 20px;
+    }
+    
+    #cost-items-table {
+        font-size: 14px;
+    }
+    
+    #cost-items-table th,
+    #cost-items-table td {
+        padding: 8px 6px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .financial-header,
+    .quick-actions,
+    .template-actions,
+    .cost-item-actions,
+    .financial-actions,
+    .bulk-actions {
+        display: none !important;
+    }
+    
+    #cost-items-table {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+    
+    .calculation-summary {
+        background: #f0f0f0 !important;
+        color: #000 !important;
+        border: 1px solid #000;
+    }
+}

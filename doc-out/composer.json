@@ -1,0 +1,19 @@
+{
+    "name": "klage-click/doc-out",
+    "description": "Document Generator Plugin for WordPress",
+    "type": "wordpress-plugin",
+    "require": {
+        "php": ">=7.4",
+        "mpdf/mpdf": "^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "KlageClick\\DocOut\\": "includes/"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

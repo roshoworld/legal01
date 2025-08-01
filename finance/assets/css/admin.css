@@ -1,0 +1,260 @@
+/**
+ * Admin styles for Legal Automation Finance Plugin
+ */
+
+/* Calculator Container */
+.laf-calculator-container {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.laf-calculator-form {
+    flex: 1;
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+.laf-calculator-results {
+    flex: 1;
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+/* Results Table */
+.laf-results-table {
+    margin-top: 15px;
+}
+
+.laf-results-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.laf-results-table th,
+.laf-results-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.laf-results-table th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+}
+
+.laf-results-table tfoot th {
+    background-color: #e8f4f8;
+    font-size: 16px;
+    border-top: 2px solid #0073aa;
+}
+
+.laf-results-table tbody td:nth-child(2) {
+    text-align: right;
+    font-family: monospace;
+    font-weight: 500;
+}
+
+.laf-results-table tfoot th:nth-child(2) {
+    text-align: right;
+    font-family: monospace;
+}
+
+/* Template Details */
+.laf-template-details {
+    margin-top: 20px;
+}
+
+.laf-template-details table {
+    margin-bottom: 20px;
+}
+
+.laf-template-details th {
+    width: 150px;
+    font-weight: 600;
+}
+
+/* Case Financial Integration */
+#laf-case-financial {
+    margin-top: 20px;
+}
+
+#laf-case-financial .inside {
+    padding: 15px 20px;
+}
+
+#laf-case-financial .form-table {
+    margin-bottom: 0;
+}
+
+#laf-case-financial .form-table th {
+    width: 160px;
+    font-weight: 600;
+}
+
+#laf-case-financial .form-table td {
+    padding: 8px 10px;
+}
+
+#laf-case-financial input[type="number"],
+#laf-case-financial input[type="date"],
+#laf-case-financial select {
+    width: 200px;
+}
+
+/* Case Results */
+.laf-case-results table {
+    margin-top: 10px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.laf-case-results th,
+.laf-case-results td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.laf-case-results thead th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+}
+
+.laf-case-results .total-row {
+    background-color: #f0f8ff;
+    font-weight: bold;
+    border-top: 2px solid #0073aa;
+}
+
+.laf-case-results td:nth-child(2) {
+    text-align: right;
+    font-family: monospace;
+}
+
+/* Actions */
+.laf-case-actions {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.laf-case-actions .button {
+    margin-right: 10px;
+}
+
+/* Status Badges */
+.badge {
+    background: #007cba;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+.badge.default {
+    background: #007cba;
+}
+
+.badge.custom {
+    background: #72aee6;
+}
+
+/* Form Improvements */
+.form-table input[type="number"] {
+    width: 120px;
+}
+
+.form-table .description {
+    margin-top: 5px;
+    color: #646970;
+    font-style: italic;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1200px) {
+    .laf-calculator-container {
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 782px) {
+    .laf-results-table tbody td:nth-child(2),
+    .laf-results-table tfoot th:nth-child(2) {
+        text-align: left;
+    }
+    
+    #laf-case-financial input[type="number"],
+    #laf-case-financial input[type="date"],
+    #laf-case-financial select {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+/* Loading States */
+.laf-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.laf-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #0073aa;
+    border-radius: 50%;
+    animation: laf-spin 1s linear infinite;
+}
+
+@keyframes laf-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Error Messages */
+.laf-error {
+    background: #fcf2f2;
+    border: 1px solid #e8c5c5;
+    color: #8a2424;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.laf-success {
+    background: #f2fcf2;
+    border: 1px solid #c5e8c5;
+    color: #248a24;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+/* Print Styles */
+@media print {
+    .laf-calculator-form,
+    .laf-case-actions {
+        display: none;
+    }
+    
+    .laf-calculator-results,
+    .laf-case-results {
+        box-shadow: none;
+        border: none;
+    }
+}

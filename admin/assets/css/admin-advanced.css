@@ -1,0 +1,234 @@
+/*
+ * Legal Automation Admin - Advanced Interface CSS
+ * Version: 210
+ */
+
+/* Enhanced Status Badges */
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.status-draft { background: #fff3cd; color: #856404; }
+.status-processing { background: #cce5ff; color: #004085; }
+.status-pending { background: #fff3e0; color: #f57c00; }
+.status-completed { background: #d4edda; color: #155724; }
+.status-archived { background: #f8d7da; color: #721c24; }
+
+/* Advanced Sortable Table Headers */
+.wp-list-table th.sortable {
+    position: relative;
+}
+
+.wp-list-table th.sortable a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    padding: 8px;
+    position: relative;
+}
+
+.wp-list-table th.sortable a:hover {
+    color: #0073aa;
+}
+
+.wp-list-table th.sortable .sorting-indicator {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    opacity: 0.3;
+}
+
+.wp-list-table th.sortable .sorting-indicator:before {
+    content: '↕';
+    font-size: 12px;
+    color: #666;
+}
+
+.wp-list-table th.sortable:hover .sorting-indicator {
+    opacity: 0.8;
+}
+
+.wp-list-table th.sortable.sorted .sorting-indicator {
+    opacity: 1;
+}
+
+.wp-list-table th.sortable.sorted.asc .sorting-indicator:before {
+    content: '↑';
+    color: #0073aa;
+    font-weight: bold;
+}
+
+.wp-list-table th.sortable.sorted.desc .sorting-indicator:before {
+    content: '↓';
+    color: #0073aa;
+    font-weight: bold;
+}
+
+.wp-list-table th.sortable.sorted {
+    background-color: #f0f8ff;
+}
+
+/* Enhanced Tab Interface */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.nav-tab-wrapper {
+    border-bottom: 1px solid #ccd0d4;
+}
+
+.nav-tab {
+    font-size: 14px;
+    padding: 8px 12px;
+}
+
+.tab-content-wrapper h2 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.form-table th {
+    width: 150px;
+}
+
+/* Advanced Search Interface */
+#advanced-search-form {
+    margin: 20px 0;
+}
+
+#advanced-search-form .inside {
+    background: #f9f9f9;
+}
+
+#advanced-search-form .form-table {
+    background: white;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+/* Financial Calculations Display */
+.financial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.financial-card {
+    background: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.financial-card h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+}
+
+.financial-card .amount {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.financial-summary {
+    background: #e8f5e8;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.financial-summary table {
+    width: 100%;
+}
+
+.financial-summary th {
+    text-align: left;
+    padding: 5px 0;
+}
+
+.financial-summary td {
+    text-align: right;
+    padding: 5px 0;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .wp-list-table th.sortable a {
+        padding: 4px;
+    }
+    
+    .wp-list-table th.sortable .sorting-indicator {
+        right: 2px;
+    }
+    
+    .financial-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .nav-tab {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+}
+
+/* Phase 2 Preparation Styles */
+.phase2-placeholder {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+.import-export-preview {
+    background: #e1f5fe;
+    border-left: 4px solid #0277bd;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+/* Enhanced Bulk Actions */
+.bulkactions {
+    margin-bottom: 10px;
+}
+
+.bulkactions select {
+    margin-right: 5px;
+}
+
+/* Loading States */
+.laa-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.laa-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #0073aa;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

@@ -1,0 +1,379 @@
+/**
+ * Legal Automation CRM - Admin Styles
+ * Styles for CRM admin interface integration
+ */
+
+/* CRM Tab Content Styles */
+.case-tab-content {
+    display: none;
+}
+
+.case-tab-content.active {
+    display: block;
+}
+
+/* CRM Form Styles */
+.crm-communication-form,
+.crm-event-form,
+.crm-audience-quick {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border-left: 4px solid #0073aa;
+}
+
+.crm-communication-form h3,
+.crm-event-form h3,
+.crm-audience-quick h3 {
+    margin-top: 0;
+    color: #23282d;
+}
+
+/* Communication Type Badges */
+.comm-type {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.comm-type-email {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.comm-type-phone {
+    background: #f3e5f5;
+    color: #7b1fa2;
+}
+
+.comm-type-meeting {
+    background: #e8f5e8;
+    color: #388e3c;
+}
+
+.comm-type-letter {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+.comm-type-sms {
+    background: #fce4ec;
+    color: #c2185b;
+}
+
+/* Event Type Badges */
+.event-type {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.event-type-meeting {
+    background: #e8f5e8;
+    color: #388e3c;
+}
+
+.event-type-deadline {
+    background: #ffebee;
+    color: #d32f2f;
+}
+
+.event-type-court_hearing {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.event-type-follow_up {
+    background: #fff9c4;
+    color: #f9a825;
+}
+
+.event-type-reminder {
+    background: #f3e5f5;
+    color: #7b1fa2;
+}
+
+.event-type-task {
+    background: #e0f2f1;
+    color: #00695c;
+}
+
+/* Status Badges */
+.comm-status,
+.event-status {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.comm-status-draft,
+.event-status-scheduled {
+    background: #f5f5f5;
+    color: #616161;
+}
+
+.comm-status-sent {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.comm-status-delivered {
+    background: #e8f5e8;
+    color: #388e3c;
+}
+
+.comm-status-read {
+    background: #e0f7fa;
+    color: #00838f;
+}
+
+.comm-status-replied {
+    background: #f3e5f5;
+    color: #7b1fa2;
+}
+
+.comm-status-failed,
+.event-status-cancelled {
+    background: #ffebee;
+    color: #d32f2f;
+}
+
+.event-status-confirmed {
+    background: #e0f7fa;
+    color: #00838f;
+}
+
+.event-status-completed {
+    background: #e8f5e8;
+    color: #388e3c;
+}
+
+.event-status-postponed {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+/* Priority Indicators */
+.priority-high {
+    border-left: 4px solid #ff9800 !important;
+}
+
+.priority-urgent {
+    border-left: 4px solid #f44336 !important;
+}
+
+.priority-low {
+    border-left: 4px solid #9e9e9e !important;
+}
+
+/* CRM Lists */
+.crm-communications-list,
+.crm-events-list,
+.crm-audiences-list {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.crm-communications-list h3,
+.crm-events-list h3,
+.crm-audiences-list h3 {
+    background: #f7f7f7;
+    padding: 15px 20px;
+    margin: 0;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Quick Action Buttons */
+.crm-audience-quick {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.crm-audience-quick > div {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.create-audience-template {
+    padding: 8px 15px;
+    background: #0073aa;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s;
+}
+
+.create-audience-template:hover {
+    background: #005a87;
+}
+
+/* Audience Count */
+.audience-count {
+    font-weight: bold;
+    color: #0073aa;
+}
+
+.refresh-count {
+    margin-left: 5px;
+    padding: 2px 6px;
+    font-size: 10px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+/* Loading States */
+.crm-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.crm-loading::after {
+    content: "Laden...";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 20px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+}
+
+/* Responsive Design */
+@media (max-width: 782px) {
+    .crm-audience-quick > div {
+        flex-direction: column;
+    }
+    
+    .create-audience-template {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .form-table th,
+    .form-table td {
+        display: block;
+        width: 100%;
+    }
+    
+    .form-table th {
+        padding-bottom: 5px;
+    }
+    
+    .form-table td {
+        padding-top: 0;
+        padding-bottom: 20px;
+    }
+}
+
+/* Modal Styles */
+.crm-modal {
+    display: none;
+    position: fixed;
+    z-index: 100000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.crm-modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+}
+
+.crm-modal-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    cursor: pointer;
+}
+
+.crm-modal-close:hover,
+.crm-modal-close:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+/* Form Field Improvements */
+.form-table input[type="text"],
+.form-table input[type="email"],
+.form-table input[type="datetime-local"],
+.form-table select,
+.form-table textarea {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 8px 12px;
+    transition: border-color 0.3s;
+}
+
+.form-table input[type="text"]:focus,
+.form-table input[type="email"]:focus,
+.form-table input[type="datetime-local"]:focus,
+.form-table select:focus,
+.form-table textarea:focus {
+    border-color: #0073aa;
+    outline: none;
+    box-shadow: 0 0 0 1px #0073aa;
+}
+
+/* Success/Error Messages */
+.crm-notice {
+    padding: 10px 15px;
+    margin: 15px 0;
+    border-radius: 3px;
+    border-left: 4px solid;
+}
+
+.crm-notice.notice-success {
+    background: #dff0d8;
+    border-left-color: #5cb85c;
+    color: #3c763d;
+}
+
+.crm-notice.notice-error {
+    background: #f2dede;
+    border-left-color: #d9534f;
+    color: #a94442;
+}
+
+.crm-notice.notice-warning {
+    background: #fcf8e3;
+    border-left-color: #f0ad4e;
+    color: #8a6d3b;
+}
+
+.crm-notice.notice-info {
+    background: #d9edf7;
+    border-left-color: #5bc0de;
+    color: #31708f;
+}
