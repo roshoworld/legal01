@@ -126,6 +126,9 @@ class CourtAutomationHub {
         // Universal Import Manager
         $this->universal_import_manager = new CAH_Universal_Import_Manager();
         
+        // Initialize Unified Menu System (must be early)
+        Legal_Automation_Unified_Menu::getInstance();
+        
         // Initialize admin components only if admin plugin is not active
         if (is_admin() && !$this->is_admin_plugin_active()) {
             if (class_exists('CAH_Admin_Dashboard')) {
