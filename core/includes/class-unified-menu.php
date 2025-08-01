@@ -625,10 +625,8 @@ class Legal_Automation_Unified_Menu {
     }
     
     public function crm_contacts_page() {
-        if (class_exists('LA_CRM_Admin')) {
-            $admin = new LA_CRM_Admin();
-            $admin->render_contacts_page();
-        }
+        $enhanced_crm = new Enhanced_CRM_Contacts_Manager();
+        $enhanced_crm->render_contacts_page();
     }
     
     public function crm_courts_page() {
