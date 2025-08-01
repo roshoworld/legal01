@@ -1326,7 +1326,7 @@ class CAH_Admin_Dashboard {
                                         </a>
                                     <?php elseif (!empty($search) || !empty($status_filter)): ?>
                                         <p>Keine Fälle gefunden, die den Filterkriterien entsprechen.</p>
-                                        <a href="<?php echo admin_url('admin.php?page=klage-click-cases'); ?>" class="button">Filter zurücksetzen</a>
+                                        <a href="<?php echo admin_url('admin.php?page=la-cases'); ?>" class="button">Filter zurücksetzen</a>
                                     <?php else: ?>
                                         <p>Keine Fälle gefunden. Erstellen Sie Ihren ersten Fall!</p>
                                         <div style="margin-top: 15px;">
