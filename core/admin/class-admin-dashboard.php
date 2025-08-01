@@ -3648,24 +3648,37 @@ class CAH_Admin_Dashboard {
             // Create client contact if provided
             $client_contact_id = null;
             if (!empty($client_last_name) || !empty($client_company_name)) {
-                $client_contact_result = $wpdb->insert(
-                    $wpdb->prefix . 'klage_contacts',
-                    array(
-                        'first_name' => $client_first_name,
-                        'last_name' => $client_last_name,
-                        'company_name' => $client_company_name,
-                        'email' => $client_email,
-                        'phone' => $client_phone,
-                        'street' => $client_address, // Full address in street field for simplicity
-                        'contact_type' => $client_type,
-                        'active_status' => 1,
-                        'created_at' => current_time('mysql')
-                    ),
-                    array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s')
-                );
+                // Check if contact already exists by email
+                $existing_client = null;
+                if (!empty($client_email)) {
+                    $existing_client = $wpdb->get_row($wpdb->prepare("
+                        SELECT * FROM {$wpdb->prefix}klage_contacts 
+                        WHERE email = %s AND active_status = 1
+                    ", $client_email));
+                }
                 
-                if ($client_contact_result) {
-                    $client_contact_id = $wpdb->insert_id;
+                if ($existing_client) {
+                    $client_contact_id = $existing_client->id;
+                } else {
+                    $client_contact_result = $wpdb->insert(
+                        $wpdb->prefix . 'klage_contacts',
+                        array(
+                            'first_name' => $client_first_name,
+                            'last_name' => $client_last_name,
+                            'company_name' => $client_company_name,
+                            'email' => $client_email,
+                            'phone' => $client_phone,
+                            'street' => $client_address, // Full address in street field for simplicity
+                            'contact_type' => $client_type,
+                            'active_status' => 1,
+                            'created_at' => current_time('mysql')
+                        ),
+                        array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s')
+                    );
+                    
+                    if ($client_contact_result) {
+                        $client_contact_id = $wpdb->insert_id;
+                    }
                 }
             }
             
