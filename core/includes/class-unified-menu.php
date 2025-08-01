@@ -309,6 +309,12 @@ class Legal_Automation_Unified_Menu {
             return;
         }
         
+        // Handle case management view
+        if (isset($_GET['view']) && $_GET['view'] === 'cases') {
+            $this->handle_dashboard_cases_view();
+            return;
+        }
+        
         // Get comprehensive statistics
         $total_cases = 0;
         $pending_cases = 0;
