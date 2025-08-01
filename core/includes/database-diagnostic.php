@@ -68,11 +68,12 @@ function diagnose_database_tables() {
                     echo '</table>';
                 }
                 
-                // Provide manual purge button
+                // Provide manual purge button with alternative methods
                 echo '<form method="post" style="margin: 10px 0;">';
                 wp_nonce_field('manual_purge_table', 'manual_purge_nonce');
                 echo '<input type="hidden" name="table_to_purge" value="' . esc_attr($table) . '">';
-                echo '<input type="submit" name="manual_purge" value="🗑️ Purge This Table" class="button button-secondary" onclick="return confirm(\'Really purge ' . esc_js($table) . '?\');">';
+                echo '<input type="submit" name="manual_purge" value="🗑️ Purge (TRUNCATE)" class="button button-secondary" onclick="return confirm(\'Really purge ' . esc_js($table) . '?\');">';
+                echo '<input type="submit" name="manual_delete" value="🗑️ Purge (DELETE)" class="button button-secondary" onclick="return confirm(\'Really delete all from ' . esc_js($table) . '?\');" style="margin-left: 5px;">';
                 echo '</form>';
             }
         }
