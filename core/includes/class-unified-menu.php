@@ -476,6 +476,9 @@ class Legal_Automation_Unified_Menu {
     }
     
 
+    /**
+     * Cases page - handle directly without delegation to avoid admin plugin conflicts
+     */
     public function cases_page() {
         if (class_exists('CAH_Admin_Dashboard')) {
             $core_admin = new CAH_Admin_Dashboard();
