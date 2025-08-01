@@ -671,10 +671,3 @@ class Legal_Automation_Unified_Menu {
         }
     }
 }
-
-// Initialize unified menu
-add_action('plugins_loaded', function() {
-    if (class_exists('CourtAutomationHub')) {
-        Legal_Automation_Unified_Menu::getInstance();
-    }
-});
