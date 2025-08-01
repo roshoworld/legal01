@@ -239,7 +239,7 @@ class CAH_Financial_Admin {
                 <div style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center;">
                     <h3 style="color: #0073aa;">📝 Fall-Integration</h3>
                     <p>Nutzen Sie den Finanzrechner direkt beim Erstellen oder Bearbeiten von Fällen</p>
-                    <a href="<?php echo admin_url('admin.php?page=klage-click-cases'); ?>" class="button button-primary">Fälle öffnen</a>
+                    <a href="<?php echo admin_url('admin.php?page=la-cases'); ?>" class="button button-primary">Fälle öffnen</a>
                 </div>
             </div>
             
