@@ -65,54 +65,61 @@ class LegalAutomationTester:
             if details:
                 print(f"   Details: {details}")
 
-    def test_case_deletion_nonce_fix(self):
-        """Test 1: Case Deletion Nonce Fix - wp_nonce_url() Implementation"""
-        print("\n🔍 Testing Case Deletion Nonce Fix...")
+    def test_case_id_editing_with_duplicate_prevention(self):
+        """Test 1: Case ID Editing with Duplicate Prevention"""
+        print("\n🔍 Testing Case ID Editing with Duplicate Prevention...")
         
         try:
-            # Read the admin dashboard file to verify wp_nonce_url implementation
+            # Read the admin dashboard file to verify case ID editing functionality
             admin_dashboard_path = "/app/core/admin/class-admin-dashboard.php"
             
             with open(admin_dashboard_path, 'r') as f:
                 content = f.read()
             
-            # Check for wp_nonce_url usage in delete links
-            wp_nonce_url_usage = 'wp_nonce_url(' in content
-            delete_case_action = "'delete_case_' . $case->id" in content
+            # Check that case_id is included in update data array
+            case_id_in_update_data = "'case_id' => $new_case_id," in content
             
-            # Check for proper nonce verification in handle_case_deletion
-            nonce_verification = "wp_verify_nonce($_GET['_wpnonce'], 'delete_case_' . $case_id)" in content
-            security_error_handling = 'Sicherheitsfehler.' in content
+            # Check for duplicate validation logic
+            duplicate_check_query = "SELECT id FROM {$wpdb->prefix}klage_cases" in content and "WHERE case_id = %s AND id != %d" in content
+            duplicate_error_message = 'Fall-ID "' in content and '" wird bereits verwendet' in content
             
-            # Check that JavaScript nonce generation is NOT used (should be replaced)
-            javascript_nonce = 'wp_create_nonce(' in content and 'delete_case' in content
+            # Check for case_id format string in wpdb->update call
+            format_array_with_case_id = "array('%s', '%s'," in content  # First %s should be for case_id
             
-            if wp_nonce_url_usage and delete_case_action and nonce_verification and not javascript_nonce:
+            # Check that new case_id variable is properly sanitized
+            case_id_sanitization = "sanitize_text_field($post_data['case_id']" in content
+            
+            # Check for proper case_id comparison logic
+            case_id_comparison = "$new_case_id !== $old_case->case_id" in content
+            
+            if (case_id_in_update_data and duplicate_check_query and duplicate_error_message and 
+                format_array_with_case_id and case_id_sanitization and case_id_comparison):
                 self.log_result(
                     'case_management_tests',
-                    'Case Deletion Nonce Fix',
+                    'Case ID Editing with Duplicate Prevention',
                     'PASS',
-                    '✅ Case deletion nonce fix verified: wp_nonce_url() used with proper delete_case_ action',
+                    '✅ Case ID editing with duplicate prevention verified: case_id included in update data with validation',
                     {
-                        'wp_nonce_url_used': wp_nonce_url_usage,
-                        'delete_case_action_found': delete_case_action,
-                        'nonce_verification_present': nonce_verification,
-                        'javascript_nonce_removed': not javascript_nonce,
-                        'security_error_handling': security_error_handling
+                        'case_id_in_update_data': case_id_in_update_data,
+                        'duplicate_validation': duplicate_check_query,
+                        'error_message': duplicate_error_message,
+                        'format_string': format_array_with_case_id,
+                        'sanitization': case_id_sanitization,
+                        'comparison_logic': case_id_comparison
                     }
                 )
             else:
                 self.log_result(
                     'case_management_tests',
-                    'Case Deletion Nonce Fix',
+                    'Case ID Editing with Duplicate Prevention',
                     'FAIL',
-                    f'❌ Case deletion nonce fix incomplete: wp_nonce_url={wp_nonce_url_usage}, delete_action={delete_case_action}, verification={nonce_verification}, js_nonce_removed={not javascript_nonce}'
+                    f'❌ Case ID editing incomplete: update_data={case_id_in_update_data}, validation={duplicate_check_query}, format={format_array_with_case_id}'
                 )
                 
         except Exception as e:
             self.log_result(
                 'case_management_tests',
-                'Case Deletion Nonce Fix',
+                'Case ID Editing with Duplicate Prevention',
                 'FAIL',
                 f'❌ Test failed: {str(e)}'
             )
