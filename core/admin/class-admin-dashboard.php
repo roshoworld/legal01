@@ -37,7 +37,7 @@ class CAH_Admin_Dashboard {
     
     private function handle_early_export() {
         // Check if this is our CSV export request
-        if (isset($_GET['page']) && $_GET['page'] === 'klage-click-cases' && 
+        if (isset($_GET['page']) && $_GET['page'] === 'la-cases' && 
             isset($_GET['action']) && $_GET['action'] === 'export' && 
             isset($_GET['_wpnonce'])) {
             
