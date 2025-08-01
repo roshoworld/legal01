@@ -480,6 +480,11 @@ class Legal_Automation_Unified_Menu {
      * Cases page - handle directly without delegation to avoid admin plugin conflicts
      */
     public function cases_page() {
+        // Check permissions first
+        if (!current_user_can('manage_options')) {
+            wp_die(__('You do not have sufficient permissions to access this page.'));
+        }
+        
         if (class_exists('CAH_Admin_Dashboard')) {
             $core_admin = new CAH_Admin_Dashboard();
             
