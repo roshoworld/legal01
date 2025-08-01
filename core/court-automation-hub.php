@@ -117,10 +117,10 @@ class CourtAutomationHub {
         $this->court_manager = new CAH_Court_Manager();
         $this->rest_api = new CAH_REST_API();
         
-        // Document Analysis Integration v1.8.7
+        // Document Analysis Integration
         $this->doc_in_integration = new CAH_DocIn_Integration();
         
-        // Universal Import Manager v1.9.0
+        // Universal Import Manager
         $this->universal_import_manager = new CAH_Universal_Import_Manager();
         
         // Initialize admin components only if admin plugin is not active
