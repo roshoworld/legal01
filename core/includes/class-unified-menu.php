@@ -508,17 +508,16 @@ class Legal_Automation_Unified_Menu {
                 }
             }
             
-            // Handle GET actions
+            // Handle GET actions  
             if (isset($_GET['action'])) {
                 switch ($_GET['action']) {
-                    case 'add':
-                        // Redirect to dedicated add case page
-                        wp_redirect(admin_url('admin.php?page=legal-automation-cases-add'));
-                        exit;
                     case 'delete':
                         if (isset($_GET['id']) && isset($_GET['_wpnonce']) && wp_verify_nonce($_GET['_wpnonce'], 'delete_case_' . $_GET['id'])) {
                             $this->handle_case_delete();
                         }
+                        break;
+                    case 'add':
+                        // Don't redirect, just let the core admin handle it
                         break;
                 }
             }
