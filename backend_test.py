@@ -318,7 +318,7 @@ class LegalAutomationTester:
         # Final Verification Tests for Review Request
         self.test_case_deletion_nonce_fix()
         self.test_case_edit_save_fix()
-        self.test_core_plugin_version_238_update()
+        self.test_core_plugin_version_239_update()
         self.test_complete_crud_workflow_security()
         
         # Print summary
