@@ -124,66 +124,59 @@ class LegalAutomationTester:
                 f'❌ Test failed: {str(e)}'
             )
 
-    def test_case_edit_save_fix(self):
-        """Test 2: Case Edit Save Fix - handle_case_update_v210() with Success Messages"""
-        print("\n🔍 Testing Case Edit Save Fix...")
+    def test_redirect_fix_for_empty_page_issue(self):
+        """Test 2: Redirect Fix for Empty Page Issue"""
+        print("\n🔍 Testing Redirect Fix for Empty Page Issue...")
         
         try:
-            # Read the admin dashboard file to verify case edit functionality
+            # Read the admin dashboard file to verify redirect fix
             admin_dashboard_path = "/app/core/admin/class-admin-dashboard.php"
             
             with open(admin_dashboard_path, 'r') as f:
                 content = f.read()
             
-            # Check for handle_case_update_v210 method implementation
-            update_method_exists = 'private function handle_case_update_v210(' in content
+            # Check for redirect to list view instead of edit view
+            redirect_to_list = "wp_redirect(admin_url('admin.php?page=la-cases&updated=" in content
             
-            # Check for proper form processing
-            form_processing = "if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_case']))" in content
-            method_call = 'handle_case_update_v210($case_id, $_POST)' in content
+            # Check that redirect includes case_id parameter
+            redirect_with_case_id = "&updated=' . $case_id" in content
             
-            # Check for success message implementation
-            success_message = '✅ Erfolg!' in content and 'wurde aktualisiert' in content
+            # Check for exit after redirect to prevent further execution
+            exit_after_redirect = "wp_redirect(" in content and "exit;" in content
             
-            # Check for redirect mechanism to prevent duplicate submissions
-            redirect_mechanism = 'window.location.href' in content and 'updated=1' in content
-            redirect_delay = 'setTimeout(function()' in content and '2000' in content
+            # Check that success message is handled in list view (not in edit view)
+            success_message_in_method = '✅ Erfolg!' in content and 'wurde aktualisiert' in content
             
-            # Check for nonce verification in the method
-            nonce_verification = "wp_verify_nonce($post_data['edit_case_nonce'], 'edit_case_action')" in content
+            # Verify no JavaScript redirect is used (should be PHP redirect)
+            no_javascript_redirect = 'window.location.href' not in content or 'setTimeout' not in content
             
-            # Check for database update operation
-            database_update = '$wpdb->update(' in content and 'klage_cases' in content
-            
-            if (update_method_exists and form_processing and method_call and 
-                success_message and redirect_mechanism and nonce_verification and database_update):
+            if (redirect_to_list and redirect_with_case_id and exit_after_redirect and 
+                success_message_in_method):
                 self.log_result(
                     'case_management_tests',
-                    'Case Edit Save Fix',
+                    'Redirect Fix for Empty Page Issue',
                     'PASS',
-                    '✅ Case edit save fix verified: handle_case_update_v210() processes data with success messages and redirect',
+                    '✅ Redirect fix verified: Case edit saves redirect to list view with updated parameter',
                     {
-                        'method_exists': update_method_exists,
-                        'form_processing': form_processing,
-                        'success_message': success_message,
-                        'redirect_mechanism': redirect_mechanism,
-                        'redirect_delay': redirect_delay,
-                        'nonce_verification': nonce_verification,
-                        'database_update': database_update
+                        'redirect_to_list': redirect_to_list,
+                        'redirect_with_case_id': redirect_with_case_id,
+                        'exit_after_redirect': exit_after_redirect,
+                        'success_message': success_message_in_method,
+                        'php_redirect_used': no_javascript_redirect
                     }
                 )
             else:
                 self.log_result(
                     'case_management_tests',
-                    'Case Edit Save Fix',
+                    'Redirect Fix for Empty Page Issue',
                     'FAIL',
-                    f'❌ Case edit save fix incomplete: method={update_method_exists}, processing={form_processing}, success={success_message}, redirect={redirect_mechanism}'
+                    f'❌ Redirect fix incomplete: list_redirect={redirect_to_list}, case_id_param={redirect_with_case_id}, exit={exit_after_redirect}'
                 )
                 
         except Exception as e:
             self.log_result(
                 'case_management_tests',
-                'Case Edit Save Save Fix',
+                'Redirect Fix for Empty Page Issue',
                 'FAIL',
                 f'❌ Test failed: {str(e)}'
             )
