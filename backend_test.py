@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
 Backend Testing Suite for Legal Automation WordPress Plugin System
-Tests the core plugin debugging fixes implemented:
-1. Database Issues (Finance Plugin)
-2. Case Management CRUD Operations  
-3. Unified Menu System
-4. General Plugin Health
+Tests the critical case management fixes implemented:
+1. Case deletion fatal error fix (handle_delete_case → handle_case_deletion)
+2. Double case creation fix (removing duplicate form processing from unified menu)
+3. Case editing functionality (handle_case_update_v210 method)
+4. Core plugin version update (236 → 237)
+5. Method call verification and form processing flow
 """
 
 import requests
