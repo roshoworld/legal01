@@ -177,7 +177,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "All critical case management fixes verified successfully"
+    - "Final verification of case edit and delete fixes completed successfully"
   stuck_tasks: []
   test_all: false
   test_priority: "critical_first"
