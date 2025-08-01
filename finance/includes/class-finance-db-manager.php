@@ -65,8 +65,7 @@ class LAF_Database_Manager {
                 created_at datetime DEFAULT CURRENT_TIMESTAMP,
                 PRIMARY KEY (id),
                 KEY template_id (template_id),
-                KEY item_type (item_type),
-                FOREIGN KEY (template_id) REFERENCES {$this->wpdb->prefix}laf_templates(id) ON DELETE CASCADE
+                KEY item_type (item_type)
             ) $charset_collate;",
             
             // Case calculations - stores applied calculations for each case
