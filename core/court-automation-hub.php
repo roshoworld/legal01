@@ -33,10 +33,10 @@ class CourtAutomationHub {
     public $email_evidence;
     public $legal_framework;
     public $court_manager;
-    // Document Analysis Integration v1.8.7
+    // Document Analysis Integration
     public $doc_in_integration;
     
-    // Universal Import Manager v1.9.0
+    // Universal Import Manager
     public $universal_import_manager;
     public $universal_import_admin;
     
