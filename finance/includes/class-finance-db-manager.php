@@ -112,8 +112,7 @@ class LAF_Database_Manager {
                 created_at datetime DEFAULT CURRENT_TIMESTAMP,
                 PRIMARY KEY (id),
                 KEY calculation_id (calculation_id),
-                KEY item_type (item_type),
-                FOREIGN KEY (calculation_id) REFERENCES {$this->wpdb->prefix}laf_case_calculations(id) ON DELETE CASCADE
+                KEY item_type (item_type)
             ) $charset_collate;",
             
             // Configuration table - stores system settings
