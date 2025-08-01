@@ -1365,7 +1365,7 @@ class CAH_Admin_Dashboard {
                                     <td>
                                         <a href="<?php echo admin_url('admin.php?page=la-cases&action=view&id=' . $case->id); ?>" 
                                            class="button button-small" title="Fall ansehen">👁️</a>
-                                        <a href="<?php echo admin_url('admin.php?page=klage-click-cases&action=edit&id=' . $case->id); ?>" 
+                                        <a href="<?php echo admin_url('admin.php?page=la-cases&action=edit&id=' . $case->id); ?>" 
                                            class="button button-small" title="Fall bearbeiten">✏️</a>
                                         <a href="#" onclick="confirmDelete(<?php echo $case->id; ?>, '<?php echo esc_js($case->case_id); ?>')" 
                                            class="button button-small button-link-delete" title="Fall löschen">🗑️</a>
