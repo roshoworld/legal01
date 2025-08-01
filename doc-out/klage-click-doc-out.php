@@ -160,8 +160,8 @@ class KlageClickDocOut {
         // Settings submenu
         add_submenu_page(
             'klage-doc-generator',
-            __('Settings', 'klage-click-doc-out'),
-            __('Settings', 'klage-click-doc-out'),
+            __('Settings', 'legal-automation-doc-out'),
+            __('Settings', 'legal-automation-doc-out'),
             'manage_options',
             'klage-doc-settings',
             array($this->admin_dashboard, 'render_settings_page')
