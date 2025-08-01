@@ -93,9 +93,7 @@ class LAF_Database_Manager {
                 PRIMARY KEY (id),
                 KEY case_id (case_id),
                 KEY template_id (template_id),
-                KEY calculation_status (calculation_status),
-                FOREIGN KEY (case_id) REFERENCES {$this->wpdb->prefix}klage_cases(id) ON DELETE CASCADE,
-                FOREIGN KEY (template_id) REFERENCES {$this->wpdb->prefix}laf_templates(id) ON DELETE SET NULL
+                KEY calculation_status (calculation_status)
             ) $charset_collate;",
             
             // Case calculation items - detailed breakdown for each case
