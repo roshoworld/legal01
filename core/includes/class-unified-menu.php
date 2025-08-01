@@ -230,21 +230,36 @@ class Legal_Automation_Unified_Menu {
     }
     
     /**
-     * Remove individual plugin menus to avoid duplication
+     * Remove individual plugin menus to avoid duplication and conflicts
      */
     public function remove_individual_menus() {
-        // Remove core plugin menus
-        remove_menu_page('klage-click-hub');
+        // Remove all possible individual plugin menus aggressively
+        $menus_to_remove = array(
+            'klage-click-hub',
+            'legal-automation-finance', 
+            'klage-doc-generator',
+            'legal-automation-crm',
+            'legal-automation-admin',
+            'legal-automation-import',
+            'cah-doc-in',
+            'klage-click-cases', // Remove any individual cases menu
+            'cah-cases',
+            'court-automation-hub',
+            'legal-automation-dashboard'
+        );
         
-        // Remove individual plugin menus
-        remove_menu_page('legal-automation-finance');
-        remove_menu_page('klage-doc-generator');
-        remove_menu_page('legal-automation-crm');
-        remove_menu_page('legal-automation-admin');
-        remove_menu_page('legal-automation-import');
+        foreach ($menus_to_remove as $menu_slug) {
+            remove_menu_page($menu_slug);
+        }
         
-        // Remove doc-in individual menu
-        remove_menu_page('cah-doc-in');
+        // Also remove any submenu items that might conflict
+        global $submenu;
+        if (isset($submenu['klage-click-hub'])) {
+            unset($submenu['klage-click-hub']);
+        }
+        if (isset($submenu['legal-automation-admin'])) {
+            unset($submenu['legal-automation-admin']);
+        }
     }
     
     /**
