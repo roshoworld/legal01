@@ -492,7 +492,7 @@ class LegalAutomationTester:
     def print_summary(self):
         """Print test summary"""
         print("\n" + "=" * 80)
-        print("📊 FINAL VERIFICATION: CASE EDITING IMPROVEMENTS (v240)")
+        print("📊 URL ROUTING FIX VERIFICATION (v241)")
         print("=" * 80)
         
         summary = self.results['summary']
@@ -501,9 +501,9 @@ class LegalAutomationTester:
         print(f"❌ Failed: {summary['failed']}")
         
         if summary['failed'] == 0:
-            print("\n🎉 ALL CASE EDITING IMPROVEMENTS VERIFIED! Case ID editing with duplicate prevention, redirect fix, and complete workflow working correctly.")
+            print("\n🎉 ALL URL ROUTING FIXES VERIFIED! Consistent case editing experience achieved with unified la-cases page routing.")
         else:
-            print(f"\n⚠️  {summary['failed']} improvements failed verification. Review the issues above.")
+            print(f"\n⚠️  {summary['failed']} routing fixes failed verification. Review the issues above.")
         
         # Print category breakdown
         categories = ['case_management_tests', 'plugin_health_tests']
