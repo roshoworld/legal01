@@ -2518,7 +2518,7 @@ class CAH_Admin_Dashboard {
                     <input type="submit" name="save_case" id="save_case" class="button button-primary button-large" value="💾 Fall speichern">
                     <a href="<?php echo admin_url('admin.php?page=la-cases&action=view&id=' . $case_id); ?>" 
                        class="button button-large" style="margin-left: 10px;">👁️ Zur Ansicht</a>
-                    <a href="<?php echo admin_url('admin.php?page=klage-click-cases'); ?>" 
+                    <a href="<?php echo admin_url('admin.php?page=la-cases'); ?>" 
                        class="button button-large" style="margin-left: 10px;">← Zurück zur Liste</a>
                 </div>
                 
