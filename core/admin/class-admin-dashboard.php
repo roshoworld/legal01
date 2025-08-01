@@ -3606,14 +3606,29 @@ class CAH_Admin_Dashboard {
                 return;
             }
             
-            // Check if case ID already exists
+            // Check if case ID already exists and auto-generate unique one if needed
             $existing_case = $wpdb->get_var($wpdb->prepare("
                 SELECT id FROM {$wpdb->prefix}klage_cases WHERE case_id = %s
             ", $case_id));
             
             if ($existing_case) {
-                echo '<div class="notice notice-error"><p><strong>Fehler:</strong> Fall-ID "' . esc_html($case_id) . '" existiert bereits.</p></div>';
-                return;
+                // Auto-generate a new unique case ID
+                $attempts = 0;
+                do {
+                    $case_id = 'CASE-' . date('Y') . '-' . sprintf('%04d', rand(1000, 9999)) . strtoupper(substr(md5(time()), 0, 2));
+                    $existing_case = $wpdb->get_var($wpdb->prepare("
+                        SELECT id FROM {$wpdb->prefix}klage_cases WHERE case_id = %s
+                    ", $case_id));
+                    $attempts++;
+                } while ($existing_case && $attempts < 10);
+                
+                if ($existing_case) {
+                    echo '<div class="notice notice-error"><p><strong>Fehler:</strong> Konnte keine eindeutige Fall-ID generieren. Bitte versuchen Sie es erneut.</p></div>';
+                    error_log('Case creation failed: Could not generate unique case ID after 10 attempts');
+                    return;
+                }
+                
+                echo '<div class="notice notice-warning"><p><strong>Hinweis:</strong> Fall-ID wurde automatisch geändert zu: <strong>' . esc_html($case_id) . '</strong> (Original-ID existierte bereits)</p></div>';
             }
             
             // If no debtor name but has email evidence, use email as identifier
