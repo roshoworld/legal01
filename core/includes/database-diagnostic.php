@@ -79,14 +79,37 @@ function diagnose_database_tables() {
         }
     }
     
-    // Handle manual purge
+    // Handle manual purge with both TRUNCATE and DELETE methods
     if (isset($_POST['manual_purge']) && wp_verify_nonce($_POST['manual_purge_nonce'], 'manual_purge_table')) {
         $table_to_purge = sanitize_text_field($_POST['table_to_purge']);
         if (in_array($table_to_purge, $existing_tables)) {
             $count_before = $wpdb->get_var("SELECT COUNT(*) FROM `$table_to_purge`");
-            $wpdb->query("TRUNCATE TABLE `$table_to_purge`");
-            $wpdb->query("ALTER TABLE `$table_to_purge` AUTO_INCREMENT = 1");
-            echo '<div class="notice notice-success"><p>✅ Purged ' . esc_html($table_to_purge) . ' (' . $count_before . ' records deleted)</p></div>';
+            
+            // Try TRUNCATE first
+            $result = $wpdb->query("TRUNCATE TABLE `$table_to_purge`");
+            if ($result === false) {
+                echo '<div class="notice notice-error"><p>❌ TRUNCATE failed for ' . esc_html($table_to_purge) . ': ' . esc_html($wpdb->last_error) . '</p></div>';
+            } else {
+                $wpdb->query("ALTER TABLE `$table_to_purge` AUTO_INCREMENT = 1");
+                echo '<div class="notice notice-success"><p>✅ TRUNCATE success: ' . esc_html($table_to_purge) . ' (' . $count_before . ' records deleted)</p></div>';
+            }
+        }
+    }
+    
+    // Handle manual delete (alternative method)
+    if (isset($_POST['manual_delete']) && wp_verify_nonce($_POST['manual_purge_nonce'], 'manual_purge_table')) {
+        $table_to_purge = sanitize_text_field($_POST['table_to_purge']);
+        if (in_array($table_to_purge, $existing_tables)) {
+            $count_before = $wpdb->get_var("SELECT COUNT(*) FROM `$table_to_purge`");
+            
+            // Use DELETE instead of TRUNCATE (works with foreign key constraints)
+            $result = $wpdb->query("DELETE FROM `$table_to_purge`");
+            if ($result === false) {
+                echo '<div class="notice notice-error"><p>❌ DELETE failed for ' . esc_html($table_to_purge) . ': ' . esc_html($wpdb->last_error) . '</p></div>';
+            } else {
+                $wpdb->query("ALTER TABLE `$table_to_purge` AUTO_INCREMENT = 1");
+                echo '<div class="notice notice-success"><p>✅ DELETE success: ' . esc_html($table_to_purge) . ' (' . $count_before . ' records deleted)</p></div>';
+            }
         }
     }
     
