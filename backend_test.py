@@ -312,7 +312,7 @@ class LegalAutomationTester:
 
     def run_all_tests(self):
         """Run all final verification tests for case edit and delete fixes"""
-        print("🚀 Starting Final Verification: Case Edit and Delete Fixes (v238)...")
+        print("🚀 Starting Final Verification: Case Edit and Delete Fixes (v239)...")
         print("=" * 80)
         
         # Final Verification Tests for Review Request
