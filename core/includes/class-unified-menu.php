@@ -61,13 +61,13 @@ class Legal_Automation_Unified_Menu {
             array($this, 'dashboard_page')
         );
         
-        // Fälle (Cases) - use read capability 
+        // Fälle (Cases) - try different slug to avoid conflicts
         $cases_hook = add_submenu_page(
             'legal-automation',
             __('Fälle', 'legal-automation-core'),
             __('Fälle', 'legal-automation-core'),
             'read',
-            'legal-automation-cases',
+            'la-cases', // Shorter slug to avoid conflicts
             array($this, 'cases_page')
         );
         
