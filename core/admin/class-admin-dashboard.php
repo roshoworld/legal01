@@ -3516,9 +3516,13 @@ class CAH_Admin_Dashboard {
     private function create_new_case() {
         global $wpdb;
         
+        // Debug logging
+        error_log('Case creation attempt started. POST data: ' . print_r($_POST, true));
+        
         // Verify nonce
         if (!wp_verify_nonce($_POST['create_case_nonce'], 'create_case')) {
             echo '<div class="notice notice-error"><p>Sicherheitsfehler.</p></div>';
+            error_log('Case creation failed: nonce verification failed');
             return;
         }
         
