@@ -3861,10 +3861,10 @@ class CAH_Admin_Dashboard {
                 if ($case_documents_attachments) echo '<li>🔍 Beweise dokumentiert</li>';
                 echo '</ul></div>';
                 
-                // Redirect to view the newly created case (fixed URL)
+                // Redirect to view the newly created case (fixed URL for unified menu)
                 echo '<script>
                     setTimeout(function() {
-                        window.location.href = "' . admin_url('admin.php?page=legal-automation-cases&action=view&id=' . $case_internal_id) . '";
+                        window.location.href = "' . admin_url('admin.php?page=la-cases') . '";
                     }, 4000);
                 </script>';
                 
