@@ -232,8 +232,8 @@ class KlageClickDocOut {
         if (!$this->is_core_plugin_active()) {
             deactivate_plugins(plugin_basename(__FILE__));
             wp_die(
-                __('Klage.Click Document Generator requires the Court Automation Hub core plugin to be active.', 'klage-click-doc-out'),
-                __('Plugin Activation Error', 'klage-click-doc-out'),
+                __('Legal Automation Document Generator requires the Court Automation Hub core plugin to be active.', 'legal-automation-doc-out'),
+                __('Plugin Activation Error', 'legal-automation-doc-out'),
                 array('back_link' => true)
             );
         }
