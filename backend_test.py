@@ -329,7 +329,7 @@ class LegalAutomationTester:
     def print_summary(self):
         """Print test summary"""
         print("\n" + "=" * 80)
-        print("📊 FINAL VERIFICATION: CASE EDIT AND DELETE FIXES (v238)")
+        print("📊 FINAL VERIFICATION: CASE EDIT AND DELETE FIXES (v239)")
         print("=" * 80)
         
         summary = self.results['summary']
