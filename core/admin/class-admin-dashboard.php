@@ -3749,11 +3749,15 @@ class CAH_Admin_Dashboard {
             }
             
             // Create the case
+            error_log('Attempting to insert case data: ' . print_r($case_data, true));
+            
             $result = $wpdb->insert(
                 $wpdb->prefix . 'klage_cases',
                 $case_data,
                 $formats
             );
+            
+            error_log('Case insert result: ' . ($result ? 'SUCCESS' : 'FAILED') . '. WP Error: ' . $wpdb->last_error . '. Query: ' . $wpdb->last_query);
             
             if ($result) {
                 $case_internal_id = $wpdb->insert_id;
