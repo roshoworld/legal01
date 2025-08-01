@@ -492,7 +492,13 @@ class Legal_Automation_Unified_Menu {
             
             <?php if (isset($_GET['purged']) && $_GET['purged'] == 'success'): ?>
             <div class="notice notice-success is-dismissible">
-                <p><strong>Erfolg!</strong> Alle Demo-Daten wurden erfolgreich gelöscht.</p>
+                <p><strong>Erfolg!</strong> 
+                <?php 
+                $tables_count = isset($_GET['tables']) ? intval($_GET['tables']) : 0;
+                $records_count = isset($_GET['records']) ? intval($_GET['records']) : 0;
+                echo "Datenbereinigung abgeschlossen: $tables_count Tabellen geleert, $records_count Datensätze gelöscht.";
+                ?>
+                </p>
             </div>
             <?php endif; ?>
             
