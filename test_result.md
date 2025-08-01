@@ -168,7 +168,7 @@ backend:
         agent: "testing"
         comment: "✅ FINAL VERIFICATION COMPLETE: All case edit and delete fixes verified successfully. Case deletion now uses wp_nonce_url() with proper 'delete_case_' action (no more security errors), case edit functionality includes handle_case_update_v210() with success messages and redirect mechanism, core plugin version updated to 238, and complete CRUD workflow security verified. All 4 specific fixes from review request working correctly."
 
-  - task: "Architectural Fixes for Case Management (v239)"
+  - task: "Case Editing Improvements (v240) - Case ID Editing with Duplicate Prevention"
     implemented: true
     working: true
     file: "core/admin/class-admin-dashboard.php"
@@ -178,7 +178,55 @@ backend:
     status_history:
       - working: true
         agent: "testing"
-        comment: "✅ ARCHITECTURAL FIXES VERIFIED (v239): All specific architectural fixes from review request successfully implemented and tested. 1) Case Deletion Empty Page Fix: Unified menu no longer intercepts DELETE actions, admin dashboard handles DELETE cleanly with proper wp_nonce_url() implementation. 2) Case Edit Saving Fix: handle_case_update_v210() method processes form data correctly with PHP wp_redirect() instead of JavaScript redirect, ensuring proper database updates and success messages. 3) Request Flow Verification: Clean separation achieved - unified menu delegates all actions to admin dashboard without duplicate processing. 4) Complete CRUD Testing: All operations work correctly with proper redirects and messages. Core plugin version updated to 239. All tests passed - case editing saves data and deletion works without empty page rendering."
+        comment: "✅ CASE ID EDITING VERIFIED (v240): Case ID editing with duplicate prevention successfully implemented. case_id field properly included in handle_case_update_v210 update data array with comprehensive duplicate validation. New case IDs (e.g., SPAM-2025-5634rrrrr) save correctly with proper sanitization and comparison logic. Duplicate case ID validation prevents conflicts with clear error messages. Format string (%s) correctly included in wpdb->update call as first parameter."
+
+  - task: "Case Editing Improvements (v240) - Redirect Fix for Empty Page Issue"
+    implemented: true
+    working: true
+    file: "core/admin/class-admin-dashboard.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ REDIRECT FIX VERIFIED (v240): Empty page issue completely resolved. Case edit saves now redirect to list view (admin.php?page=la-cases&updated=[case_id]) instead of edit view, preventing empty page rendering. PHP wp_redirect() used with proper exit; statement. Success message displays correctly in list view after redirect. No JavaScript redirect dependencies - clean server-side redirect implementation."
+
+  - task: "Case Editing Improvements (v240) - Database Update Verification"
+    implemented: true
+    working: true
+    file: "core/admin/class-admin-dashboard.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ DATABASE UPDATE VERIFIED (v240): case_id properly included in wpdb->update call with correct format strings. Update data array includes case_id as first field with proper sanitization. Format array has correct number of %s placeholders matching update fields. All case fields save correctly including case_id changes. Audit trail properly records case ID changes with comprehensive logging. Error handling implemented with wpdb->last_error reporting."
+
+  - task: "Case Editing Improvements (v240) - Complete Case Edit Workflow"
+    implemented: true
+    working: true
+    file: "core/admin/class-admin-dashboard.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ COMPLETE WORKFLOW VERIFIED (v240): End-to-end case editing functionality working perfectly. Edit form renders with case_id field, form processing handles save_case action, handle_case_update_v210 method processes updates correctly. Success messages display properly, redirect to list view works smoothly. Proper nonce handling throughout workflow with edit_case_nonce verification. Error handling implemented for all failure scenarios."
+
+  - task: "Core Plugin Version Update (239 → 240)"
+    implemented: true
+    working: true
+    file: "core/court-automation-hub.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ VERSION UPDATE VERIFIED (v240): Core plugin version successfully updated from 239 to 240 in both plugin header (Version: 240) and constant (CAH_PLUGIN_VERSION = '240'). Old version 239 references completely removed. Version update properly reflects the case editing improvements implementation."
 
 frontend:
   - task: "Frontend Testing"
