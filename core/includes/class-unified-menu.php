@@ -613,7 +613,7 @@ class Legal_Automation_Unified_Menu {
     }
     
     /**
-     * Handle data purge
+     * Handle data purge with comprehensive table detection
      */
     public function handle_purge_data() {
         if (isset($_POST['action']) && $_POST['action'] == 'purge_all_data') {
@@ -627,34 +627,59 @@ class Legal_Automation_Unified_Menu {
             
             global $wpdb;
             
-            // Purge all data tables
+            // Get all tables that might contain demo data
+            $all_tables = $wpdb->get_results("SHOW TABLES LIKE '{$wpdb->prefix}%'", ARRAY_A);
+            $existing_tables = array();
+            foreach ($all_tables as $table) {
+                $existing_tables[] = array_values($table)[0];
+            }
+            
+            // Known tables to purge (including variations)
             $tables_to_purge = array(
                 $wpdb->prefix . 'klage_cases',
-                $wpdb->prefix . 'klage_contacts',
+                $wpdb->prefix . 'klage_contacts', 
                 $wpdb->prefix . 'klage_case_contacts',
                 $wpdb->prefix . 'klage_financials',
                 $wpdb->prefix . 'klage_audit',
                 $wpdb->prefix . 'klage_communications',
                 $wpdb->prefix . 'klage_events',
+                $wpdb->prefix . 'klage_evidence',
+                $wpdb->prefix . 'klage_documents',
+                $wpdb->prefix . 'klage_court_hearings',
                 $wpdb->prefix . 'legal_automation_finance_calculations',
                 $wpdb->prefix . 'legal_automation_crm_communications',
-                $wpdb->prefix . 'legal_automation_crm_events'
+                $wpdb->prefix . 'legal_automation_crm_events',
+                $wpdb->prefix . 'cah_cases', // Alternative naming
+                $wpdb->prefix . 'cah_contacts',
+                $wpdb->prefix . 'cah_communications',
+                $wpdb->prefix . 'la_cases', // Legal automation naming
+                $wpdb->prefix . 'la_contacts',
+                $wpdb->prefix . 'court_automation_cases' // Old naming
             );
             
+            $purged_tables = array();
+            $records_deleted = 0;
+            
             foreach ($tables_to_purge as $table) {
-                if ($wpdb->get_var("SHOW TABLES LIKE '$table'")) {
-                    $wpdb->query("TRUNCATE TABLE $table");
+                if (in_array($table, $existing_tables)) {
+                    // Count records before deletion
+                    $count = $wpdb->get_var("SELECT COUNT(*) FROM `$table`");
+                    
+                    if ($count > 0) {
+                        $wpdb->query("TRUNCATE TABLE `$table`");
+                        $purged_tables[] = str_replace($wpdb->prefix, '', $table) . " ($count records)";
+                        $records_deleted += $count;
+                        
+                        // Reset auto-increment
+                        $wpdb->query("ALTER TABLE `$table` AUTO_INCREMENT = 1");
+                    }
                 }
             }
             
-            // Reset auto-increment
-            foreach ($tables_to_purge as $table) {
-                if ($wpdb->get_var("SHOW TABLES LIKE '$table'")) {
-                    $wpdb->query("ALTER TABLE $table AUTO_INCREMENT = 1");
-                }
-            }
+            // Log the purge action
+            error_log("Legal Automation: Data purge completed. Tables: " . implode(', ', $purged_tables) . ". Total records deleted: $records_deleted");
             
-            wp_redirect(admin_url('admin.php?page=legal-automation-settings&purged=success'));
+            wp_redirect(admin_url('admin.php?page=legal-automation-settings&purged=success&tables=' . count($purged_tables) . '&records=' . $records_deleted));
             exit;
         }
     }
