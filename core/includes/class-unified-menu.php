@@ -322,28 +322,28 @@ class Legal_Automation_Unified_Menu {
                 // Add JavaScript to fix delete/edit links to use dashboard URL
                 echo '<script type="text/javascript">
                 jQuery(document).ready(function($) {
-                    // Fix delete links to use dashboard URL instead of cases URL
+                    // Fix delete links to use la-cases page directly
                     $("a[href*=\'action=delete\']").each(function() {
                         var href = $(this).attr("href");
-                        if (href.indexOf("legal-automation-cases") !== -1 || href.indexOf("la-cases") !== -1) {
-                            href = href.replace(/page=[^&]+/, "page=legal-automation&view=cases");
+                        if (href.indexOf("legal-automation-cases") !== -1) {
+                            href = href.replace(/page=[^&]+/, "page=la-cases");
                             $(this).attr("href", href);
                         }
                     });
                     
-                    // Fix edit/view links too
+                    // Fix edit/view links to use la-cases page directly  
                     $("a[href*=\'action=edit\'], a[href*=\'action=view\']").each(function() {
                         var href = $(this).attr("href");
-                        if (href.indexOf("legal-automation-cases") !== -1 || href.indexOf("la-cases") !== -1) {
-                            href = href.replace(/page=[^&]+/, "page=legal-automation&view=cases");
+                        if (href.indexOf("legal-automation-cases") !== -1) {
+                            href = href.replace(/page=[^&]+/, "page=la-cases");
                             $(this).attr("href", href);
                         }
                     });
                     
-                    // Fix any form actions too
-                    $("form[action*=\'legal-automation-cases\'], form[action*=\'la-cases\']").each(function() {
+                    // Fix any form actions to use la-cases page directly
+                    $("form[action*=\'legal-automation-cases\']").each(function() {
                         var action = $(this).attr("action");
-                        action = action.replace(/page=[^&]+/, "page=legal-automation&view=cases");
+                        action = action.replace(/page=[^&]+/, "page=la-cases");
                         $(this).attr("action", action);
                     });
                 });
