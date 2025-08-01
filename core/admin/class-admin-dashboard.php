@@ -3621,27 +3621,40 @@ class CAH_Admin_Dashboard {
             // Create debtor contact first (v2.0.0 structure)
             $debtor_contact_id = null;
             if (!empty($debtors_last_name)) {
-                $debtor_contact_result = $wpdb->insert(
-                    $wpdb->prefix . 'klage_contacts',
-                    array(
-                        'first_name' => $debtors_first_name,
-                        'last_name' => $debtors_last_name,
-                        'company_name' => $debtors_company,
-                        'email' => $debtors_email,
-                        'phone' => $debtors_phone,
-                        'street' => $debtors_address,
-                        'postal_code' => $debtors_postal_code,
-                        'city' => $debtors_city,
-                        'country' => $debtors_country,
-                        'contact_type' => $debtor_type,
-                        'active_status' => 1,
-                        'created_at' => current_time('mysql')
-                    ),
-                    array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s')
-                );
+                // Check if debtor contact already exists by email
+                $existing_debtor = null;
+                if (!empty($debtors_email)) {
+                    $existing_debtor = $wpdb->get_row($wpdb->prepare("
+                        SELECT * FROM {$wpdb->prefix}klage_contacts 
+                        WHERE email = %s AND active_status = 1
+                    ", $debtors_email));
+                }
                 
-                if ($debtor_contact_result) {
-                    $debtor_contact_id = $wpdb->insert_id;
+                if ($existing_debtor) {
+                    $debtor_contact_id = $existing_debtor->id;
+                } else {
+                    $debtor_contact_result = $wpdb->insert(
+                        $wpdb->prefix . 'klage_contacts',
+                        array(
+                            'first_name' => $debtors_first_name,
+                            'last_name' => $debtors_last_name,
+                            'company_name' => $debtors_company,
+                            'email' => $debtors_email,
+                            'phone' => $debtors_phone,
+                            'street' => $debtors_address,
+                            'postal_code' => $debtors_postal_code,
+                            'city' => $debtors_city,
+                            'country' => $debtors_country,
+                            'contact_type' => $debtor_type,
+                            'active_status' => 1,
+                            'created_at' => current_time('mysql')
+                        ),
+                        array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s')
+                    );
+                    
+                    if ($debtor_contact_result) {
+                        $debtor_contact_id = $wpdb->insert_id;
+                    }
                 }
             }
             
