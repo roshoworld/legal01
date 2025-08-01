@@ -1474,8 +1474,8 @@ class CAH_Admin_Dashboard {
         
         function confirmDelete(caseId, caseIdentifier) {
             if (confirm('⚠️ WARNUNG: Fall "' + caseIdentifier + '" unwiderruflich löschen?\n\nDieser Vorgang kann nicht rückgängig gemacht werden.\nAlle zugehörigen Daten werden entfernt.')) {
-                const nonce = '<?php echo wp_create_nonce('delete_case_'); ?>' + caseId;
-                window.location.href = '<?php echo admin_url('admin.php?page=la-cases&action=delete&id='); ?>' + caseId + '&_wpnonce=' + nonce;
+                // Generate proper nonce with case ID in action name
+                window.location.href = '<?php echo admin_url('admin.php?page=la-cases&action=delete&id='); ?>' + caseId + '&_wpnonce=' + '<?php echo wp_create_nonce("delete_case_"); ?>' + caseId;
             }
         }
         </script>
