@@ -518,6 +518,15 @@ class Legal_Automation_Unified_Menu {
     
 
     /**
+     * Cases redirect page - simple redirect to avoid complex menu conflicts
+     */
+    public function cases_redirect_page() {
+        // Simple redirect to dashboard with case management
+        wp_redirect(admin_url('admin.php?page=legal-automation&view=cases'));
+        exit;
+    }
+    
+    /**
      * Cases page - handle directly without delegation to avoid admin plugin conflicts
      */
     public function cases_page() {
