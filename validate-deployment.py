@@ -24,7 +24,15 @@ def validate_php_syntax(plugin_path: str) -> Dict:
                 # Use php -l to check syntax
                 result = os.system(f'php -l "{file_path}" > /dev/null 2>&1')
                 if result != 0:
-                    errors.append(f"PHP syntax error in: {file_path}")
+                    # Double-check with actual PHP output to get the error
+                    import subprocess
+                    try:
+                        subprocess.run(['php', '-l', file_path], 
+                                     check=True, capture_output=True, text=True)
+                    except subprocess.CalledProcessError as e:
+                        errors.append(f"PHP syntax error in: {file_path} - {e.stderr.strip()}")
+                    except Exception:
+                        errors.append(f"PHP syntax error in: {file_path}")
     
     return {
         'files_checked': files_checked,
