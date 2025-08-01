@@ -140,8 +140,8 @@ class KlageClickDocOut {
         // Template Gallery submenu
         add_submenu_page(
             'klage-doc-generator',
-            __('Template Gallery', 'klage-click-doc-out'),
-            __('Template Gallery', 'klage-click-doc-out'),
+            __('Template Gallery', 'legal-automation-doc-out'),
+            __('Template Gallery', 'legal-automation-doc-out'),
             'manage_options',
             'klage-doc-templates',
             array($this->admin_dashboard, 'render_templates_page')
