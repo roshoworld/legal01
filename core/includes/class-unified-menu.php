@@ -249,7 +249,6 @@ class Legal_Automation_Unified_Menu {
             'legal-automation-admin',
             'legal-automation-import',
             'cah-doc-in',
-            'klage-click-cases', // Remove any individual cases menu
             'cah-cases',
             'court-automation-hub',
             'legal-automation-dashboard'
