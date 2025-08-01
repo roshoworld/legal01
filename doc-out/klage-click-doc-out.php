@@ -128,8 +128,8 @@ class KlageClickDocOut {
     public function add_admin_menu() {
         // Main menu page
         add_menu_page(
-            __('Document Generator', 'klage-click-doc-out'),
-            __('Document Generator', 'klage-click-doc-out'),
+            __('Document Generator', 'legal-automation-doc-out'),
+            __('Document Generator', 'legal-automation-doc-out'),
             'manage_options',
             'klage-doc-generator',
             array($this->admin_dashboard, 'render_main_page'),
