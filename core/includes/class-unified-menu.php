@@ -631,26 +631,7 @@ class Legal_Automation_Unified_Menu {
         if (class_exists('CAH_Admin_Dashboard')) {
             $core_admin = new CAH_Admin_Dashboard();
             
-            // Handle GET actions (edit, view, delete)
-            if (isset($_GET['action'])) {
-                switch ($_GET['action']) {
-                    case 'delete':
-                        if (isset($_GET['id']) && isset($_GET['_wpnonce']) && wp_verify_nonce($_GET['_wpnonce'], 'delete_case_' . $_GET['id'])) {
-                            $this->handle_case_delete_direct();
-                            // Redirect back to cases page after deletion
-                            wp_redirect(admin_url('admin.php?page=la-cases&deleted=1'));
-                            exit;
-                        }
-                        break;
-                    case 'edit':
-                    case 'view':
-                        // Let the core admin handle edit/view - they should work within this page
-                        break;
-                    case 'add':
-                        // Let the core admin handle add form
-                        break;
-                }
-            }
+            // Let admin dashboard handle all GET actions - no duplicate processing
             
             // Handle actions through admin dashboard - remove duplicate processing to prevent double case creation
             // Admin dashboard handles all POST actions via handle_case_actions() method
