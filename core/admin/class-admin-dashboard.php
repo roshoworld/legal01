@@ -215,7 +215,7 @@ class CAH_Admin_Dashboard {
             __('Fälle', 'court-automation-hub'),
             __('Fälle', 'court-automation-hub'),
             'manage_options',
-            'klage-click-cases',
+            'la-cases',
             array($this, 'admin_page_cases')
         );
         
