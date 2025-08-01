@@ -668,6 +668,22 @@ class Legal_Automation_Unified_Menu {
                         $(this).attr("href", href);
                     }
                 });
+                
+                // Fix edit links to use current page URL
+                $("a[href*=\'action=edit\'], a[href*=\'action=view\']").each(function() {
+                    var href = $(this).attr("href");
+                    if (href.indexOf("legal-automation-cases") !== -1) {
+                        href = href.replace(/page=[^&]+/, "page=la-cases");
+                        $(this).attr("href", href);
+                    }
+                });
+                
+                // Fix form actions too
+                $("form[action*=\'legal-automation-cases\']").each(function() {
+                    var action = $(this).attr("action");
+                    action = action.replace(/page=[^&]+/, "page=la-cases");
+                    $(this).attr("action", action);
+                });
             });
             </script>';
         } else {
