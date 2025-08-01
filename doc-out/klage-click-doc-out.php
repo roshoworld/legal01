@@ -197,9 +197,9 @@ class KlageClickDocOut {
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('klage_doc_nonce'),
             'strings' => array(
-                'confirm_delete' => __('Are you sure you want to delete this template?', 'klage-click-doc-out'),
-                'generating_pdf' => __('Generating PDF...', 'klage-click-doc-out'),
-                'error_occurred' => __('An error occurred. Please try again.', 'klage-click-doc-out')
+                'confirm_delete' => __('Are you sure you want to delete this template?', 'legal-automation-doc-out'),
+                'generating_pdf' => __('Generating PDF...', 'legal-automation-doc-out'),
+                'error_occurred' => __('An error occurred. Please try again.', 'legal-automation-doc-out')
             )
         ));
     }
