@@ -312,11 +312,20 @@ class Legal_Automation_Unified_Menu {
             if (method_exists($core_admin, 'admin_page_cases')) {
                 $core_admin->admin_page_cases();
                 
-                // Add JavaScript to fix delete links to use dashboard URL
+                // Add JavaScript to fix delete/edit links to use dashboard URL
                 echo '<script type="text/javascript">
                 jQuery(document).ready(function($) {
                     // Fix delete links to use dashboard URL instead of cases URL
                     $("a[href*=\'action=delete\']").each(function() {
+                        var href = $(this).attr("href");
+                        if (href.indexOf("legal-automation-cases") !== -1 || href.indexOf("la-cases") !== -1) {
+                            href = href.replace(/page=[^&]+/, "page=legal-automation&view=cases");
+                            $(this).attr("href", href);
+                        }
+                    });
+                    
+                    // Fix edit/view links too
+                    $("a[href*=\'action=edit\'], a[href*=\'action=view\']").each(function() {
                         var href = $(this).attr("href");
                         if (href.indexOf("legal-automation-cases") !== -1 || href.indexOf("la-cases") !== -1) {
                             href = href.replace(/page=[^&]+/, "page=legal-automation&view=cases");
