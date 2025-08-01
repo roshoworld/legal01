@@ -112,7 +112,7 @@ class CAH_Case_Financial_Integration {
         }
         
         // Also check if we're specifically on a case edit page
-        if (!$show_content && isset($_GET['page']) && $_GET['page'] === 'klage-click-cases' && isset($_GET['action']) && $_GET['action'] === 'edit') {
+        if (!$show_content && isset($_GET['page']) && $_GET['page'] === 'la-cases' && isset($_GET['action']) && $_GET['action'] === 'edit') {
             $show_content = true;
         }
         
