@@ -3279,7 +3279,23 @@ class CAH_Admin_Dashboard {
         }
         
         // Prepare update data for v2.1.0
+        // First, check if case_id is being changed and validate for duplicates
+        $new_case_id = sanitize_text_field($post_data['case_id'] ?? $old_case->case_id);
+        if ($new_case_id !== $old_case->case_id) {
+            // Check if new case_id already exists for a different case
+            $existing_case = $wpdb->get_var($wpdb->prepare("
+                SELECT id FROM {$wpdb->prefix}klage_cases 
+                WHERE case_id = %s AND id != %d AND active_status = 'active'
+            ", $new_case_id, $case_id));
+            
+            if ($existing_case) {
+                echo '<div class="notice notice-error"><p><strong>❌ Fehler!</strong> Fall-ID "' . esc_html($new_case_id) . '" wird bereits verwendet. Bitte wählen Sie eine andere Fall-ID.</p></div>';
+                return;
+            }
+        }
+        
         $update_data = array(
+            'case_id' => $new_case_id,
             'case_status' => sanitize_text_field($post_data['case_status'] ?? $old_case->case_status),
             'case_priority' => sanitize_text_field($post_data['case_priority'] ?? $old_case->case_priority),
             'case_complexity' => sanitize_text_field($post_data['case_complexity'] ?? $old_case->case_complexity),
