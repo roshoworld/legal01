@@ -371,7 +371,7 @@ class Legal_Automation_Unified_Menu {
                 <div class="inside" style="padding: 25px;">
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
                         
-                        <a href="<?php echo admin_url('admin.php?page=legal-automation-cases&action=add'); ?>" class="button button-primary" style="padding: 20px; height: auto; text-decoration: none; text-align: center; display: block; border-radius: 6px;">
+                        <a href="<?php echo admin_url('admin.php?page=legal-automation&create_case=1'); ?>" class="button button-primary" style="padding: 20px; height: auto; text-decoration: none; text-align: center; display: block; border-radius: 6px;">
                             <strong>📝 Neuen Fall erstellen</strong><br>
                             <small style="opacity: 0.8;">Vollständige Fallerstellung mit CRUD</small>
                         </a>
