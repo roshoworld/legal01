@@ -525,8 +525,8 @@ class Legal_Automation_Unified_Menu {
         error_log('Legal Automation: Cases page accessed by user ID: ' . get_current_user_id());
         error_log('Legal Automation: User capabilities: ' . print_r(wp_get_current_user()->allcaps, true));
         
-        // Check permissions first - use read which matches menu registration
-        if (!current_user_can('read')) {
+        // Check permissions first - revert to manage_options which was working
+        if (!current_user_can('manage_options')) {
             error_log('Legal Automation: Permission denied for user');
             wp_die(__('You do not have sufficient permissions to access this page.'));
         }
