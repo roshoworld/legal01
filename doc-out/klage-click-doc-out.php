@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: Klage.Click - Document Generator
+ * Plugin Name: Legal Automation - Document Generator
  * Plugin URI: https://klage.click/document-generator
  * Description: Advanced document generation system with PHP-to-PDF templating engine, WYSIWYG editing, and encrypted template management
- * Version: 1.0.8
+ * Version: 1.0.9
  * Author: Klage.Click
- * Text Domain: klage-click-doc-out
+ * Text Domain: legal-automation-doc-out
  * Domain Path: /languages
  * License: GPL v2 or later
  */
