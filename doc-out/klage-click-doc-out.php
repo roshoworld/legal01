@@ -51,7 +51,7 @@ class KlageClickDocOut {
         
 
         // Load text domain
-        load_plugin_textdomain('klage-click-doc-out', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+        load_plugin_textdomain('legal-automation-doc-out', false, dirname(plugin_basename(__FILE__)) . '/languages/');
         
         // Include required files
         $this->includes();
