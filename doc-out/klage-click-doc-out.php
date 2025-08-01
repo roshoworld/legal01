@@ -150,8 +150,8 @@ class KlageClickDocOut {
         // Document Generation submenu
         add_submenu_page(
             'klage-doc-generator',
-            __('Generate Documents', 'klage-click-doc-out'),
-            __('Generate Documents', 'klage-click-doc-out'),
+            __('Generate Documents', 'legal-automation-doc-out'),
+            __('Generate Documents', 'legal-automation-doc-out'),
             'manage_options',
             'klage-doc-generate',
             array($this->admin_dashboard, 'render_generation_page')
