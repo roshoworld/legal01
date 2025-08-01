@@ -3174,7 +3174,7 @@ class CAH_Admin_Dashboard {
                 <!-- Save Button -->
                 <div style="margin-top: 20px; padding: 20px; background: #f9f9f9; border-radius: 5px;">
                     <button type="submit" class="button button-primary button-large">💾 Fall speichern</button>
-                    <a href="<?php echo admin_url('admin.php?page=klage-click-cases'); ?>" class="button button-large">🔙 Zurück zur Liste</a>
+                    <a href="<?php echo admin_url('admin.php?page=la-cases'); ?>" class="button button-large">🔙 Zurück zur Liste</a>
                 </div>
             </form>
         </div>
