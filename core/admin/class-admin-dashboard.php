@@ -3853,10 +3853,10 @@ class CAH_Admin_Dashboard {
                 if ($case_documents_attachments) echo '<li>🔍 Beweise dokumentiert</li>';
                 echo '</ul></div>';
                 
-                // Redirect to view the newly created case
+                // Redirect to view the newly created case (fixed URL)
                 echo '<script>
                     setTimeout(function() {
-                        window.location.href = "' . admin_url('admin.php?page=klage-click-cases&action=view&id=' . $case_internal_id) . '";
+                        window.location.href = "' . admin_url('admin.php?page=legal-automation-cases&action=view&id=' . $case_internal_id) . '";
                     }, 4000);
                 </script>';
                 
