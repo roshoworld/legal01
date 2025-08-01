@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: Court Automation Hub - Document Analysis
+ * Plugin Name: Legal Automation - Document Analysis
  * Plugin URI: https://klage.click
  * Description: AI-powered incoming document analysis and case assignment system for Klage.Click legal automation platform
- * Version: 1.1.7
+ * Version: 1.1.8
  * Author: Klage.Click
- * Text Domain: court-automation-hub-document-analysis
+ * Text Domain: legal-automation-doc-in
  * Domain Path: /languages
  * License: GPL v2 or later
  * Requires at least: 5.6
