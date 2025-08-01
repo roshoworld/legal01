@@ -333,7 +333,7 @@ class CAH_Admin_Dashboard {
                 <h2 class="hndle" style="padding: 15px 20px; margin: 0; background: #f9f9f9;">🚀 Schnellaktionen</h2>
                 <div class="inside" style="padding: 20px;">
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                        <a href="<?php echo admin_url('admin.php?page=klage-click-cases&action=add'); ?>" class="button button-primary" style="padding: 20px; height: auto; text-decoration: none; text-align: center;">
+                        <a href="<?php echo admin_url('admin.php?page=la-cases&action=add'); ?>" class="button button-primary" style="padding: 20px; height: auto; text-decoration: none; text-align: center;">
                             <strong>📝 Neuen Fall erstellen</strong><br>
                             <small>GDPR Fall - Finanzberechnung über separates Plugin</small>
                         </a>
