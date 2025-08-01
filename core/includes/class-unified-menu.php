@@ -66,16 +66,6 @@ class Legal_Automation_Unified_Menu {
             array($this, 'cases_page')
         );
         
-        // Add Case submenu (hidden from menu but accessible)
-        add_submenu_page(
-            null, // Parent set to null to hide from menu but keep accessible
-            __('Fall hinzufügen', 'legal-automation-core'),
-            __('Fall hinzufügen', 'legal-automation-core'),
-            'manage_options',
-            'legal-automation-cases-add',
-            array($this, 'add_case_page')
-        );
-        
         // Einstellungen (Settings)
         add_submenu_page(
             'legal-automation',
