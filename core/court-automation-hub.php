@@ -77,10 +77,10 @@ class CourtAutomationHub {
         require_once CAH_PLUGIN_PATH . 'includes/class-legal-framework.php';
         require_once CAH_PLUGIN_PATH . 'includes/class-court-manager.php';
         
-        // Document Analysis Integration v1.8.7
+        // Document Analysis Integration
         require_once CAH_PLUGIN_PATH . 'includes/class-doc-in-integration.php';
         
-        // Universal Import Manager v1.9.0 - MUST load before admin classes
+        // Universal Import Manager - MUST load before admin classes
         require_once CAH_PLUGIN_PATH . 'includes/class-universal-import-manager.php';
         
         // Database v2.0.0 - Comprehensive Legal Practice Management
