@@ -475,33 +475,7 @@ class Legal_Automation_Unified_Menu {
         <?php
     }
     
-    /**
-     * Add case page
-     */
-    public function add_case_page() {
-        if (class_exists('CAH_Admin_Dashboard')) {
-            $core_admin = new CAH_Admin_Dashboard();
-            
-            // Handle case creation if form submitted
-            if (isset($_POST['action']) && $_POST['action'] === 'create_case') {
-                if (method_exists($core_admin, 'create_new_case')) {
-                    $reflection = new ReflectionClass($core_admin);
-                    $method = $reflection->getMethod('create_new_case');
-                    $method->setAccessible(true);
-                    $method->invoke($core_admin);
-                }
-            }
-            
-            // Show the case creation form
-            if (method_exists($core_admin, 'admin_page_cases')) {
-                // Set action to add for the form
-                $_GET['action'] = 'add';
-                $core_admin->admin_page_cases();
-            }
-        } else {
-            echo '<div class="wrap"><h1>Fall hinzufügen</h1><p>Core plugin nicht verfügbar.</p></div>';
-        }
-    }
+
     public function cases_page() {
         if (class_exists('CAH_Admin_Dashboard')) {
             $core_admin = new CAH_Admin_Dashboard();
