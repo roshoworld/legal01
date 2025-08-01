@@ -3346,12 +3346,9 @@ class CAH_Admin_Dashboard {
             // Trigger action for other plugins
             do_action('cah_case_updated', $case_id, $old_case, $update_data);
             
-            // Redirect to prevent duplicate submissions and show clear success message
-            echo '<script>
-                setTimeout(function() {
-                    window.location.href = "' . admin_url('admin.php?page=la-cases&action=edit&id=' . $case_id . '&updated=1') . '";
-                }, 2000);
-            </script>';
+            // Use proper PHP redirect instead of JavaScript to ensure it works
+            wp_redirect(admin_url('admin.php?page=la-cases&action=edit&id=' . $case_id . '&updated=1'));
+            exit;
             
         } else {
             echo '<div class="notice notice-error"><p><strong>❌ Fehler!</strong> Fall konnte nicht aktualisiert werden: ' . esc_html($wpdb->last_error) . '</p></div>';
