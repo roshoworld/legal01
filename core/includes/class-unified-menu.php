@@ -467,6 +467,8 @@ class Legal_Automation_Unified_Menu {
         if (class_exists('CAH_Admin_Dashboard')) {
             $core_admin = new CAH_Admin_Dashboard();
             $core_admin->admin_page_cases();
+        } else {
+            echo '<div class="wrap"><h1>Fälle</h1><p>Core plugin nicht gefunden. Bitte stellen Sie sicher, dass das Core Plugin aktiv ist.</p></div>';
         }
     }
     
