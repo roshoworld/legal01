@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
 // Define plugin constants
 define('LAF_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('LAF_PLUGIN_PATH', plugin_dir_path(__FILE__));
-define('LAF_PLUGIN_VERSION', '2.0.0');
+define('LAF_PLUGIN_VERSION', '2.0.1');
 
 // Main plugin class
 class Legal_Automation_Finance {
