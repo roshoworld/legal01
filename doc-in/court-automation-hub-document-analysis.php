@@ -20,8 +20,8 @@ if (!defined('ABSPATH')) {
 // Define plugin constants
 define('CAH_DOC_IN_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('CAH_DOC_IN_PLUGIN_PATH', plugin_dir_path(__FILE__));
-define('CAH_DOC_IN_PLUGIN_VERSION', '1.1.7');
-define('CAH_DOC_IN_TEXT_DOMAIN', 'court-automation-hub-document-analysis');
+define('CAH_DOC_IN_PLUGIN_VERSION', '1.1.8');
+define('CAH_DOC_IN_TEXT_DOMAIN', 'legal-automation-doc-in');
 
 // Main plugin class
 class CourtAutomationHub_DocumentAnalysis {
