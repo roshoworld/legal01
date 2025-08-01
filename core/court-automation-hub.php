@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
 // Define plugin constants
 define('CAH_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('CAH_PLUGIN_PATH', plugin_dir_path(__FILE__));
-define('CAH_PLUGIN_VERSION', '239');
+define('CAH_PLUGIN_VERSION', '240');
 
 // Main plugin class
 class CourtAutomationHub {
