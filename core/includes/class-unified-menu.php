@@ -270,6 +270,39 @@ class Legal_Automation_Unified_Menu {
     }
     
     /**
+     * Handle case management view through dashboard
+     */
+    private function handle_dashboard_cases_view() {
+        if (class_exists('CAH_Admin_Dashboard')) {
+            $core_admin = new CAH_Admin_Dashboard();
+            
+            // Handle any POST actions
+            if (isset($_POST['action'])) {
+                switch ($_POST['action']) {
+                    case 'create_case':
+                        if (method_exists($core_admin, 'create_new_case')) {
+                            $reflection = new ReflectionClass($core_admin);
+                            $method = $reflection->getMethod('create_new_case');
+                            $method->setAccessible(true);
+                            $method->invoke($core_admin);
+                        }
+                        break;
+                    case 'delete_case':
+                        $this->handle_case_delete();
+                        break;
+                }
+            }
+            
+            // Show the cases management page
+            if (method_exists($core_admin, 'admin_page_cases')) {
+                $core_admin->admin_page_cases();
+            }
+        } else {
+            echo '<div class="wrap"><h1>Fälle verwalten</h1><p>Core plugin nicht verfügbar.</p></div>';
+        }
+    }
+    
+    /**
      * Handle case creation through dashboard (workaround for cases page permission issue)
      */
     private function handle_dashboard_case_creation() {
