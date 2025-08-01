@@ -1189,7 +1189,7 @@ class CAH_Admin_Dashboard {
         ?>
         <div class="wrap">
             <h1 class="wp-heading-inline">GDPR Spam Fälle</h1>
-            <a href="<?php echo admin_url('admin.php?page=klage-click-cases&action=add'); ?>" class="page-title-action">
+            <a href="<?php echo admin_url('admin.php?page=la-cases&action=add'); ?>" class="page-title-action">
                 Neuen Fall hinzufügen
             </a>
             
