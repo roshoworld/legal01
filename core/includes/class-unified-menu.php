@@ -487,10 +487,17 @@ class Legal_Automation_Unified_Menu {
      * Cases page - handle directly without delegation to avoid admin plugin conflicts
      */
     public function cases_page() {
+        // Debug logging
+        error_log('Legal Automation: Cases page accessed by user ID: ' . get_current_user_id());
+        error_log('Legal Automation: User capabilities: ' . print_r(wp_get_current_user()->allcaps, true));
+        
         // Check permissions first - use read which matches menu registration
         if (!current_user_can('read')) {
+            error_log('Legal Automation: Permission denied for user');
             wp_die(__('You do not have sufficient permissions to access this page.'));
         }
+        
+        error_log('Legal Automation: Permission check passed');
         
         if (class_exists('CAH_Admin_Dashboard')) {
             $core_admin = new CAH_Admin_Dashboard();
