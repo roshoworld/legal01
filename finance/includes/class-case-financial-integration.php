@@ -98,9 +98,9 @@ class CAH_Case_Financial_Integration {
         
         // Be very specific about which pages to show on
         $allowed_pages = array(
-            'klage-click-cases',
-            'admin_page_klage-click-cases',
-            'toplevel_page_klage-click-cases'
+            'la-cases',
+            'admin_page_la-cases',
+            'toplevel_page_la-cases'
         );
         
         $show_content = false;
