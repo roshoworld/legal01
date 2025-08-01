@@ -71,7 +71,7 @@ class CAH_Case_Financial_Integration {
         }
         
         // Only enqueue on case pages, not template management pages
-        $is_case_page = (strpos($screen->id, 'klage-click-cases') !== false && 
+        $is_case_page = (strpos($screen->id, 'la-cases') !== false && 
                         strpos($screen->id, 'cah-financial') === false && 
                         strpos($screen->id, 'cah-cost') === false);
         
