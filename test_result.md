@@ -228,6 +228,42 @@ backend:
         agent: "testing"
         comment: "✅ VERSION UPDATE VERIFIED (v240): Core plugin version successfully updated from 239 to 240 in both plugin header (Version: 240) and constant (CAH_PLUGIN_VERSION = '240'). Old version 239 references completely removed. Version update properly reflects the case editing improvements implementation."
 
+  - task: "URL Routing Fix for Consistent Case Editing Experience (v241)"
+    implemented: true
+    working: false
+    file: "core/includes/class-unified-menu.php"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ URL ROUTING ISSUES FOUND (v241): Testing revealed 2 critical URL routing issues that prevent consistent case editing experience. Found old URL patterns in unified menu: 'page=legal-automation&view=cases' (line 285) and 'page=legal-automation-cases' (line 796). These need to be updated to 'page=la-cases' format for unified routing. Core plugin version successfully updated to 241. Case edit experience and form processing are consistent, but URL routing fixes are incomplete."
+
+  - task: "Consistent Case Edit Experience Verification (v241)"
+    implemented: true
+    working: true
+    file: "core/admin/class-admin-dashboard.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ CASE EDIT EXPERIENCE VERIFIED (v241): Consistent case editing experience confirmed. Both dashboard and case list entry points provide same functionality with complete tab structure, unified form processing, and proper success handling. Form processing consistency verified with correct save handling and redirect flow."
+
+  - task: "Core Plugin Version Update (240 → 241)"
+    implemented: true
+    working: true
+    file: "core/court-automation-hub.php"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ VERSION UPDATE VERIFIED (v241): Core plugin version successfully updated from 240 to 241 in both plugin header (Version: 241) and constant (CAH_PLUGIN_VERSION = '241'). Old version 240 references completely removed. Version update properly reflects the URL routing improvements implementation."
+
 frontend:
   - task: "Frontend Testing"
     implemented: false
