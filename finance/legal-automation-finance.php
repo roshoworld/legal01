@@ -121,7 +121,7 @@ class Legal_Automation_Finance {
         }
         
         // Update version
-        update_option('legal_automation_finance_version', '2.0.0');
+        update_option('legal_automation_finance_version', '2.0.1');
         
         // Log activation
         error_log("Legal Automation Finance v2.0.0 activated successfully");
