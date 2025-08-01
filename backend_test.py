@@ -401,6 +401,7 @@ class LegalAutomationTester:
         self.test_consistent_case_edit_experience()
         self.test_core_plugin_version_241_update()
         self.test_form_processing_consistency()
+        self.test_complete_case_edit_workflow()
         
         # Print summary
         self.print_summary()
