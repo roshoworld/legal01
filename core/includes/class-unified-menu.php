@@ -352,14 +352,18 @@ class Legal_Automation_Unified_Menu {
                     $method = $reflection->getMethod('create_new_case');
                     $method->setAccessible(true);
                     $method->invoke($core_admin);
+                    // Return after creation to prevent double processing
+                    return;
                 }
             }
             
-            // Show the case creation form
-            if (method_exists($core_admin, 'admin_page_cases')) {
-                // Set action to add for the form
-                $_GET['action'] = 'add';
-                $core_admin->admin_page_cases();
+            // Show the case creation form ONLY if not processing POST
+            if (!isset($_POST['action'])) {
+                if (method_exists($core_admin, 'admin_page_cases')) {
+                    // Set action to add for the form
+                    $_GET['action'] = 'add';
+                    $core_admin->admin_page_cases();
+                }
             }
         } else {
             echo '<div class="wrap"><h1>Fall erstellen</h1><p>Core plugin nicht verfügbar.</p></div>';
