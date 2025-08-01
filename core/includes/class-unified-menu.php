@@ -38,11 +38,11 @@ class Legal_Automation_Unified_Menu {
         // Debug logging
         error_log('Legal Automation: Creating unified menu...');
         
-        // Main menu page - Dashboard (use read capability - most permissive)
+        // Main menu page - Dashboard (revert to manage_options - this was working)
         $main_hook = add_menu_page(
             __('Legal Automation', 'legal-automation-core'),
             __('Legal Automation', 'legal-automation-core'),
-            'read',
+            'manage_options',
             'legal-automation',
             array($this, 'dashboard_page'),
             'dashicons-hammer',
@@ -56,19 +56,19 @@ class Legal_Automation_Unified_Menu {
             'legal-automation',
             __('Dashboard', 'legal-automation-core'),
             __('Dashboard', 'legal-automation-core'),
-            'read',
+            'manage_options',
             'legal-automation',
             array($this, 'dashboard_page')
         );
         
-        // Fälle (Cases) - try different slug to avoid conflicts
+        // Fälle (Cases) - try with manage_options and different approach
         $cases_hook = add_submenu_page(
             'legal-automation',
             __('Fälle', 'legal-automation-core'),
             __('Fälle', 'legal-automation-core'),
-            'read',
-            'la-cases', // Shorter slug to avoid conflicts
-            array($this, 'cases_page')
+            'manage_options',
+            'la-cases', 
+            array($this, 'cases_redirect_page') // Different method to avoid conflicts
         );
         
         error_log('Legal Automation: Cases menu hook: ' . $cases_hook);
