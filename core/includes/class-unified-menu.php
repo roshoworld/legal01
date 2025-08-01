@@ -662,16 +662,16 @@ class Legal_Automation_Unified_Menu {
     // Delegate methods for other pages
     public function doc_in_page() {
         if (class_exists('CAH_Document_in_Admin')) {
-            // Create instance and call main page
+            // Create instance and call dashboard page
             $admin = new CAH_Document_in_Admin();
-            $admin->main_admin_page();
+            $admin->dashboard_page();
         }
     }
     
     public function doc_in_unassigned_page() {
         if (class_exists('CAH_Document_in_Admin')) {
             $admin = new CAH_Document_in_Admin();
-            $admin->unassigned_communications_page();
+            $admin->unassigned_page();
         }
     }
     
