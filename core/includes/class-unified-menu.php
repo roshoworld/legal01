@@ -631,7 +631,8 @@ class Legal_Automation_Unified_Menu {
         if (class_exists('CAH_Admin_Dashboard')) {
             $core_admin = new CAH_Admin_Dashboard();
             
-            // Let admin dashboard handle all GET actions - no duplicate processing
+            // Let admin dashboard handle all actions - no duplicate processing
+            // All case edit/view/delete actions should go directly to la-cases page
             
             // Handle actions through admin dashboard - remove duplicate processing to prevent double case creation
             // Admin dashboard handles all POST actions via handle_case_actions() method
