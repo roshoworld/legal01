@@ -1251,7 +1251,7 @@ class CAH_Admin_Dashboard {
                     
                     <div>
                         <input type="submit" class="button" value="🔍 Filtern">
-                        <a href="<?php echo admin_url('admin.php?page=klage-click-cases'); ?>" class="button">🗑️ Zurücksetzen</a>
+                        <a href="<?php echo admin_url('admin.php?page=la-cases'); ?>" class="button">🗑️ Zurücksetzen</a>
                     </div>
                 </form>
             </div>
