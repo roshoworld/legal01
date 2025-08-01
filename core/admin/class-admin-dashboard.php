@@ -1193,6 +1193,19 @@ class CAH_Admin_Dashboard {
                 Neuen Fall hinzufügen
             </a>
             
+            <?php
+            // Show success message if case was updated
+            if (isset($_GET['updated']) && !empty($_GET['updated'])) {
+                $updated_case_id = intval($_GET['updated']);
+                echo '<div class="notice notice-success is-dismissible"><p><strong>✅ Erfolg!</strong> Fall wurde erfolgreich aktualisiert.</p></div>';
+            }
+            
+            // Show success message if case was deleted  
+            if (isset($_GET['deleted']) && $_GET['deleted'] == '1') {
+                echo '<div class="notice notice-success is-dismissible"><p><strong>✅ Erfolg!</strong> Fall wurde erfolgreich gelöscht.</p></div>';
+            }
+            ?>
+            
             <div style="background: #e7f3ff; padding: 15px; margin: 20px 0; border-radius: 5px; border-left: 4px solid #0073aa;">
                 <p><strong>🚀 v1.1.5 - Complete Case Management!</strong></p>
                 <p>Vollständige Fall-Verwaltung mit Erstellen, Bearbeiten, Filtern und Bulk-Aktionen.</p>
