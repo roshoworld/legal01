@@ -276,13 +276,21 @@ class Legal_Automation_Unified_Menu {
         if (class_exists('CAH_Admin_Dashboard')) {
             $core_admin = new CAH_Admin_Dashboard();
             
-            // Handle DELETE first before any output
-            if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
-                if (isset($_GET['_wpnonce']) && wp_verify_nonce($_GET['_wpnonce'], 'delete_case_' . $_GET['id'])) {
-                    $this->handle_case_delete_direct();
-                    // Redirect back to cases view after deletion
-                    wp_redirect(admin_url('admin.php?page=legal-automation&view=cases&deleted=1'));
-                    exit;
+            // Handle GET actions (edit, view, delete)
+            if (isset($_GET['action'])) {
+                switch ($_GET['action']) {
+                    case 'delete':
+                        if (isset($_GET['id']) && isset($_GET['_wpnonce']) && wp_verify_nonce($_GET['_wpnonce'], 'delete_case_' . $_GET['id'])) {
+                            $this->handle_case_delete_direct();
+                            // Redirect back to cases view after deletion
+                            wp_redirect(admin_url('admin.php?page=legal-automation&view=cases&deleted=1'));
+                            exit;
+                        }
+                        break;
+                    case 'edit':
+                    case 'view':
+                        // Let the core admin handle edit/view within dashboard context
+                        break;
                 }
             }
             
