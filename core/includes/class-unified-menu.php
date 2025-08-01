@@ -620,6 +620,16 @@ class Legal_Automation_Unified_Menu {
         if (class_exists('CAH_Admin_Dashboard')) {
             $core_admin = new CAH_Admin_Dashboard();
             
+            // Handle DELETE first before any output
+            if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
+                if (isset($_GET['_wpnonce']) && wp_verify_nonce($_GET['_wpnonce'], 'delete_case_' . $_GET['id'])) {
+                    $this->handle_case_delete_direct();
+                    // Redirect back to cases page after deletion
+                    wp_redirect(admin_url('admin.php?page=la-cases&deleted=1'));
+                    exit;
+                }
+            }
+            
             // Handle actions directly
             if (isset($_POST['action'])) {
                 switch ($_POST['action']) {
@@ -632,7 +642,7 @@ class Legal_Automation_Unified_Menu {
                         }
                         break;
                     case 'delete_case':
-                        $this->handle_case_delete();
+                        $this->handle_case_delete_direct();
                         break;
                     case 'update_case':
                         if (method_exists($core_admin, 'update_case')) {
@@ -645,21 +655,26 @@ class Legal_Automation_Unified_Menu {
                 }
             }
             
-            // Handle GET actions  
-            if (isset($_GET['action'])) {
-                switch ($_GET['action']) {
-                    case 'delete':
-                        if (isset($_GET['id']) && isset($_GET['_wpnonce']) && wp_verify_nonce($_GET['_wpnonce'], 'delete_case_' . $_GET['id'])) {
-                            $this->handle_case_delete();
-                        }
-                        break;
-                    case 'add':
-                        // Don't redirect, just let the core admin handle it
-                        break;
-                }
+            // Show success message if deleted
+            if (isset($_GET['deleted']) && $_GET['deleted'] == '1') {
+                echo '<div class="notice notice-success is-dismissible"><p>Fall erfolgreich gelöscht.</p></div>';
             }
             
             $core_admin->admin_page_cases();
+            
+            // Add JavaScript to fix any remaining problematic links
+            echo '<script type="text/javascript">
+            jQuery(document).ready(function($) {
+                // Fix delete links to use current page URL
+                $("a[href*=\'action=delete\']").each(function() {
+                    var href = $(this).attr("href");
+                    if (href.indexOf("legal-automation-cases") !== -1) {
+                        href = href.replace(/page=[^&]+/, "page=la-cases");
+                        $(this).attr("href", href);
+                    }
+                });
+            });
+            </script>';
         } else {
             $this->render_cases_fallback();
         }
