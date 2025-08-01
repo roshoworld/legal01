@@ -35,11 +35,11 @@ class Legal_Automation_Unified_Menu {
             return;
         }
         
-        // Main menu page - Dashboard
+        // Main menu page - Dashboard (use edit_posts to match submenus)
         add_menu_page(
             __('Legal Automation', 'legal-automation-core'),
             __('Legal Automation', 'legal-automation-core'),
-            'manage_options',
+            'edit_posts',
             'legal-automation',
             array($this, 'dashboard_page'),
             'dashicons-hammer',
@@ -51,7 +51,7 @@ class Legal_Automation_Unified_Menu {
             'legal-automation',
             __('Dashboard', 'legal-automation-core'),
             __('Dashboard', 'legal-automation-core'),
-            'manage_options',
+            'edit_posts',
             'legal-automation',
             array($this, 'dashboard_page')
         );
