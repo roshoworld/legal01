@@ -287,10 +287,8 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus:
-    - "URL Routing Fix for Consistent Case Editing Experience (v241)"
-  stuck_tasks:
-    - "URL Routing Fix for Consistent Case Editing Experience (v241)"
+  current_focus: []
+  stuck_tasks: []
   test_all: false
   test_priority: "critical_first"
 
