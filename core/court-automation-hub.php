@@ -51,7 +51,7 @@ class CourtAutomationHub {
     
     public function init() {
         // Load text domain
-        load_plugin_textdomain('court-automation-hub', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+        load_plugin_textdomain('legal-automation-core', false, dirname(plugin_basename(__FILE__)) . '/languages/');
         
         // Include required files
         $this->includes();
