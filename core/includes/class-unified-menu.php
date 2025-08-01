@@ -35,8 +35,11 @@ class Legal_Automation_Unified_Menu {
             return;
         }
         
+        // Debug logging
+        error_log('Legal Automation: Creating unified menu...');
+        
         // Main menu page - Dashboard (use read capability - most permissive)
-        add_menu_page(
+        $main_hook = add_menu_page(
             __('Legal Automation', 'legal-automation-core'),
             __('Legal Automation', 'legal-automation-core'),
             'read',
@@ -45,6 +48,8 @@ class Legal_Automation_Unified_Menu {
             'dashicons-hammer',
             25
         );
+        
+        error_log('Legal Automation: Main menu hook: ' . $main_hook);
         
         // Dashboard submenu (same as main page)
         add_submenu_page(
@@ -57,7 +62,7 @@ class Legal_Automation_Unified_Menu {
         );
         
         // Fälle (Cases) - use read capability 
-        add_submenu_page(
+        $cases_hook = add_submenu_page(
             'legal-automation',
             __('Fälle', 'legal-automation-core'),
             __('Fälle', 'legal-automation-core'),
@@ -65,6 +70,8 @@ class Legal_Automation_Unified_Menu {
             'legal-automation-cases',
             array($this, 'cases_page')
         );
+        
+        error_log('Legal Automation: Cases menu hook: ' . $cases_hook);
         
         // Einstellungen (Settings)
         add_submenu_page(
