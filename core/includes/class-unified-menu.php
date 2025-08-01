@@ -476,69 +476,140 @@ class Legal_Automation_Unified_Menu {
      * Settings page with purge functionality
      */
     public function settings_page() {
-        if (class_exists('CAH_Admin_Dashboard')) {
-            // Check if debug mode is enabled to show purge button
+        // Check if debug mode is enabled to show purge button
+        $debug_mode = get_option('klage_click_debug_mode', false);
+        
+        // Handle settings save
+        if (isset($_POST['submit']) && wp_verify_nonce($_POST['_wpnonce'], 'klage_click_settings-options')) {
+            update_option('klage_click_debug_mode', isset($_POST['klage_click_debug_mode']) ? 1 : 0);
+            echo '<div class="notice notice-success"><p>Einstellungen gespeichert!</p></div>';
             $debug_mode = get_option('klage_click_debug_mode', false);
+        }
+        
+        ?>
+        <div class="wrap">
+            <h1>Legal Automation - Einstellungen</h1>
             
-            ?>
-            <div class="wrap">
-                <h1>Legal Automation - Einstellungen</h1>
+            <?php if (isset($_GET['purged']) && $_GET['purged'] == 'success'): ?>
+            <div class="notice notice-success is-dismissible">
+                <p><strong>Erfolg!</strong> Alle Demo-Daten wurden erfolgreich gelöscht.</p>
+            </div>
+            <?php endif; ?>
+            
+            <form method="post" action="">
+                <?php wp_nonce_field('klage_click_settings-options'); ?>
                 
-                <?php if (isset($_GET['purged']) && $_GET['purged'] == 'success'): ?>
-                <div class="notice notice-success is-dismissible">
-                    <p><strong>Erfolg!</strong> Alle Demo-Daten wurden erfolgreich gelöscht.</p>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">Debug Modus</th>
+                        <td>
+                            <label>
+                                <input type="checkbox" name="klage_click_debug_mode" value="1" <?php checked($debug_mode, 1); ?> />
+                                Debug-Modus aktivieren (Entwicklerfeatures)
+                            </label>
+                            <p class="description">Aktiviert erweiterte Protokollierung und Entwicklertools.</p>
+                        </td>
+                    </tr>
+                </table>
+                
+                <?php submit_button(); ?>
+            </form>
+            
+            <?php if ($debug_mode): ?>
+            <div class="postbox" style="margin-top: 30px;">
+                <h2 class="hndle" style="padding: 15px 20px; margin: 0; background: #fff3cd; border-bottom: 1px solid #ffeaa7;">🔧 Entwickler-Tools</h2>
+                <div class="inside" style="padding: 20px; background: #fff3cd;">
+                    <div style="background: #f8d7da; padding: 15px; border-radius: 4px; border-left: 4px solid #dc3545; margin-bottom: 20px;">
+                        <h3 style="margin-top: 0; color: #721c24;">⚠️ Vorsicht - Datenbereinigung</h3>
+                        <p style="margin-bottom: 15px; color: #721c24;">Diese Aktion löscht <strong>alle</strong> Daten aus der Datenbank und kann nicht rückgängig gemacht werden!</p>
+                        
+                        <form method="post" onsubmit="return confirm('WARNUNG: Diese Aktion löscht ALLE Daten unwiderruflich! Sind Sie absolut sicher?');">
+                            <?php wp_nonce_field('purge_all_data', 'purge_nonce'); ?>
+                            <input type="hidden" name="action" value="purge_all_data">
+                            <input type="submit" class="button button-secondary" value="🗑️ Alle Demo-Daten löschen" style="background: #dc3545; color: white; border-color: #dc3545;">
+                        </form>
+                    </div>
+                    
+                    <p><strong>Was wird gelöscht:</strong></p>
+                    <ul>
+                        <li>Alle Fälle und zugehörige Daten</li>
+                        <li>Alle Kontakte und Verbindungen</li>
+                        <li>Alle Kommunikationen und Dokumente</li>
+                        <li>Alle Finanzberechnungen und Audits</li>
+                        <li>Alle CRM-Ereignisse und Historie</li>
+                    </ul>
                 </div>
-                <?php endif; ?>
-                
-                <form method="post" action="options.php">
-                    <?php settings_fields('klage_click_settings'); ?>
-                    <?php do_settings_sections('klage_click_settings'); ?>
-                    
-                    <table class="form-table">
-                        <tr>
-                            <th scope="row">Debug Modus</th>
-                            <td>
-                                <label>
-                                    <input type="checkbox" name="klage_click_debug_mode" value="1" <?php checked($debug_mode, 1); ?> />
-                                    Debug-Modus aktivieren (Entwicklerfeatures)
-                                </label>
-                                <p class="description">Aktiviert erweiterte Protokollierung und Entwicklertools.</p>
-                            </td>
-                        </tr>
-                    </table>
-                    
-                    <?php submit_button(); ?>
-                </form>
-                
-                <?php if ($debug_mode): ?>
-                <div class="postbox" style="margin-top: 30px;">
-                    <h2 class="hndle" style="padding: 15px 20px; margin: 0; background: #fff3cd; border-bottom: 1px solid #ffeaa7;">🔧 Entwickler-Tools</h2>
-                    <div class="inside" style="padding: 20px; background: #fff3cd;">
-                        <div style="background: #f8d7da; padding: 15px; border-radius: 4px; border-left: 4px solid #dc3545; margin-bottom: 20px;">
-                            <h3 style="margin-top: 0; color: #721c24;">⚠️ Vorsicht - Datenbereinigung</h3>
-                            <p style="margin-bottom: 15px; color: #721c24;">Diese Aktion löscht <strong>alle</strong> Daten aus der Datenbank und kann nicht rückgängig gemacht werden!</p>
-                            
-                            <form method="post" onsubmit="return confirm('WARNUNG: Diese Aktion löscht ALLE Daten unwiderruflich! Sind Sie absolut sicher?');">
-                                <?php wp_nonce_field('purge_all_data', 'purge_nonce'); ?>
-                                <input type="hidden" name="action" value="purge_all_data">
-                                <input type="submit" class="button button-secondary" value="🗑️ Alle Demo-Daten löschen" style="background: #dc3545; color: white; border-color: #dc3545;">
-                            </form>
+            </div>
+            <?php endif; ?>
+            
+            <!-- System Status -->
+            <div class="postbox" style="margin-top: 20px;">
+                <h2 class="hndle" style="padding: 15px 20px; margin: 0; background: #f9f9f9; border-bottom: 1px solid #e1e1e1;">📊 Plugin Status</h2>
+                <div class="inside" style="padding: 20px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        
+                        <div style="display: flex; align-items: center; padding: 10px; background: #f0f8ff; border-radius: 4px;">
+                            <span style="color: #4caf50; font-size: 20px; margin-right: 10px;">✅</span>
+                            <div>
+                                <strong>Core</strong><br>
+                                <small>v222 Aktiv</small>
+                            </div>
                         </div>
                         
-                        <p><strong>Was wird gelöscht:</strong></p>
-                        <ul>
-                            <li>Alle Fälle und zugehörige Daten</li>
-                            <li>Alle Kontakte und Verbindungen</li>
-                            <li>Alle Kommunikationen und Dokumente</li>
-                            <li>Alle Finanzberechnungen und Audits</li>
-                            <li>Alle CRM-Ereignisse und Historie</li>
-                        </ul>
+                        <?php if (class_exists('CourtAutomationHub_DocumentAnalysis')): ?>
+                        <div style="display: flex; align-items: center; padding: 10px; background: #f0f8ff; border-radius: 4px;">
+                            <span style="color: #4caf50; font-size: 20px; margin-right: 10px;">✅</span>
+                            <div>
+                                <strong>Doc-in</strong><br>
+                                <small>v1.1.8 Aktiv</small>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                        
+                        <?php if (class_exists('Legal_Automation_Finance')): ?>
+                        <div style="display: flex; align-items: center; padding: 10px; background: #f0f8ff; border-radius: 4px;">
+                            <span style="color: #4caf50; font-size: 20px; margin-right: 10px;">✅</span>
+                            <div>
+                                <strong>Finance</strong><br>
+                                <small>v2.0.1 Aktiv</small>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                        
+                        <?php if (class_exists('KlageClickDocOut')): ?>
+                        <div style="display: flex; align-items: center; padding: 10px; background: #f0f8ff; border-radius: 4px;">
+                            <span style="color: #4caf50; font-size: 20px; margin-right: 10px;">✅</span>
+                            <div>
+                                <strong>Doc-out</strong><br>
+                                <small>v1.0.9 Aktiv</small>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                        
+                        <?php if (class_exists('Legal_Automation_CRM')): ?>
+                        <div style="display: flex; align-items: center; padding: 10px; background: #f0f8ff; border-radius: 4px;">
+                            <span style="color: #4caf50; font-size: 20px; margin-right: 10px;">✅</span>
+                            <div>
+                                <strong>CRM</strong><br>
+                                <small>v1.0.0 Aktiv</small>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                        
+                        <?php if (class_exists('Legal_Automation_Import')): ?>
+                        <div style="display: flex; align-items: center; padding: 10px; background: #f0f8ff; border-radius: 4px;">
+                            <span style="color: #4caf50; font-size: 20px; margin-right: 10px;">✅</span>
+                            <div>
+                                <strong>Import</strong><br>
+                                <small>v201 Aktiv</small>
+                            </div>
+                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
-                <?php endif; ?>
             </div>
-            <?php
-        }
+        </div>
+        <?php
     }
     
     /**
