@@ -2007,6 +2007,11 @@ class CAH_Admin_Dashboard {
             $this->handle_case_update_v210($case_id, $_POST);
         }
         
+        // Show success message if redirected after update
+        if (isset($_GET['updated']) && $_GET['updated'] == '1') {
+            echo '<div class="notice notice-success is-dismissible"><p><strong>✅ Erfolg!</strong> Fall wurde erfolgreich aktualisiert.</p></div>';
+        }
+        
         // Organize contacts by role for easier access
         $contacts_by_role = array();
         foreach ($case_contacts as $contact) {
