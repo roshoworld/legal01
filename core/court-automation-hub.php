@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: Court Automation Hub
+ * Plugin Name: Legal Automation - Core
  * Plugin URI: https://klage.click
  * Description: Multi-purpose legal automation platform for German courts with AI-powered processing
- * Version: 219
+ * Version: 220
  * Author: Klage.Click
- * Text Domain: court-automation-hub
+ * Text Domain: legal-automation-core
  * Domain Path: /languages
  * License: GPL v2 or later
  */
