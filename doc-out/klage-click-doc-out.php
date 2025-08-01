@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
 // Define plugin constants
 define('KCDO_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('KCDO_PLUGIN_PATH', plugin_dir_path(__FILE__));
-define('KCDO_PLUGIN_VERSION', '1.0.8');
+define('KCDO_PLUGIN_VERSION', '1.0.9');
 
 // Main plugin class
 class KlageClickDocOut {
