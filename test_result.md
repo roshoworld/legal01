@@ -285,8 +285,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Case editing improvements for v240 successfully verified"
-  stuck_tasks: []
+    - "URL Routing Fix for Consistent Case Editing Experience (v241)"
+  stuck_tasks:
+    - "URL Routing Fix for Consistent Case Editing Experience (v241)"
   test_all: false
   test_priority: "critical_first"
 
