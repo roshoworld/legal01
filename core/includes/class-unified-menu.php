@@ -643,7 +643,7 @@ class Legal_Automation_Unified_Menu {
         ");
         
         if (empty($cases)) {
-            echo '<p>Keine Fälle vorhanden. <a href="' . admin_url('admin.php?page=legal-automation-cases&action=add') . '" class="button button-primary">Neuen Fall erstellen</a></p>';
+            echo '<p>Keine Fälle vorhanden. <a href="' . admin_url('admin.php?page=legal-automation&create_case=1') . '" class="button button-primary">Neuen Fall erstellen</a></p>';
         } else {
             echo '<table class="wp-list-table widefat fixed striped">';
             echo '<thead><tr><th>Fall-ID</th><th>Status</th><th>Erstellt</th><th>Aktionen</th></tr></thead>';
