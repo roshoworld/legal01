@@ -793,7 +793,7 @@ class Legal_Automation_Unified_Menu {
                 echo '<td>' . esc_html($case->case_id) . '</td>';
                 echo '<td>' . esc_html($case->case_status ?? 'draft') . '</td>';
                 echo '<td>' . esc_html($case->case_creation_date) . '</td>';
-                echo '<td><a href="' . wp_nonce_url(admin_url('admin.php?page=legal-automation-cases&action=delete&id=' . $case->id), 'delete_case_' . $case->id) . '" onclick="return confirm(\'Fall wirklich löschen?\')">Löschen</a></td>';
+                echo '<td><a href="' . wp_nonce_url(admin_url('admin.php?page=la-cases&action=delete&id=' . $case->id), 'delete_case_' . $case->id) . '" onclick="return confirm(\'Fall wirklich löschen?\')">Löschen</a></td>';
                 echo '</tr>';
             }
             echo '</tbody></table>';
