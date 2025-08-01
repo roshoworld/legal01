@@ -3,7 +3,7 @@
  * Plugin Name: Legal Automation - Core
  * Plugin URI: https://klage.click
  * Description: Multi-purpose legal automation platform for German courts with AI-powered processing
- * Version: 220
+ * Version: 221
  * Author: Klage.Click
  * Text Domain: legal-automation-core
  * Domain Path: /languages
