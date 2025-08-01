@@ -3357,13 +3357,13 @@ class CAH_Admin_Dashboard {
                 );
             }
             
-            echo '<div class="notice notice-success"><p><strong>✅ Erfolg!</strong> Fall "' . esc_html($old_case->case_id) . '" wurde aktualisiert.</p></div>';
+            echo '<div class="notice notice-success"><p><strong>✅ Erfolg!</strong> Fall "' . esc_html($new_case_id) . '" wurde aktualisiert.</p></div>';
             
             // Trigger action for other plugins
             do_action('cah_case_updated', $case_id, $old_case, $update_data);
             
-            // Use proper PHP redirect instead of JavaScript to ensure it works
-            wp_redirect(admin_url('admin.php?page=la-cases&action=edit&id=' . $case_id . '&updated=1'));
+            // Redirect to list view to avoid empty page issue and show success message
+            wp_redirect(admin_url('admin.php?page=la-cases&updated=' . $case_id));
             exit;
             
         } else {
