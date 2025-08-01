@@ -645,6 +645,49 @@ class Legal_Automation_Unified_Menu {
     }
     
     /**
+     * Handle case deletion directly without problematic redirects
+     */
+    private function handle_case_delete_direct() {
+        global $wpdb;
+        
+        $case_id = isset($_POST['case_id']) ? intval($_POST['case_id']) : (isset($_GET['id']) ? intval($_GET['id']) : 0);
+        
+        if (!$case_id) {
+            return false;
+        }
+        
+        // Soft delete - set active_status to 0
+        $result = $wpdb->update(
+            $wpdb->prefix . 'klage_cases',
+            array('active_status' => 0, 'case_updated_date' => current_time('mysql')),
+            array('id' => $case_id),
+            array('%d', '%s'),
+            array('%d')
+        );
+        
+        if ($result !== false) {
+            // Log the deletion
+            $wpdb->insert(
+                $wpdb->prefix . 'klage_audit',
+                array(
+                    'case_id' => $case_id,
+                    'action' => 'case_deleted',
+                    'entity_type' => 'case',
+                    'entity_id' => $case_id,
+                    'details' => 'Fall wurde über Dashboard gelöscht',
+                    'user_id' => get_current_user_id(),
+                    'ip_address' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+                    'created_at' => current_time('mysql')
+                ),
+                array('%d', '%s', '%s', '%d', '%s', '%d', '%s', '%s')
+            );
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
      * Handle case deletion directly 
      */
     private function handle_case_delete() {
