@@ -35,11 +35,11 @@ class Legal_Automation_Unified_Menu {
             return;
         }
         
-        // Main menu page - Dashboard (use edit_posts to match submenus)
+        // Main menu page - Dashboard (use read capability - most permissive)
         add_menu_page(
             __('Legal Automation', 'legal-automation-core'),
             __('Legal Automation', 'legal-automation-core'),
-            'edit_posts',
+            'read',
             'legal-automation',
             array($this, 'dashboard_page'),
             'dashicons-hammer',
@@ -51,17 +51,17 @@ class Legal_Automation_Unified_Menu {
             'legal-automation',
             __('Dashboard', 'legal-automation-core'),
             __('Dashboard', 'legal-automation-core'),
-            'edit_posts',
+            'read',
             'legal-automation',
             array($this, 'dashboard_page')
         );
         
-        // Fälle (Cases) - use edit_posts capability which is more standard
+        // Fälle (Cases) - use read capability 
         add_submenu_page(
             'legal-automation',
             __('Fälle', 'legal-automation-core'),
             __('Fälle', 'legal-automation-core'),
-            'edit_posts',
+            'read',
             'legal-automation-cases',
             array($this, 'cases_page')
         );
