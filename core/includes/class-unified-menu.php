@@ -652,30 +652,8 @@ class Legal_Automation_Unified_Menu {
                 }
             }
             
-            // Handle actions directly
-            if (isset($_POST['action'])) {
-                switch ($_POST['action']) {
-                    case 'create_case':
-                        if (method_exists($core_admin, 'create_new_case')) {
-                            $reflection = new ReflectionClass($core_admin);
-                            $method = $reflection->getMethod('create_new_case');
-                            $method->setAccessible(true);
-                            $method->invoke($core_admin);
-                        }
-                        break;
-                    case 'delete_case':
-                        $this->handle_case_delete_direct();
-                        break;
-                    case 'update_case':
-                        if (method_exists($core_admin, 'update_case')) {
-                            $reflection = new ReflectionClass($core_admin);
-                            $method = $reflection->getMethod('update_case');
-                            $method->setAccessible(true);
-                            $method->invoke($core_admin);
-                        }
-                        break;
-                }
-            }
+            // Handle actions through admin dashboard - remove duplicate processing to prevent double case creation
+            // Admin dashboard handles all POST actions via handle_case_actions() method
             
             // Show success message if deleted
             if (isset($_GET['deleted']) && $_GET['deleted'] == '1') {
