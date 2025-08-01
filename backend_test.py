@@ -364,12 +364,13 @@ class LegalAutomationTester:
             with open(unified_menu_path, 'r') as f:
                 unified_content = f.read()
             
-            # Check CRUD operations handling
+            # Check CRUD operations handling with correct patterns
             crud_checks = {
                 'create': {
                     'admin_handles': 'create_new_case()' in admin_content,
-                    'form_action': 'action\'] === \'create_case\'' in admin_content or 'action\'] == \'create_case\'' in admin_content,
-                    'nonce': 'create_case_nonce' in admin_content
+                    'form_action': 'case \'create_case\':' in admin_content,
+                    'nonce': 'create_case_nonce' in admin_content,
+                    'post_handling': 'handle_case_actions()' in admin_content
                 },
                 'read': {
                     'admin_page_cases': 'admin_page_cases()' in admin_content,
@@ -377,8 +378,9 @@ class LegalAutomationTester:
                 },
                 'update': {
                     'update_method': 'handle_case_update_v210(' in admin_content,
-                    'form_action': 'action\'] === \'save_case\'' in admin_content or 'action\'] == \'save_case\'' in admin_content,
-                    'nonce': 'edit_case_nonce' in admin_content
+                    'form_action': 'save_case' in admin_content,
+                    'nonce': 'edit_case_nonce' in admin_content,
+                    'post_check': 'isset($_POST[\'save_case\'])' in admin_content
                 },
                 'delete': {
                     'delete_method': 'handle_case_deletion(' in admin_content,
@@ -390,14 +392,15 @@ class LegalAutomationTester:
             # Check for duplicate processing prevention
             duplicate_prevention = {
                 'admin_handles_post': 'isset($_POST[\'action\'])' in admin_content,
-                'unified_coordination': 'admin_page_cases()' in unified_content
+                'unified_coordination': 'admin_page_cases()' in unified_content,
+                'case_actions_method': 'handle_case_actions()' in admin_content
             }
             
             all_crud_working = all(
                 all(checks.values()) for checks in crud_checks.values()
             )
             
-            if all_crud_working and duplicate_prevention['admin_handles_post']:
+            if all_crud_working and all(duplicate_prevention.values()):
                 self.log_result(
                     'case_management_tests',
                     'Form Processing Flow',
@@ -417,7 +420,8 @@ class LegalAutomationTester:
                     f'❌ CRUD workflow incomplete. Failed operations: {failed_operations}',
                     {
                         'crud_operations': crud_checks,
-                        'failed_operations': failed_operations
+                        'failed_operations': failed_operations,
+                        'duplicate_prevention': duplicate_prevention
                     }
                 )
                 
