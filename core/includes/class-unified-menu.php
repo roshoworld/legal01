@@ -311,6 +311,27 @@ class Legal_Automation_Unified_Menu {
             // Show the cases management page
             if (method_exists($core_admin, 'admin_page_cases')) {
                 $core_admin->admin_page_cases();
+                
+                // Add JavaScript to fix delete links to use dashboard URL
+                echo '<script type="text/javascript">
+                jQuery(document).ready(function($) {
+                    // Fix delete links to use dashboard URL instead of cases URL
+                    $("a[href*=\'action=delete\']").each(function() {
+                        var href = $(this).attr("href");
+                        if (href.indexOf("legal-automation-cases") !== -1 || href.indexOf("la-cases") !== -1) {
+                            href = href.replace(/page=[^&]+/, "page=legal-automation&view=cases");
+                            $(this).attr("href", href);
+                        }
+                    });
+                    
+                    // Fix any form actions too
+                    $("form[action*=\'legal-automation-cases\'], form[action*=\'la-cases\']").each(function() {
+                        var action = $(this).attr("action");
+                        action = action.replace(/page=[^&]+/, "page=legal-automation&view=cases");
+                        $(this).attr("action", action);
+                    });
+                });
+                </script>';
             }
         } else {
             echo '<div class="wrap"><h1>Fälle verwalten</h1><p>Core plugin nicht verfügbar.</p></div>';
