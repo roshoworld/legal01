@@ -89,6 +89,9 @@ class CourtAutomationHub {
         // Core API for admin plugin integration
         require_once CAH_PLUGIN_PATH . 'includes/class-core-api.php';
         
+        // Unified Menu System v2.2.0
+        require_once CAH_PLUGIN_PATH . 'includes/class-unified-menu.php';
+        
         // Admin classes (load only if admin plugin is NOT active)
         if (!$this->is_admin_plugin_active()) {
             require_once CAH_PLUGIN_PATH . 'admin/class-admin-dashboard.php';
