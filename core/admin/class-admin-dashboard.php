@@ -1039,7 +1039,7 @@ class CAH_Admin_Dashboard {
                 $this->render_view_case($case_id);
                 break;
             case 'delete':
-                $this->handle_delete_case($case_id);
+                $this->handle_case_deletion($case_id);
                 $this->render_cases_list();
                 break;
             case 'change_status':
