@@ -37,7 +37,7 @@ class LAA_Admin_Dashboard_v210 {
     
     private function handle_early_export() {
         // Check if this is our CSV export request
-        if (isset($_GET['page']) && $_GET['page'] === 'klage-click-cases' && 
+        if (isset($_GET['page']) && $_GET['page'] === 'la-cases' && 
             isset($_GET['action']) && $_GET['action'] === 'export' && 
             isset($_GET['_wpnonce'])) {
             
@@ -151,7 +151,7 @@ class LAA_Admin_Dashboard_v210 {
         
         // Generate export URL
         $export_url = wp_nonce_url(
-            admin_url('admin.php?page=klage-click-cases&action=export'),
+            admin_url('admin.php?page=la-cases&action=export'),
             'export_csv'
         );
         
@@ -215,7 +215,7 @@ class LAA_Admin_Dashboard_v210 {
             __('Fälle', 'court-automation-hub'),
             __('Fälle', 'court-automation-hub'),
             'manage_options',
-            'klage-click-cases',
+            'la-cases',
             array($this, 'admin_page_cases')
         );
         
@@ -333,7 +333,7 @@ class LAA_Admin_Dashboard_v210 {
                 <h2 class="hndle" style="padding: 15px 20px; margin: 0; background: #f9f9f9;">🚀 Schnellaktionen</h2>
                 <div class="inside" style="padding: 20px;">
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                        <a href="<?php echo admin_url('admin.php?page=klage-click-cases&action=add'); ?>" class="button button-primary" style="padding: 20px; height: auto; text-decoration: none; text-align: center;">
+                        <a href="<?php echo admin_url('admin.php?page=la-cases&action=add'); ?>" class="button button-primary" style="padding: 20px; height: auto; text-decoration: none; text-align: center;">
                             <strong>📝 Neuen Fall erstellen</strong><br>
                             <small>GDPR Fall - Finanzberechnung über separates Plugin</small>
                         </a>
@@ -888,7 +888,7 @@ class LAA_Admin_Dashboard_v210 {
                 <!-- Save Button -->
                 <div style="margin-top: 20px; padding: 20px; background: #f9f9f9; border-radius: 5px;">
                     <button type="submit" class="button button-primary button-large">💾 Fall erstellen</button>
-                    <a href="<?php echo admin_url('admin.php?page=klage-click-cases'); ?>" class="button button-large">🔙 Zurück zur Liste</a>
+                    <a href="<?php echo admin_url('admin.php?page=la-cases'); ?>" class="button button-large">🔙 Zurück zur Liste</a>
                     
                     <div style="margin-top: 10px;">
                         <p><small><strong>💡 Tipp:</strong> Sie können alle Informationen über die Tabs verteilt eingeben. Beim Erstellen werden alle verfügbaren Daten gespeichert.</small></p>
@@ -1188,7 +1188,7 @@ class LAA_Admin_Dashboard_v210 {
         ?>
         <div class="wrap">
             <h1 class="wp-heading-inline">GDPR Spam Fälle</h1>
-            <a href="<?php echo admin_url('admin.php?page=klage-click-cases&action=add'); ?>" class="page-title-action">
+            <a href="<?php echo admin_url('admin.php?page=la-cases&action=add'); ?>" class="page-title-action">
                 Neuen Fall hinzufügen
             </a>
             
@@ -1230,7 +1230,7 @@ class LAA_Admin_Dashboard_v210 {
             <!-- Filters -->
             <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
                 <form method="get" style="display: flex; gap: 15px; align-items: end; flex-wrap: wrap;">
-                    <input type="hidden" name="page" value="klage-click-cases">
+                    <input type="hidden" name="page" value="la-cases">
                     
                     <div>
                         <label for="status" style="display: block; margin-bottom: 5px; font-weight: bold;">Status:</label>
@@ -1250,7 +1250,7 @@ class LAA_Admin_Dashboard_v210 {
                     
                     <div>
                         <input type="submit" class="button" value="🔍 Filtern">
-                        <a href="<?php echo admin_url('admin.php?page=klage-click-cases'); ?>" class="button">🗑️ Zurücksetzen</a>
+                        <a href="<?php echo admin_url('admin.php?page=la-cases'); ?>" class="button">🗑️ Zurücksetzen</a>
                     </div>
                 </form>
             </div>
@@ -1325,11 +1325,11 @@ class LAA_Admin_Dashboard_v210 {
                                         </a>
                                     <?php elseif (!empty($search) || !empty($status_filter)): ?>
                                         <p>Keine Fälle gefunden, die den Filterkriterien entsprechen.</p>
-                                        <a href="<?php echo admin_url('admin.php?page=klage-click-cases'); ?>" class="button">Filter zurücksetzen</a>
+                                        <a href="<?php echo admin_url('admin.php?page=la-cases'); ?>" class="button">Filter zurücksetzen</a>
                                     <?php else: ?>
                                         <p>Keine Fälle gefunden. Erstellen Sie Ihren ersten Fall!</p>
                                         <div style="margin-top: 15px;">
-                                            <a href="<?php echo admin_url('admin.php?page=klage-click-cases&action=add'); ?>" class="button button-primary" style="margin-right: 10px;">
+                                            <a href="<?php echo admin_url('admin.php?page=la-cases&action=add'); ?>" class="button button-primary" style="margin-right: 10px;">
                                                 📝 Neuen Fall erstellen
                                             </a>
                                             <a href="<?php echo admin_url('admin.php?page=klage-click-import'); ?>" class="button button-secondary">
@@ -1362,9 +1362,9 @@ class LAA_Admin_Dashboard_v210 {
                                     <td><strong>€<?php echo esc_html(number_format($case->total_amount, 2)); ?></strong></td>
                                     <td><?php echo esc_html(date_i18n('d.m.Y', strtotime($case->case_creation_date))); ?></td>
                                     <td>
-                                        <a href="<?php echo admin_url('admin.php?page=klage-click-cases&action=view&id=' . $case->id); ?>" 
+                                        <a href="<?php echo admin_url('admin.php?page=la-cases&action=view&id=' . $case->id); ?>" 
                                            class="button button-small" title="Fall ansehen">👁️</a>
-                                        <a href="<?php echo admin_url('admin.php?page=klage-click-cases&action=edit&id=' . $case->id); ?>" 
+                                        <a href="<?php echo admin_url('admin.php?page=la-cases&action=edit&id=' . $case->id); ?>" 
                                            class="button button-small" title="Fall bearbeiten">✏️</a>
                                         <a href="#" onclick="confirmDelete(<?php echo $case->id; ?>, '<?php echo esc_js($case->case_id); ?>')" 
                                            class="button button-small button-link-delete" title="Fall löschen">🗑️</a>
@@ -1474,7 +1474,7 @@ class LAA_Admin_Dashboard_v210 {
         function confirmDelete(caseId, caseIdentifier) {
             if (confirm('⚠️ WARNUNG: Fall "' + caseIdentifier + '" unwiderruflich löschen?\n\nDieser Vorgang kann nicht rückgängig gemacht werden.\nAlle zugehörigen Daten werden entfernt.')) {
                 const nonce = '<?php echo wp_create_nonce('delete_case_'); ?>' + caseId;
-                window.location.href = '<?php echo admin_url('admin.php?page=klage-click-cases&action=delete&id='); ?>' + caseId + '&_wpnonce=' + nonce;
+                window.location.href = '<?php echo admin_url('admin.php?page=la-cases&action=delete&id='); ?>' + caseId + '&_wpnonce=' + nonce;
             }
         }
         </script>
@@ -2418,9 +2418,9 @@ class LAA_Admin_Dashboard_v210 {
                 
                 <div class="submit-section" style="margin-top: 30px; padding: 20px; background: #f9f9f9; border-radius: 5px;">
                     <input type="submit" name="save_case" id="save_case" class="button button-primary button-large" value="💾 Fall speichern">
-                    <a href="<?php echo admin_url('admin.php?page=klage-click-cases&action=view&id=' . $case_id); ?>" 
+                    <a href="<?php echo admin_url('admin.php?page=la-cases&action=view&id=' . $case_id); ?>" 
                        class="button button-large" style="margin-left: 10px;">👁️ Zur Ansicht</a>
-                    <a href="<?php echo admin_url('admin.php?page=klage-click-cases'); ?>" 
+                    <a href="<?php echo admin_url('admin.php?page=la-cases'); ?>" 
                        class="button button-large" style="margin-left: 10px;">← Zurück zur Liste</a>
                 </div>
                 
@@ -3075,7 +3075,7 @@ class LAA_Admin_Dashboard_v210 {
                 <!-- Save Button -->
                 <div style="margin-top: 20px; padding: 20px; background: #f9f9f9; border-radius: 5px;">
                     <button type="submit" class="button button-primary button-large">💾 Fall speichern</button>
-                    <a href="<?php echo admin_url('admin.php?page=klage-click-cases'); ?>" class="button button-large">🔙 Zurück zur Liste</a>
+                    <a href="<?php echo admin_url('admin.php?page=la-cases'); ?>" class="button button-large">🔙 Zurück zur Liste</a>
                 </div>
             </form>
         </div>
@@ -3715,7 +3715,7 @@ class LAA_Admin_Dashboard_v210 {
                 // Redirect to view the newly created case
                 echo '<script>
                     setTimeout(function() {
-                        window.location.href = "' . admin_url('admin.php?page=klage-click-cases&action=view&id=' . $case_internal_id) . '";
+                        window.location.href = "' . admin_url('admin.php?page=la-cases&action=view&id=' . $case_internal_id) . '";
                     }, 4000);
                 </script>';
                 
