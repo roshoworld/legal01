@@ -461,15 +461,133 @@ class Legal_Automation_Unified_Menu {
     }
     
     /**
-     * Cases page - delegate to core plugin
+     * Cases page - handle directly without delegation to avoid admin plugin conflicts
      */
     public function cases_page() {
         if (class_exists('CAH_Admin_Dashboard')) {
             $core_admin = new CAH_Admin_Dashboard();
+            
+            // Handle actions directly
+            if (isset($_POST['action'])) {
+                switch ($_POST['action']) {
+                    case 'create_case':
+                        if (method_exists($core_admin, 'create_new_case')) {
+                            $reflection = new ReflectionClass($core_admin);
+                            $method = $reflection->getMethod('create_new_case');
+                            $method->setAccessible(true);
+                            $method->invoke($core_admin);
+                        }
+                        break;
+                    case 'delete_case':
+                        $this->handle_case_delete();
+                        break;
+                    case 'update_case':
+                        if (method_exists($core_admin, 'update_case')) {
+                            $reflection = new ReflectionClass($core_admin);
+                            $method = $reflection->getMethod('update_case');
+                            $method->setAccessible(true);
+                            $method->invoke($core_admin);
+                        }
+                        break;
+                }
+            }
+            
+            // Handle GET actions
+            if (isset($_GET['action'])) {
+                switch ($_GET['action']) {
+                    case 'delete':
+                        if (isset($_GET['id']) && isset($_GET['_wpnonce']) && wp_verify_nonce($_GET['_wpnonce'], 'delete_case_' . $_GET['id'])) {
+                            $this->handle_case_delete();
+                        }
+                        break;
+                }
+            }
+            
             $core_admin->admin_page_cases();
         } else {
-            echo '<div class="wrap"><h1>Fälle</h1><p>Core plugin nicht gefunden. Bitte stellen Sie sicher, dass das Core Plugin aktiv ist.</p></div>';
+            $this->render_cases_fallback();
         }
+    }
+    
+    /**
+     * Handle case deletion directly 
+     */
+    private function handle_case_delete() {
+        global $wpdb;
+        
+        $case_id = isset($_POST['case_id']) ? intval($_POST['case_id']) : (isset($_GET['id']) ? intval($_GET['id']) : 0);
+        
+        if (!$case_id) {
+            echo '<div class="notice notice-error"><p>Ungültige Fall-ID.</p></div>';
+            return;
+        }
+        
+        // Soft delete - set active_status to 0
+        $result = $wpdb->update(
+            $wpdb->prefix . 'klage_cases',
+            array('active_status' => 0, 'case_updated_date' => current_time('mysql')),
+            array('id' => $case_id),
+            array('%d', '%s'),
+            array('%d')
+        );
+        
+        if ($result !== false) {
+            echo '<div class="notice notice-success"><p>Fall erfolgreich gelöscht.</p></div>';
+            
+            // Log the deletion
+            $wpdb->insert(
+                $wpdb->prefix . 'klage_audit',
+                array(
+                    'case_id' => $case_id,
+                    'action' => 'case_deleted',
+                    'entity_type' => 'case',
+                    'entity_id' => $case_id,
+                    'details' => 'Fall wurde über Unified Menu gelöscht',
+                    'user_id' => get_current_user_id(),
+                    'ip_address' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+                    'created_at' => current_time('mysql')
+                ),
+                array('%d', '%s', '%s', '%d', '%s', '%d', '%s', '%s')
+            );
+        } else {
+            echo '<div class="notice notice-error"><p>Fehler beim Löschen: ' . esc_html($wpdb->last_error) . '</p></div>';
+        }
+    }
+    
+    /**
+     * Fallback cases page if core admin doesn't exist
+     */
+    private function render_cases_fallback() {
+        global $wpdb;
+        
+        echo '<div class="wrap">';
+        echo '<h1>Fälle</h1>';
+        
+        // Simple case list
+        $cases = $wpdb->get_results("
+            SELECT * FROM {$wpdb->prefix}klage_cases 
+            WHERE active_status = 1 
+            ORDER BY case_creation_date DESC
+        ");
+        
+        if (empty($cases)) {
+            echo '<p>Keine Fälle vorhanden. <a href="' . admin_url('admin.php?page=legal-automation-cases&action=add') . '" class="button button-primary">Neuen Fall erstellen</a></p>';
+        } else {
+            echo '<table class="wp-list-table widefat fixed striped">';
+            echo '<thead><tr><th>Fall-ID</th><th>Status</th><th>Erstellt</th><th>Aktionen</th></tr></thead>';
+            echo '<tbody>';
+            foreach ($cases as $case) {
+                echo '<tr>';
+                echo '<td>' . esc_html($case->case_id) . '</td>';
+                echo '<td>' . esc_html($case->case_status ?? 'draft') . '</td>';
+                echo '<td>' . esc_html($case->case_creation_date) . '</td>';
+                echo '<td><a href="' . wp_nonce_url(admin_url('admin.php?page=legal-automation-cases&action=delete&id=' . $case->id), 'delete_case_' . $case->id) . '" onclick="return confirm(\'Fall wirklich löschen?\')">Löschen</a></td>';
+                echo '</tr>';
+            }
+            echo '</tbody></table>';
+        }
+        
+        echo '</div>';
     }
     
     /**
