@@ -181,9 +181,9 @@ class LegalAutomationTester:
                 f'❌ Test failed: {str(e)}'
             )
 
-    def test_core_plugin_version_239_update(self):
-        """Test 3: Core Plugin Version Update (238 → 239)"""
-        print("\n🔍 Testing Core Plugin Version Update to 239...")
+    def test_core_plugin_version_240_update(self):
+        """Test 3: Core Plugin Version Update (239 → 240)"""
+        print("\n🔍 Testing Core Plugin Version Update to 240...")
         
         try:
             # Read the core plugin file to verify version update
@@ -192,40 +192,40 @@ class LegalAutomationTester:
             with open(core_plugin_path, 'r') as f:
                 content = f.read()
             
-            # Check for version 239 in plugin header
-            version_header = 'Version: 239' in content
+            # Check for version 240 in plugin header
+            version_header = 'Version: 240' in content
             
             # Check for version constant
-            version_constant = "define('CAH_PLUGIN_VERSION', '239')" in content
+            version_constant = "define('CAH_PLUGIN_VERSION', '240')" in content
             
-            # Ensure old version 238 is not present
-            old_version_header = 'Version: 238' in content
-            old_version_constant = "define('CAH_PLUGIN_VERSION', '238')" in content
+            # Ensure old version 239 is not present
+            old_version_header = 'Version: 239' in content
+            old_version_constant = "define('CAH_PLUGIN_VERSION', '239')" in content
             
             if version_header and version_constant and not old_version_header and not old_version_constant:
                 self.log_result(
                     'plugin_health_tests',
-                    'Core Plugin Version Update to 239',
+                    'Core Plugin Version Update to 240',
                     'PASS',
-                    '✅ Core plugin version successfully updated from 238 to 239',
+                    '✅ Core plugin version successfully updated from 239 to 240',
                     {
-                        'version_header_239': version_header,
-                        'version_constant_239': version_constant,
+                        'version_header_240': version_header,
+                        'version_constant_240': version_constant,
                         'old_version_removed': not old_version_header and not old_version_constant
                     }
                 )
             else:
                 self.log_result(
                     'plugin_health_tests',
-                    'Core Plugin Version Update to 239',
+                    'Core Plugin Version Update to 240',
                     'FAIL',
-                    f'❌ Version update incomplete: header_239={version_header}, constant_239={version_constant}, old_present={old_version_header or old_version_constant}'
+                    f'❌ Version update incomplete: header_240={version_header}, constant_240={version_constant}, old_present={old_version_header or old_version_constant}'
                 )
                 
         except Exception as e:
             self.log_result(
                 'plugin_health_tests',
-                'Core Plugin Version Update to 239',
+                'Core Plugin Version Update to 240',
                 'FAIL',
                 f'❌ Test failed: {str(e)}'
             )
