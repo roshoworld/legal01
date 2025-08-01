@@ -275,6 +275,12 @@ class Legal_Automation_Unified_Menu {
     public function dashboard_page() {
         global $wpdb;
         
+        // Handle case creation directly in dashboard
+        if (isset($_GET['create_case']) || (isset($_POST['action']) && $_POST['action'] === 'create_case')) {
+            $this->handle_dashboard_case_creation();
+            return;
+        }
+        
         // Get comprehensive statistics
         $total_cases = 0;
         $pending_cases = 0;
