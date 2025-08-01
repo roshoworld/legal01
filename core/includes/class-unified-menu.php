@@ -61,14 +61,14 @@ class Legal_Automation_Unified_Menu {
             array($this, 'dashboard_page')
         );
         
-        // Fälle (Cases) - try with manage_options and different approach
+        // Fälle (Cases) - restore direct access with manage_options
         $cases_hook = add_submenu_page(
             'legal-automation',
             __('Fälle', 'legal-automation-core'),
             __('Fälle', 'legal-automation-core'),
             'manage_options',
             'la-cases', 
-            array($this, 'cases_redirect_page') // Different method to avoid conflicts
+            array($this, 'cases_page') // Back to actual cases page
         );
         
         error_log('Legal Automation: Cases menu hook: ' . $cases_hook);
