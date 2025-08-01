@@ -230,83 +230,67 @@ class LegalAutomationTester:
                 f'❌ Test failed: {str(e)}'
             )
 
-    def test_complete_crud_workflow_security(self):
-        """Test 4: Complete CRUD Workflow Without Security Errors"""
-        print("\n🔍 Testing Complete CRUD Workflow Security...")
+    def test_database_update_verification(self):
+        """Test 4: Database Update Verification - case_id in wpdb->update with proper format strings"""
+        print("\n🔍 Testing Database Update Verification...")
         
         try:
-            # Read both admin dashboard files
+            # Read the admin dashboard file to verify database update implementation
             admin_dashboard_path = "/app/core/admin/class-admin-dashboard.php"
             
             with open(admin_dashboard_path, 'r') as f:
-                admin_content = f.read()
+                content = f.read()
             
-            # Test CREATE operation security
-            create_nonce = 'create_case_nonce' in admin_content
-            create_verification = "wp_verify_nonce($_POST['create_case_nonce'], 'create_case')" in admin_content
+            # Check that case_id is first field in update_data array
+            case_id_first_field = "'case_id' => $new_case_id," in content
             
-            # Test READ operation (no security issues expected)
-            read_functionality = 'admin_page_cases()' in admin_content
+            # Check for proper wpdb->update call structure
+            wpdb_update_call = '$wpdb->update(' in content and 'klage_cases' in content
             
-            # Test UPDATE operation security (the main fix)
-            update_nonce = 'edit_case_nonce' in admin_content
-            update_verification = "wp_verify_nonce($post_data['edit_case_nonce'], 'edit_case_action')" in admin_content
-            update_method = 'handle_case_update_v210(' in admin_content
+            # Check for format array with correct number of %s placeholders
+            # Should have %s for case_id as first format specifier
+            format_array_structure = "array('%s', '%s', '%s'," in content  # Multiple %s for different fields
             
-            # Test DELETE operation security (the main fix)
-            delete_nonce_url = 'wp_nonce_url(' in admin_content and 'delete_case_' in admin_content
-            delete_verification = "wp_verify_nonce($_GET['_wpnonce'], 'delete_case_' . $case_id)" in admin_content
-            delete_method = 'handle_case_deletion(' in admin_content
+            # Check for proper where clause with case ID
+            where_clause = "array('id' => $case_id)" in content
+            where_format = "array('%d')" in content
             
-            # Check for security error messages
-            security_error_present = 'Sicherheitsfehler.' in admin_content
+            # Check for audit trail that records case ID changes
+            audit_trail = '$wpdb->insert(' in content and 'klage_audit' in content
+            audit_case_id = "'case_id' => $case_id," in content
+            audit_details = "'Fall \"' . $old_case->case_id . '\" wurde" in content
             
-            # All CRUD operations should have proper security
-            crud_security_complete = (create_nonce and create_verification and 
-                                    read_functionality and 
-                                    update_nonce and update_verification and update_method and
-                                    delete_nonce_url and delete_verification and delete_method)
+            # Check for proper error handling
+            error_handling = '$wpdb->last_error' in content
             
-            if crud_security_complete and security_error_present:
+            if (case_id_first_field and wpdb_update_call and format_array_structure and 
+                where_clause and where_format and audit_trail and audit_case_id):
                 self.log_result(
                     'case_management_tests',
-                    'Complete CRUD Workflow Security',
+                    'Database Update Verification',
                     'PASS',
-                    '✅ Complete CRUD workflow security verified: All operations have proper nonce protection',
+                    '✅ Database update verification passed: case_id properly included in wpdb->update with correct format strings',
                     {
-                        'create_security': create_nonce and create_verification,
-                        'read_functionality': read_functionality,
-                        'update_security': update_nonce and update_verification and update_method,
-                        'delete_security': delete_nonce_url and delete_verification and delete_method,
-                        'security_error_handling': security_error_present
+                        'case_id_in_update': case_id_first_field,
+                        'wpdb_update_call': wpdb_update_call,
+                        'format_array': format_array_structure,
+                        'where_clause': where_clause and where_format,
+                        'audit_trail': audit_trail and audit_case_id,
+                        'error_handling': error_handling
                     }
                 )
             else:
-                failed_operations = []
-                if not (create_nonce and create_verification):
-                    failed_operations.append('CREATE')
-                if not read_functionality:
-                    failed_operations.append('READ')
-                if not (update_nonce and update_verification and update_method):
-                    failed_operations.append('UPDATE')
-                if not (delete_nonce_url and delete_verification and delete_method):
-                    failed_operations.append('DELETE')
-                    
                 self.log_result(
                     'case_management_tests',
-                    'Complete CRUD Workflow Security',
+                    'Database Update Verification',
                     'FAIL',
-                    f'❌ CRUD security incomplete. Failed operations: {failed_operations}',
-                    {
-                        'failed_operations': failed_operations,
-                        'security_error_handling': security_error_present
-                    }
+                    f'❌ Database update incomplete: case_id={case_id_first_field}, wpdb_update={wpdb_update_call}, format={format_array_structure}, audit={audit_trail}'
                 )
                 
         except Exception as e:
             self.log_result(
                 'case_management_tests',
-                'Complete CRUD Workflow Security',
+                'Database Update Verification',
                 'FAIL',
                 f'❌ Test failed: {str(e)}'
             )
