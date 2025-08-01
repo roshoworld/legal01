@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """
 Backend Testing Suite for Legal Automation WordPress Plugin System
-FINAL VERIFICATION: Case Edit and Delete Fixes (v239)
+FINAL VERIFICATION: Case Editing Improvements (v240)
 
 Specific tests for the review request:
-1. Case deletion nonce fix - wp_nonce_url() with 'delete_case_' . $case_id action
-2. Case edit save fix - handle_case_update_v210() with success messages and redirect
-3. Core plugin version update verification (238 → 239)
-4. Complete CRUD workflow testing without security errors
+1. Case ID Editing with Duplicate Prevention - case_id field in update data array with validation
+2. Redirect Fix for Empty Page Issue - redirect to list view instead of edit view
+3. Complete Case Edit Workflow - case ID changes save correctly with success messages
+4. Database Update Verification - case_id included in wpdb->update with proper format strings
+5. Core plugin version update verification (239 → 240)
 """
 
 import requests
