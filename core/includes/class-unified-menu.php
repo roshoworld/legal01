@@ -480,8 +480,8 @@ class Legal_Automation_Unified_Menu {
      * Cases page - handle directly without delegation to avoid admin plugin conflicts
      */
     public function cases_page() {
-        // Check permissions first - use edit_posts which matches menu registration
-        if (!current_user_can('edit_posts')) {
+        // Check permissions first - use read which matches menu registration
+        if (!current_user_can('read')) {
             wp_die(__('You do not have sufficient permissions to access this page.'));
         }
         
