@@ -56,12 +56,12 @@ class Legal_Automation_Unified_Menu {
             array($this, 'dashboard_page')
         );
         
-        // Fälle (Cases)
+        // Fälle (Cases) - use edit_posts capability which is more standard
         add_submenu_page(
             'legal-automation',
             __('Fälle', 'legal-automation-core'),
             __('Fälle', 'legal-automation-core'),
-            'manage_options',
+            'edit_posts',
             'legal-automation-cases',
             array($this, 'cases_page')
         );
