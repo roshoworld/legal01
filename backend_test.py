@@ -391,16 +391,16 @@ class LegalAutomationTester:
             )
 
     def run_all_tests(self):
-        """Run all final verification tests for case editing improvements"""
-        print("🚀 Starting Final Verification: Case Editing Improvements (v240)...")
+        """Run all URL routing fix verification tests"""
+        print("🚀 Starting URL Routing Fix Verification (v241)...")
         print("=" * 80)
         
-        # Final Verification Tests for Review Request
-        self.test_case_id_editing_with_duplicate_prevention()
-        self.test_redirect_fix_for_empty_page_issue()
-        self.test_core_plugin_version_240_update()
-        self.test_database_update_verification()
-        self.test_complete_case_edit_workflow()
+        # URL Routing Fix Tests for Review Request
+        self.test_unified_url_routing()
+        self.test_no_old_url_patterns()
+        self.test_consistent_case_edit_experience()
+        self.test_core_plugin_version_241_update()
+        self.test_form_processing_consistency()
         
         # Print summary
         self.print_summary()
