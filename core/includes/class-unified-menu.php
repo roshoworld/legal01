@@ -71,7 +71,7 @@ class Legal_Automation_Unified_Menu {
             'legal-automation',
             __('Einstellungen', 'legal-automation-core'),
             __('Einstellungen', 'legal-automation-core'),
-            'manage_options',
+            'manage_options', // Keep manage_options for settings
             'legal-automation-settings',
             array($this, 'settings_page')
         );
