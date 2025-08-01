@@ -242,6 +242,9 @@ class Legal_Automation_Unified_Menu {
         remove_menu_page('legal-automation-crm');
         remove_menu_page('legal-automation-admin');
         remove_menu_page('legal-automation-import');
+        
+        // Remove doc-in individual menu
+        remove_menu_page('cah-doc-in');
     }
     
     /**
