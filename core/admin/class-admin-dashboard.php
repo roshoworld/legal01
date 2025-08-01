@@ -3322,7 +3322,7 @@ class CAH_Admin_Dashboard {
             $wpdb->prefix . 'klage_cases',
             $update_data,
             array('id' => $case_id),
-            array('%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%f', '%f', '%f', '%f', '%f', '%s', '%s', '%s'),
+            array('%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%f', '%f', '%f', '%f', '%f', '%s', '%s', '%s'),
             array('%d')
         );
         
