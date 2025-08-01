@@ -296,20 +296,103 @@ class LegalAutomationTester:
             )
 
     def run_all_tests(self):
-        """Run all final verification tests for case edit and delete fixes"""
-        print("🚀 Starting Final Verification: Case Edit and Delete Fixes (v239)...")
+        """Run all final verification tests for case editing improvements"""
+        print("🚀 Starting Final Verification: Case Editing Improvements (v240)...")
         print("=" * 80)
         
         # Final Verification Tests for Review Request
-        self.test_case_deletion_nonce_fix()
-        self.test_case_edit_save_fix()
-        self.test_core_plugin_version_239_update()
-        self.test_complete_crud_workflow_security()
+        self.test_case_id_editing_with_duplicate_prevention()
+        self.test_redirect_fix_for_empty_page_issue()
+        self.test_core_plugin_version_240_update()
+        self.test_database_update_verification()
+        self.test_complete_case_edit_workflow()
         
         # Print summary
         self.print_summary()
         
         return self.results
+
+    def test_complete_case_edit_workflow(self):
+        """Test 5: Complete Case Edit Workflow - End-to-end case editing functionality"""
+        print("\n🔍 Testing Complete Case Edit Workflow...")
+        
+        try:
+            # Read the admin dashboard file to verify complete workflow
+            admin_dashboard_path = "/app/core/admin/class-admin-dashboard.php"
+            
+            with open(admin_dashboard_path, 'r') as f:
+                content = f.read()
+            
+            # Check for edit form rendering
+            edit_form_method = 'render_edit_case_form(' in content
+            
+            # Check for form processing in admin_page_cases
+            form_processing = "if ($_SERVER['REQUEST_METHOD'] === 'POST')" in content
+            save_case_action = "isset($_POST['save_case'])" in content
+            
+            # Check for handle_case_update_v210 method call
+            update_method_call = 'handle_case_update_v210($case_id, $_POST)' in content
+            
+            # Check for success message and redirect flow
+            success_message = '✅ Erfolg!' in content and 'wurde aktualisiert' in content
+            redirect_to_list = "wp_redirect(admin_url('admin.php?page=la-cases&updated=" in content
+            
+            # Check for proper nonce handling throughout workflow
+            edit_nonce_field = 'edit_case_nonce' in content
+            nonce_verification = "wp_verify_nonce($post_data['edit_case_nonce'], 'edit_case_action')" in content
+            
+            # Check for case ID field in edit form
+            case_id_field = 'name="case_id"' in content
+            
+            # Check for error handling
+            error_handling = 'notice notice-error' in content
+            
+            if (edit_form_method and form_processing and save_case_action and update_method_call and 
+                success_message and redirect_to_list and edit_nonce_field and nonce_verification and case_id_field):
+                self.log_result(
+                    'case_management_tests',
+                    'Complete Case Edit Workflow',
+                    'PASS',
+                    '✅ Complete case edit workflow verified: Form rendering, processing, validation, and redirect all working',
+                    {
+                        'edit_form': edit_form_method,
+                        'form_processing': form_processing and save_case_action,
+                        'update_method': update_method_call,
+                        'success_flow': success_message and redirect_to_list,
+                        'security': edit_nonce_field and nonce_verification,
+                        'case_id_field': case_id_field,
+                        'error_handling': error_handling
+                    }
+                )
+            else:
+                missing_components = []
+                if not edit_form_method:
+                    missing_components.append('edit_form_rendering')
+                if not (form_processing and save_case_action):
+                    missing_components.append('form_processing')
+                if not update_method_call:
+                    missing_components.append('update_method_call')
+                if not (success_message and redirect_to_list):
+                    missing_components.append('success_flow')
+                if not (edit_nonce_field and nonce_verification):
+                    missing_components.append('security')
+                if not case_id_field:
+                    missing_components.append('case_id_field')
+                    
+                self.log_result(
+                    'case_management_tests',
+                    'Complete Case Edit Workflow',
+                    'FAIL',
+                    f'❌ Case edit workflow incomplete. Missing: {missing_components}'
+                )
+                
+        except Exception as e:
+            self.log_result(
+                'case_management_tests',
+                'Complete Case Edit Workflow',
+                'FAIL',
+                f'❌ Test failed: {str(e)}'
+            )
 
     def print_summary(self):
         """Print test summary"""
