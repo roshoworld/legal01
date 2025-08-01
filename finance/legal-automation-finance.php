@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Legal Automation - Finance
+ * Plugin Name: Legal Automation - Financial Calculator
  * Plugin URI: https://klage.click/finance-calculator
  * Description: Advanced RVG fee calculator for legal proceedings with template management and case integration
- * Version: 2.0.0
+ * Version: 2.0.1
  * Author: Klage.Click
  * Text Domain: legal-automation-finance
  * Domain Path: /languages
