@@ -65,125 +65,215 @@ class LegalAutomationTester:
             if details:
                 print(f"   Details: {details}")
 
-    def test_case_id_editing_with_duplicate_prevention(self):
-        """Test 1: Case ID Editing with Duplicate Prevention"""
-        print("\n🔍 Testing Case ID Editing with Duplicate Prevention...")
+    def test_unified_url_routing(self):
+        """Test 1: Unified URL Routing - All case actions point to la-cases page consistently"""
+        print("\n🔍 Testing Unified URL Routing...")
         
         try:
-            # Read the admin dashboard file to verify case ID editing functionality
+            # Check admin dashboard file for consistent la-cases usage
             admin_dashboard_path = "/app/core/admin/class-admin-dashboard.php"
+            unified_menu_path = "/app/core/includes/class-unified-menu.php"
             
+            issues_found = []
+            
+            # Check admin dashboard file
             with open(admin_dashboard_path, 'r') as f:
-                content = f.read()
+                admin_content = f.read()
             
-            # Check that case_id is included in update data array
-            case_id_in_update_data = "'case_id' => $new_case_id," in content
+            # Check unified menu file for old URL patterns
+            with open(unified_menu_path, 'r') as f:
+                unified_content = f.read()
             
-            # Check for duplicate validation logic
-            duplicate_check_query = "SELECT id FROM {$wpdb->prefix}klage_cases" in content and "WHERE case_id = %s AND id != %d" in content
-            duplicate_error_message = 'Fall-ID "' in content and '" wird bereits verwendet' in content
+            # Look for old URL patterns that should be fixed
+            old_patterns = [
+                'page=legal-automation&view=cases',
+                'page=legal-automation-cases',
+                'page=klage-click-cases'
+            ]
             
-            # Check for case_id format string in wpdb->update call
-            format_array_with_case_id = "array('%s', '%s'," in content  # First %s should be for case_id
+            for pattern in old_patterns:
+                if pattern in admin_content:
+                    issues_found.append(f"Admin Dashboard: {pattern}")
+                if pattern in unified_content:
+                    issues_found.append(f"Unified Menu: {pattern}")
             
-            # Check that new case_id variable is properly sanitized
-            case_id_sanitization = "sanitize_text_field($post_data['case_id']" in content
+            # Check that la-cases is used consistently
+            la_cases_count_admin = admin_content.count('page=la-cases')
+            la_cases_count_unified = unified_content.count('page=la-cases')
             
-            # Check for proper case_id comparison logic
-            case_id_comparison = "$new_case_id !== $old_case->case_id" in content
+            # Verify case action links point to la-cases
+            case_edit_links = 'admin.php?page=la-cases&action=edit' in admin_content
+            case_view_links = 'admin.php?page=la-cases&action=view' in admin_content
+            case_delete_links = 'admin.php?page=la-cases&action=delete' in admin_content
             
-            if (case_id_in_update_data and duplicate_check_query and duplicate_error_message and 
-                format_array_with_case_id and case_id_sanitization and case_id_comparison):
+            if len(issues_found) == 0 and case_edit_links and case_view_links and case_delete_links:
                 self.log_result(
                     'case_management_tests',
-                    'Case ID Editing with Duplicate Prevention',
+                    'Unified URL Routing',
                     'PASS',
-                    '✅ Case ID editing with duplicate prevention verified: case_id included in update data with validation',
+                    f'✅ URL routing verified: All case actions use la-cases page consistently ({la_cases_count_admin + la_cases_count_unified} references)',
                     {
-                        'case_id_in_update_data': case_id_in_update_data,
-                        'duplicate_validation': duplicate_check_query,
-                        'error_message': duplicate_error_message,
-                        'format_string': format_array_with_case_id,
-                        'sanitization': case_id_sanitization,
-                        'comparison_logic': case_id_comparison
+                        'old_patterns_found': len(issues_found),
+                        'la_cases_references': la_cases_count_admin + la_cases_count_unified,
+                        'case_action_links': case_edit_links and case_view_links and case_delete_links
                     }
                 )
             else:
                 self.log_result(
                     'case_management_tests',
-                    'Case ID Editing with Duplicate Prevention',
+                    'Unified URL Routing',
                     'FAIL',
-                    f'❌ Case ID editing incomplete: update_data={case_id_in_update_data}, validation={duplicate_check_query}, format={format_array_with_case_id}'
+                    f'❌ URL routing issues found: {issues_found}',
+                    {
+                        'issues': issues_found,
+                        'case_links_ok': case_edit_links and case_view_links and case_delete_links
+                    }
                 )
                 
         except Exception as e:
             self.log_result(
                 'case_management_tests',
-                'Case ID Editing with Duplicate Prevention',
+                'Unified URL Routing',
                 'FAIL',
                 f'❌ Test failed: {str(e)}'
             )
 
-    def test_redirect_fix_for_empty_page_issue(self):
-        """Test 2: Redirect Fix for Empty Page Issue"""
-        print("\n🔍 Testing Redirect Fix for Empty Page Issue...")
+    def test_no_old_url_patterns(self):
+        """Test 2: No Old URL Patterns - Verify no more page=legal-automation&view=cases URLs"""
+        print("\n🔍 Testing for Old URL Patterns...")
         
         try:
-            # Read the admin dashboard file to verify redirect fix
-            admin_dashboard_path = "/app/core/admin/class-admin-dashboard.php"
+            # Files to check for old URL patterns
+            files_to_check = [
+                "/app/core/admin/class-admin-dashboard.php",
+                "/app/core/includes/class-unified-menu.php"
+            ]
             
-            with open(admin_dashboard_path, 'r') as f:
-                content = f.read()
+            old_url_issues = []
             
-            # Check for redirect to list view instead of edit view
-            redirect_to_list = "wp_redirect(admin_url('admin.php?page=la-cases&updated=" in content
+            for file_path in files_to_check:
+                try:
+                    with open(file_path, 'r') as f:
+                        content = f.read()
+                    
+                    # Check for specific old URL patterns mentioned in review request
+                    if 'page=legal-automation&view=cases' in content:
+                        old_url_issues.append(f"{file_path}: page=legal-automation&view=cases")
+                    
+                    if 'page=legal-automation-cases' in content:
+                        old_url_issues.append(f"{file_path}: page=legal-automation-cases")
+                        
+                except FileNotFoundError:
+                    continue
             
-            # Check that redirect includes case_id parameter
-            redirect_with_case_id = "&updated=' . $case_id" in content
-            
-            # Check for exit after redirect to prevent further execution
-            exit_after_redirect = "wp_redirect(" in content and "exit;" in content
-            
-            # Check that success message is handled in list view (not in edit view)
-            success_message_in_method = '✅ Erfolg!' in content and 'wurde aktualisiert' in content
-            
-            # Verify no JavaScript redirect is used (should be PHP redirect)
-            no_javascript_redirect = 'window.location.href' not in content or 'setTimeout' not in content
-            
-            if (redirect_to_list and redirect_with_case_id and exit_after_redirect and 
-                success_message_in_method):
+            if len(old_url_issues) == 0:
                 self.log_result(
                     'case_management_tests',
-                    'Redirect Fix for Empty Page Issue',
+                    'No Old URL Patterns',
                     'PASS',
-                    '✅ Redirect fix verified: Case edit saves redirect to list view with updated parameter',
+                    '✅ No old URL patterns found: All case URLs updated to use la-cases format',
                     {
-                        'redirect_to_list': redirect_to_list,
-                        'redirect_with_case_id': redirect_with_case_id,
-                        'exit_after_redirect': exit_after_redirect,
-                        'success_message': success_message_in_method,
-                        'php_redirect_used': no_javascript_redirect
+                        'files_checked': len(files_to_check),
+                        'old_patterns_found': 0
                     }
                 )
             else:
                 self.log_result(
                     'case_management_tests',
-                    'Redirect Fix for Empty Page Issue',
+                    'No Old URL Patterns',
                     'FAIL',
-                    f'❌ Redirect fix incomplete: list_redirect={redirect_to_list}, case_id_param={redirect_with_case_id}, exit={exit_after_redirect}'
+                    f'❌ Old URL patterns still found: {old_url_issues}',
+                    {
+                        'issues': old_url_issues
+                    }
                 )
                 
         except Exception as e:
             self.log_result(
                 'case_management_tests',
-                'Redirect Fix for Empty Page Issue',
+                'No Old URL Patterns',
                 'FAIL',
                 f'❌ Test failed: {str(e)}'
             )
 
-    def test_core_plugin_version_240_update(self):
-        """Test 3: Core Plugin Version Update (239 → 240)"""
-        print("\n🔍 Testing Core Plugin Version Update to 240...")
+    def test_consistent_case_edit_experience(self):
+        """Test 3: Consistent Case Edit Experience - Both dashboard and case list show same functionality"""
+        print("\n🔍 Testing Consistent Case Edit Experience...")
+        
+        try:
+            # Read the admin dashboard file to verify consistent edit experience
+            admin_dashboard_path = "/app/core/admin/class-admin-dashboard.php"
+            
+            with open(admin_dashboard_path, 'r') as f:
+                content = f.read()
+            
+            # Check that case editing functionality is unified
+            edit_form_method = 'render_edit_case_form(' in content
+            case_update_method = 'handle_case_update_v210(' in content
+            
+            # Check that both dashboard and case list use same edit links
+            dashboard_edit_links = 'admin.php?page=la-cases&action=edit' in content
+            
+            # Check for complete tab structure in edit form
+            tab_navigation = 'nav-tab-wrapper' in content
+            multiple_tabs = content.count('nav-tab') > 5  # Should have multiple tabs
+            
+            # Check that form processing is consistent
+            form_processing = "if ($_SERVER['REQUEST_METHOD'] === 'POST')" in content
+            save_case_action = "isset($_POST['save_case'])" in content
+            
+            # Check for success messages and redirects
+            success_redirect = "wp_redirect(admin_url('admin.php?page=la-cases&updated=" in content
+            
+            if (edit_form_method and case_update_method and dashboard_edit_links and 
+                tab_navigation and multiple_tabs and form_processing and save_case_action and success_redirect):
+                self.log_result(
+                    'case_management_tests',
+                    'Consistent Case Edit Experience',
+                    'PASS',
+                    '✅ Consistent case edit experience verified: Same functionality from both entry points',
+                    {
+                        'edit_form_unified': edit_form_method,
+                        'update_method': case_update_method,
+                        'consistent_links': dashboard_edit_links,
+                        'complete_tabs': tab_navigation and multiple_tabs,
+                        'form_processing': form_processing and save_case_action,
+                        'success_handling': success_redirect
+                    }
+                )
+            else:
+                missing_features = []
+                if not edit_form_method:
+                    missing_features.append('edit_form_method')
+                if not case_update_method:
+                    missing_features.append('case_update_method')
+                if not dashboard_edit_links:
+                    missing_features.append('consistent_edit_links')
+                if not (tab_navigation and multiple_tabs):
+                    missing_features.append('complete_tab_structure')
+                if not (form_processing and save_case_action):
+                    missing_features.append('form_processing')
+                if not success_redirect:
+                    missing_features.append('success_redirect')
+                    
+                self.log_result(
+                    'case_management_tests',
+                    'Consistent Case Edit Experience',
+                    'FAIL',
+                    f'❌ Inconsistent case edit experience. Missing: {missing_features}'
+                )
+                
+        except Exception as e:
+            self.log_result(
+                'case_management_tests',
+                'Consistent Case Edit Experience',
+                'FAIL',
+                f'❌ Test failed: {str(e)}'
+            )
+
+    def test_core_plugin_version_241_update(self):
+        """Test 4: Core Plugin Version Update (240 → 241)"""
+        print("\n🔍 Testing Core Plugin Version Update to 241...")
         
         try:
             # Read the core plugin file to verify version update
@@ -192,105 +282,110 @@ class LegalAutomationTester:
             with open(core_plugin_path, 'r') as f:
                 content = f.read()
             
-            # Check for version 240 in plugin header
-            version_header = 'Version: 240' in content
+            # Check for version 241 in plugin header
+            version_header = 'Version: 241' in content
             
             # Check for version constant
-            version_constant = "define('CAH_PLUGIN_VERSION', '240')" in content
+            version_constant = "define('CAH_PLUGIN_VERSION', '241')" in content
             
-            # Ensure old version 239 is not present
-            old_version_header = 'Version: 239' in content
-            old_version_constant = "define('CAH_PLUGIN_VERSION', '239')" in content
+            # Ensure old version 240 is not present
+            old_version_header = 'Version: 240' in content
+            old_version_constant = "define('CAH_PLUGIN_VERSION', '240')" in content
             
             if version_header and version_constant and not old_version_header and not old_version_constant:
                 self.log_result(
                     'plugin_health_tests',
-                    'Core Plugin Version Update to 240',
+                    'Core Plugin Version Update to 241',
                     'PASS',
-                    '✅ Core plugin version successfully updated from 239 to 240',
+                    '✅ Core plugin version successfully updated from 240 to 241',
                     {
-                        'version_header_240': version_header,
-                        'version_constant_240': version_constant,
+                        'version_header_241': version_header,
+                        'version_constant_241': version_constant,
                         'old_version_removed': not old_version_header and not old_version_constant
                     }
                 )
             else:
                 self.log_result(
                     'plugin_health_tests',
-                    'Core Plugin Version Update to 240',
+                    'Core Plugin Version Update to 241',
                     'FAIL',
-                    f'❌ Version update incomplete: header_240={version_header}, constant_240={version_constant}, old_present={old_version_header or old_version_constant}'
+                    f'❌ Version update incomplete: header_241={version_header}, constant_241={version_constant}, old_present={old_version_header or old_version_constant}'
                 )
                 
         except Exception as e:
             self.log_result(
                 'plugin_health_tests',
-                'Core Plugin Version Update to 240',
+                'Core Plugin Version Update to 241',
                 'FAIL',
                 f'❌ Test failed: {str(e)}'
             )
 
-    def test_database_update_verification(self):
-        """Test 4: Database Update Verification - case_id in wpdb->update with proper format strings"""
-        print("\n🔍 Testing Database Update Verification...")
+    def test_form_processing_consistency(self):
+        """Test 5: Form Processing Consistency - Case saves work from both entry points"""
+        print("\n🔍 Testing Form Processing Consistency...")
         
         try:
-            # Read the admin dashboard file to verify database update implementation
+            # Read the admin dashboard file to verify form processing
             admin_dashboard_path = "/app/core/admin/class-admin-dashboard.php"
             
             with open(admin_dashboard_path, 'r') as f:
                 content = f.read()
             
-            # Check that case_id is first field in update_data array
-            case_id_first_field = "'case_id' => $new_case_id," in content
+            # Check for unified form processing
+            post_method_check = "if ($_SERVER['REQUEST_METHOD'] === 'POST')" in content
+            action_handling = 'handle_case_actions()' in content
             
-            # Check for proper wpdb->update call structure
-            wpdb_update_call = '$wpdb->update(' in content and 'klage_cases' in content
+            # Check for consistent save case processing
+            save_case_nonce = 'save_case' in content and 'edit_case_nonce' in content
+            case_update_call = 'handle_case_update_v210(' in content
             
-            # Check for format array with correct number of %s placeholders
-            # Should have %s for case_id as first format specifier
-            format_array_structure = "array('%s', '%s', '%s'," in content  # Multiple %s for different fields
+            # Check for consistent redirect after save
+            redirect_after_save = "wp_redirect(admin_url('admin.php?page=la-cases&updated=" in content
+            exit_after_redirect = 'exit;' in content
             
-            # Check for proper where clause with case ID
-            where_clause = "array('id' => $case_id)" in content
-            where_format = "array('%d')" in content
+            # Check for success message handling
+            success_message = '✅ Erfolg!' in content and 'wurde aktualisiert' in content
             
-            # Check for audit trail that records case ID changes
-            audit_trail = '$wpdb->insert(' in content and 'klage_audit' in content
-            audit_case_id = "'case_id' => $case_id," in content
-            audit_details = "'Fall \"' . $old_case->case_id . '\" wurde" in content
+            # Check for error handling
+            error_handling = 'notice notice-error' in content
             
-            # Check for proper error handling
-            error_handling = '$wpdb->last_error' in content
-            
-            if (case_id_first_field and wpdb_update_call and format_array_structure and 
-                where_clause and where_format and audit_trail and audit_case_id):
+            if (post_method_check and action_handling and save_case_nonce and case_update_call and 
+                redirect_after_save and exit_after_redirect and success_message):
                 self.log_result(
                     'case_management_tests',
-                    'Database Update Verification',
+                    'Form Processing Consistency',
                     'PASS',
-                    '✅ Database update verification passed: case_id properly included in wpdb->update with correct format strings',
+                    '✅ Form processing consistency verified: Saves work correctly from both entry points',
                     {
-                        'case_id_in_update': case_id_first_field,
-                        'wpdb_update_call': wpdb_update_call,
-                        'format_array': format_array_structure,
-                        'where_clause': where_clause and where_format,
-                        'audit_trail': audit_trail and audit_case_id,
+                        'unified_processing': post_method_check and action_handling,
+                        'save_handling': save_case_nonce and case_update_call,
+                        'redirect_flow': redirect_after_save and exit_after_redirect,
+                        'success_messages': success_message,
                         'error_handling': error_handling
                     }
                 )
             else:
+                missing_components = []
+                if not (post_method_check and action_handling):
+                    missing_components.append('unified_processing')
+                if not (save_case_nonce and case_update_call):
+                    missing_components.append('save_handling')
+                if not (redirect_after_save and exit_after_redirect):
+                    missing_components.append('redirect_flow')
+                if not success_message:
+                    missing_components.append('success_messages')
+                    
                 self.log_result(
                     'case_management_tests',
-                    'Database Update Verification',
+                    'Form Processing Consistency',
                     'FAIL',
-                    f'❌ Database update incomplete: case_id={case_id_first_field}, wpdb_update={wpdb_update_call}, format={format_array_structure}, audit={audit_trail}'
+                    f'❌ Form processing inconsistent. Missing: {missing_components}'
                 )
                 
         except Exception as e:
             self.log_result(
                 'case_management_tests',
-                'Database Update Verification',
+                'Form Processing Consistency',
                 'FAIL',
                 f'❌ Test failed: {str(e)}'
             )
