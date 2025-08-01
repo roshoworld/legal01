@@ -1363,7 +1363,7 @@ class CAH_Admin_Dashboard {
                                     <td><strong>€<?php echo esc_html(number_format($case->total_amount, 2)); ?></strong></td>
                                     <td><?php echo esc_html(date_i18n('d.m.Y', strtotime($case->case_creation_date))); ?></td>
                                     <td>
-                                        <a href="<?php echo admin_url('admin.php?page=klage-click-cases&action=view&id=' . $case->id); ?>" 
+                                        <a href="<?php echo admin_url('admin.php?page=la-cases&action=view&id=' . $case->id); ?>" 
                                            class="button button-small" title="Fall ansehen">👁️</a>
                                         <a href="<?php echo admin_url('admin.php?page=klage-click-cases&action=edit&id=' . $case->id); ?>" 
                                            class="button button-small" title="Fall bearbeiten">✏️</a>
