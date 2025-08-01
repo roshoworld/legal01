@@ -118,7 +118,7 @@ class KlageClickDocOut {
      * Display notice when core plugin is required
      */
     public function core_plugin_required_notice() {
-        $message = __('Klage.Click Document Generator requires the Court Automation Hub core plugin to be active.', 'klage-click-doc-out');
+        $message = __('Legal Automation Document Generator requires the Court Automation Hub core plugin to be active.', 'legal-automation-doc-out');
         echo '<div class="notice notice-error"><p>' . esc_html($message) . '</p></div>';
     }
     
